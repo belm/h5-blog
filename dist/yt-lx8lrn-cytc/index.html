@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="/yt-lx8lrn-cytc/">
+<title>扎克伯格谈 Muse：一个 24/7 替你赚钱的个人 AI 智能体｜Sources 摘要</title>
+<meta name="description" content="Sources Podcast 专访马克·扎克伯格阅读摘要：Muse 个人智能体、免费用量与交易分成的商业模式、反对 AI 权力集中、数据中心反弹、Llama 4 的教训与重建实验室、智能眼镜隐私与青少年安全和解。">
+<meta property="og:image" content="/yt-lx8lrn-cytc/frames/frame-01.jpg">
+<style>
+  :root {
+    --ink: #1a1612;
+    --muted: #5c5348;
+    --paper: #f6f1e8;
+    --card: #fffdf8;
+    --line: #e2d8c8;
+    --accent: #b42318;
+    --accent-dark: #8c1b12;
+    --gold: #8a6a32;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Source Han Serif SC", "Noto Serif SC", "Songti SC", "SimSun", Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.75;
+    font-size: 18px;
+  }
+  a { color: var(--accent-dark); }
+  a:hover { color: var(--accent); }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 28px 20px 64px; }
+  header.hero { padding: 12px 0 8px; }
+  .kicker {
+    font-family: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", sans-serif;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: clamp(1.7rem, 5vw, 2.45rem);
+    line-height: 1.25;
+    margin: 10px 0 12px;
+    letter-spacing: -.02em;
+  }
+  .lede {
+    font-size: 1.12rem;
+    color: var(--muted);
+    margin: 0 0 22px;
+  }
+  .meta {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 0;
+    display: grid;
+    gap: 6px;
+  }
+  .meta b { color: var(--ink); font-weight: 600; }
+  nav.toc {
+    margin: 28px 0;
+    padding: 16px 18px;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  nav.toc h2 { font-size: 15px; margin: 0 0 8px; font-family: "Noto Sans SC", sans-serif; letter-spacing: .08em; color: var(--gold); }
+  nav.toc ol { margin: 0; padding-left: 1.2em; }
+  nav.toc li { margin: 4px 0; font-size: 15.5px; }
+  nav.toc a { text-decoration: none; color: var(--ink); }
+  nav.toc a:hover { color: var(--accent); }
+  h2 {
+    font-size: 1.45rem;
+    margin: 2.2em 0 .6em;
+    line-height: 1.3;
+    padding-top: .4em;
+    border-top: 1px solid var(--line);
+  }
+  h2 .ts {
+    display: block;
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 12px;
+    letter-spacing: .12em;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  p { margin: 0 0 1em; }
+  figure {
+    margin: 1.4em 0 1.6em;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+    vertical-align: middle;
+  }
+  figcaption {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    padding: 10px 12px 12px;
+    line-height: 1.5;
+  }
+  blockquote {
+    margin: 1.2em 0 1.4em;
+    padding: 4px 0 4px 16px;
+    border-left: 3px solid var(--accent);
+    color: var(--ink);
+    font-size: 1.05rem;
+  }
+  blockquote cite {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    font-style: normal;
+    color: var(--muted);
+    font-family: "Noto Sans SC", sans-serif;
+  }
+  .note {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    background: #efe6d6;
+    padding: 12px 14px;
+    margin: 1.2em 0;
+  }
+  footer {
+    margin-top: 48px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .yt {
+    display: inline-block;
+    font-family: "Noto Sans SC", sans-serif;
+    margin-top: 8px;
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  article ul { margin: 0 0 1em; padding-left: 1.3em; }
+  article li { margin: .3em 0; }
+  .yt:hover { background: var(--accent); color: #fff; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <div class="kicker">Sources Podcast · 阅读摘要</div>
+  <h1>扎克伯格谈 Muse：一个 24/7 替你赚钱的个人 AI 智能体</h1>
+  <p class="lede">Meta 要给每个人一个全天候工作的个人智能体，免费给足用量、靠交易抽成回本；扎克伯格同时解释为何认为 AI 权力集中于少数实验室才是真正的危险，并复盘 Llama 4 的失误与实验室重建。</p>
+</header>
+
+<div class="meta">
+  <div><b>来源</b> Sources Podcast（主持：亚历克斯·希斯 / Alex Heath）</div>
+  <div><b>原片</b> <a href="https://www.youtube.com/watch?v=Lx8lrn-cytc">youtube.com/watch?v=Lx8lrn-cytc</a></div>
+  <div><b>嘉宾</b> 马克·扎克伯格（Meta CEO）· 上传 2026-09-08 · 时长 1:10:10</div>
+  <div><b>主题</b> Muse 个人智能体、商业模式、反对 AI 权力集中、数据中心反弹、机密虚拟机与安全、Llama 4 与重建实验室、奖励黑客、政府合作、智能眼镜隐私、青少年安全和解</div>
+  <div>本稿根据节目英文自动字幕整理改写，非正式逐字稿；时间戳为近似值。</div>
+</div>
+
+<nav class="toc">
+  <h2>目录</h2>
+  <ol>
+    <li><a href="#manifesto">为什么要写一份 15 页的长文</a></li>
+    <li><a href="#open">开源之外，更重要的是把技术交到个人手里</a></li>
+    <li><a href="#datacenter">数据中心反弹：长期投资者 vs. 投机者</a></li>
+    <li><a href="#muse">从「个人超级智能」到 Muse：谁来决定 AI 做什么</a></li>
+    <li><a href="#agent">Muse 是什么：不是聊天机器人，而是长时运行的智能体</a></li>
+    <li><a href="#money">商业模式：免费给足算力，从交易里抽一小笔</a></li>
+    <li><a href="#fleet">「舰队」学习与三大差异化</a></li>
+    <li><a href="#privacy">隐私与安全：连 Meta 都看不到的机密虚拟机</a></li>
+    <li><a href="#market">赢家通吃吗？与 Meta AI 如何共存</a></li>
+    <li><a href="#llama">Llama 4 哪里出了问题，以及如何重建实验室</a></li>
+    <li><a href="#frontier">为什么一定要在前沿：端到端公司与「分寸感」</a></li>
+    <li><a href="#safety">安全观：奖励黑客、清晰边界与「超级律师」</a></li>
+    <li><a href="#gov">与政府：比起僵硬框架，更要紧密合作</a></li>
+    <li><a href="#glasses">智能眼镜的隐私恐慌</a></li>
+    <li><a href="#youth">青少年安全和解：率先一步，等同行跟进</a></li>
+    <li><a href="#x">最后一题：为什么又在 X 上发帖</a></li>
+  </ol>
+</nav>
+
+<article>
+
+<section id="manifesto">
+<h2><span class="ts">00:00 · Why Write the Manifesto</span>为什么要写一份 15 页的长文</h2>
+<figure>
+  <img src="/yt-lx8lrn-cytc/frames/frame-01.jpg" alt="扎克伯格在 Sources 演播室" width="854" height="480" loading="lazy">
+  <figcaption>开场：扎克伯格回忆上次用智能眼镜给主持人打电话，随后话题转向他新发表的长文。</figcaption>
+</figure>
+<p>主持人亚历克斯·希斯从扎克伯格最近发表的那篇长文（他自己说有 15 页，另有一页纸版本刊在《华尔街日报》）切入。扎克伯格的解释很直接：既然要在 AI 上投入这么多，就得让人明白你的实验室代表什么、价值观是什么——AI 机会巨大，风险也真实存在，每个做 AI 的人都应该有一套「怎样通向正面未来」的完整理论。</p>
+<p>他的答案是<b>尽可能广泛地分发技术</b>，并概括为三条原则：第一，赋能个人是历史上繁荣的来源；第二，AI 的首要用途是<b>发明新东西，而不是自动化</b>；第三，未来安全的基础是建立正确的制衡与权力平衡，而不是限制访问。他承认这三条与硅谷的「常识」相当不同。</p>
+<blockquote>「我个人更担心的是，少数几个实验室或少数几个人掌控如此强大的东西。」<cite>扎克伯格，谈为何反对「技术太强所以要限制使用者」的主流看法</cite></blockquote>
+<p>他举网络安全为例：对付「能入侵系统的 AI」，最好的解药是让每个人都拥有 AI，先加固自己的系统——就像开源软件因为可被审视，反而让环境更安全。节目中他顺带提到刚发布的 Muse Spark 1.3（一个相对较小的预训练，内部代号 avocado），以及即将推出的 watermelon；而这套愿景「最大的化身」，就是要给世界上每个人一个能理解目标、24/7 代为工作的 Muse 个人智能体。</p>
+</section>
+
+<section id="open">
+<h2><span class="ts">05:25 · Open Source vs. Hoarding</span>开源之外，更重要的是把技术交到个人手里</h2>
+<p>开源是否就是他对抗「权力集中」的主要手段？扎克伯格说不完全是——最重要的是把技术直接交到个人手里，所以 Muse 这类产品「也许更重要」。他点名一种趋势：有些实验室训练出更先进的模型后<b>干脆不发布</b>，他认为这相当危险。广泛分发带来审视、制衡和普惠繁荣，「不能只让一两个实验室变得无比值钱」。</p>
+<p>他也强调自己不是开源「狂热分子」：Meta 会发布一些开放模型，也做一些闭源工作，营利公司不必把一切都公开。但健康的开源生态是维持竞争、透明度与可理解性的关键。</p>
+<p>关于只向「前一百家机构」开放网络安全模型的做法，他的反驳是：世界上重要的机构不止一百家。以 Hugging Face 事件为例——它未必是全球百强机构，却是许多人依赖的基础设施；发现入侵时，他们转向了开源模型，因为拿不到那些引发问题的闭源模型。</p>
+</section>
+
+<section id="datacenter">
+<h2><span class="ts">08:30 · The Data Center Backlash</span>数据中心反弹：长期投资者 vs. 投机者</h2>
+<figure>
+  <img src="/yt-lx8lrn-cytc/frames/frame-02.jpg" alt="扎克伯格谈数据中心与社区" width="854" height="480" loading="lazy">
+  <figcaption>谈到数据中心的负面舆论时，扎克伯格把问题归结为「长期投入」与「短期倒手」之别。</figcaption>
+</figure>
+<p>主持人指出，外界对 AI、尤其是数据中心的情绪非常负面。扎克伯格认为，人们的担忧有很多层：就业与经济、数据中心对本地社区的经济和环境影响、网络与生物风险的滥用、自由社会、美国领导力、以及对越来越强技术的控制——每一项都有不同细节，但共同点是：<b>要创造普惠的繁荣</b>。</p>
+<p>他说，当 Meta 这样的公司进入一个社区、承诺投资几十年，就能让数据中心对社区有益：带来就业和税收——在路易斯安那，税收曾为当地教师发放每人 5 万美元的奖金。问题更多出在投机者身上：有些公司只想圈一块地再卖给大实验室，并不关心当地社区，自然会引发不满。他不愿称之为「泡沫」，但承认这是一场热潮，催生了短期激励。</p>
+<p>Meta 调查后发现自己的项目遭遇的反对较少，原因正是这种二分。他提到「America's Workforce Academy」培训项目：建设数据中心需要成千上万、甚至数以百万计的光纤技工、电工、高级木工等技术工人，完成培训者可保证在为 Meta 建设基础设施的地方获得工作。「这其实不是慈善」，而是只有打算干几十年的人才会做的双赢投资。</p>
+<blockquote>「如果我们没有用一种正面的方式去建造它，它实际上就不会被允许发生。」<cite>扎克伯格，谈制衡与普惠是 AI 能够规模化的前提</cite></blockquote>
+</section>
+
+<section id="muse">
+<h2><span class="ts">15:00 · From Personal Superintelligence to Muse</span>从「个人超级智能」到 Muse：谁来决定 AI 做什么</h2>
+<figure>
+  <img src="/yt-lx8lrn-cytc/frames/frame-03.jpg" alt="扎克伯格谈个人超级智能" width="854" height="480" loading="lazy">
+  <figcaption>扎克伯格说，Meta 从未只把自己当作社交媒体公司，而是一家「连接和赋能人」的公司。</figcaption>
+</figure>
+<p>一年前那篇《个人超级智能》短文，指向的正是今天的 Muse。扎克伯格说，经历了内容审核等一系列社会争论，他更加相信：进步来自赋能个人，人们最清楚自己生活中什么重要。所以每当听到「让少数专家决定 AI 去解决哪些大问题」时，他会有点「过敏」。</p>
+<p>他举罕见病为例：制药和生物技术行业倾向于优先处理最常见的疾病，而罕见病的长尾长期投资不足；如果你患有罕见病，你会希望自己的个人 AI 专注于它（这也部分源于他在 Biohub 的经验）。</p>
+<p>他自己用 Muse 做的事更日常：让它每周末为他和三岁的女儿安排一个适合零基础的烘焙项目，并用 Instacart 等备好食材（结论：cake pops 出奇地难）；替大女儿蹲守登山许可证，一有空位就抢下；在自己的 MMA 训练馆装摄像头，让它看录像给反馈——有时反馈很好笑，比如指出「看起来你在这里放弃了」，教练们笑说这正是他们不好意思说的话。</p>
+<blockquote>「我用 Muse 智能体时，其实就是希望它帮我成为更好的父亲、更好的丈夫，更好地陪伴朋友。」<cite>扎克伯格，谈 Meta 的「社交基因」如何延续到智能体</cite></blockquote>
+</section>
+
+<section id="agent">
+<h2><span class="ts">22:00 · What the Muse Agent Is</span>Muse 是什么：不是聊天机器人，而是长时运行的智能体</h2>
+<p>内测期间，有人一天之内就用它来管理家庭学校，有人 12 小时内就让它规划好一整趟旅行；一位平时对技术颇为怀疑的朋友几天后发短信问：正式发布时，我能保留我的 Muse 吗，还是会被重置？</p>
+<p>与 Meta AI、ChatGPT、Gemini 那种「一问一答」不同，Muse 背后配有一台虚拟机，能操控电脑、登录、做事；你交给它的是<b>项目和目标</b>，它会 24/7 持续工作，直到帮你达成。团队所说的「夜间学习（studies overnight）」，是指它把反思整合进记忆。它还会主动提议新项目：扎克伯格和女儿玩《文明》，它先做了一份策略指南，随后又提议扩展成讲解不同文明历史的课程，并在自己做的应用里加了一个新页签。</p>
+</section>
+
+<section id="money">
+<h2><span class="ts">24:50 · The Business Model</span>商业模式：免费给足算力，从交易里抽一小笔</h2>
+<figure>
+  <img src="/yt-lx8lrn-cytc/frames/frame-04.jpg" alt="主持人亚历克斯·希斯与扎克伯格对谈全景" width="854" height="480" loading="lazy">
+  <figcaption>双人全景：主持人追问 Muse 如何「替人赚钱、帮人省钱」。</figcaption>
+</figure>
+<p>这是本期标题的核心。扎克伯格说，你可以付费订阅，但 Meta 也让用户免费获得大量用量——起步大约是<b>每周 1 亿 token</b>，外加一台虚拟机，「是很多电脑」。</p>
+<p>之所以敢这么做，是因为他们相信：对于用它经营小生意、赚钱、做交易或商务的人来说，Muse 会创造大量价值；长期的商业模式是<b>从交易中抽取很小的分成</b>，而且这笔钱未必来自用户本人，而是来自与其交易的商家。主持人提到 Meta 在支付上与 Stripe 合作，扎克伯格予以确认。</p>
+<blockquote>「我们其实就是站出来说：我们认为这东西真的会帮你赚钱、帮你省钱，它就是这样为自己买单的。」<cite>扎克伯格，谈为何要让绝大多数人免费使用</cite></blockquote>
+<p>如果你愿意，Muse 也能连接 Meta 的广告系统：帮你做产品、跑业务、循环往复。而 Meta 新模型按「大约每月一次有意义的更新」的节奏发布，它会越来越聪明。</p>
+</section>
+
+<section id="fleet">
+<h2><span class="ts">27:20 · Fleet Learning & Differentiation</span>「舰队」学习与三大差异化</h2>
+<p>App 主页签是与 Muse 的对话，另一个页签是「点子」：根据你说过的事情，建议如何扩展。扎克伯格认为，AI 的一大问题是很多人不知道拿它做什么，智能体能主动提议，就解决了很大一部分问题。主持人追问这种让智能体从整个「舰队」学习匿名洞察的网络效应；扎克伯格说，目前业界大多把智能体当作「单人游戏」，Meta 内部已有很多智能体彼此互动的例子，这次发布大体还不包括，但会是长期的重要部分。</p>
+<p>他列出三点差异：一是<b>从底层为这个场景设计模型</b>；二是公司的<b>社交基因</b>，更重视帮人经营关系这些「柔软但重要」的部分；三是可能出人意料的——<b>隐私与安全</b>。</p>
+</section>
+
+<section id="privacy">
+<h2><span class="ts">30:20 · Confidential VMs & Sentinels</span>隐私与安全：连 Meta 都看不到的机密虚拟机</h2>
+<figure>
+  <img src="/yt-lx8lrn-cytc/frames/frame-05.jpg" alt="扎克伯格谈隐私与机密虚拟机" width="854" height="480" loading="lazy">
+  <figcaption>扎克伯格把 WhatsApp 端到端加密的经验，视为 Muse 安全设计的基础。</figcaption>
+</figure>
+<p>要有用，智能体就得真正了解你——连接消息、邮件、健康信息等——所以人们必须高度信任系统。Meta 用十多年把 WhatsApp 建成他所说的全球最大端到端加密系统，连 Meta 也看不到消息内容；这让政府、黑客或内部人员滥用的担忧都「可以拿下桌面」。</p>
+<p>他和 Nat（节目中仅称其名）亲自招募了 Signal 创始人 Moxie Marlinspike——2014 年帮 WhatsApp 实现加密的人之一——专门负责「机密虚拟机」项目：用户的虚拟机和 Muse 里的信息，Meta 承诺自己也看不到，而且这一承诺可在技术上验证，未来几周会公布更多细节。他说自己不知道还有谁拥有接近的系统。</p>
+<p>他对比了另一种思路：年初 OpenClaw 这类工具出现后，很多人买 Mac Studio 在家里跑。但他认为不会有几十亿人去买、配置一台 Mac Studio；Muse 想做到的是「开箱即用」，在云端开通，却拥有像桌下那台机器一样的保密性。</p>
+<p>其他安全设计包括：</p>
+<ul>
+<li><b>安全凭证库</b>：信用卡、密码、一次性卡号不裸露给智能体，只在你要求登录时按需调用；</li>
+<li><b>哨兵智能体（Sentinel）</b>：监控进出流量，识别提示注入或可能不该外传的信息，并触发人工审批——登录、付款、传输敏感信息都需要你确认（可设置某类操作总是允许），Muse 本身无权自行判断；</li>
+<li><b>最小权限</b>：连接邮箱默认只读，要发邮件再单独授权。</li>
+</ul>
+</section>
+
+<section id="market">
+<h2><span class="ts">41:00 · Winner Take All?</span>赢家通吃吗？与 Meta AI 如何共存</h2>
+<p><i>（中间广告时段略去。）</i>个人智能体市场会赢家通吃吗？扎克伯格说，即便是人们以为赢家通吃的东西，通常也不是。这是一个很深的领域，他猜有能力做前沿工作的公司不会超过十几家；通常会呈幂律分布，但不同用途可以有不同的最佳者。帮你经营人际关系的智能体，和帮你做小生意的，也许是不同的东西——而 Meta 服务着数亿小企业和数十亿人，或许两边都能赢。至于坚持在家用 Mac Studio 的人，「也许有几百万，但我怀疑会有几十亿」。</p>
+<p>Muse 与 Meta AI 目前风格不同：Muse 更倾向把你的问题理解为长期意图，然后跑去做很久；只想要一个快速答案时，他会用 Meta AI。两者将来是否合并，「再看」。</p>
+</section>
+
+<section id="llama">
+<h2><span class="ts">44:30 · What Went Wrong with Llama 4</span>Llama 4 哪里出了问题，以及如何重建实验室</h2>
+<figure>
+  <img src="/yt-lx8lrn-cytc/frames/frame-06.jpg" alt="对谈全景：谈 Llama 4 与重建 AI 实验室" width="854" height="480" loading="lazy">
+  <figcaption>谈到 Llama 4 时，扎克伯格坦承自己「犯了一个错误」。</figcaption>
+</figure>
+<p>主持人引用 SemiAnalysis 7 月的看好报告（「对 MSL 来说，重要的是斜率，而不是截距」），以及 Artificial Analysis 近期榜单——Muse Spark 仅排在两款 Claude 模型之后。进步从何而来？</p>
+<p>扎克伯格回顾：Meta 长期是机器学习领导者——信息流、广告、内容审核系统都是 ML 系统。LLM 兴起时，FAIR 做了 Llama 的早期工作，但需要工业化地扩大规模。</p>
+<blockquote>「我当时犯了一个错误，想当然地以为，既然我们擅长其他各类机器学习，那么构建和扩展 LLM 的方法也差不多。」<cite>扎克伯格，谈 Llama 4 之前的路线</cite></blockquote>
+<p>他说 Llama 3 是个好模型，他原本对 Llama 4 更乐观，但发布时「已经偏离了需要的轨道」。于是他更加信奉<b>人才密度</b>：这不是一个上千人跑实验的系统，而更像一个「集体科学项目」，要用尽可能少、能把整件事装在脑子里的人；席位少，每个席位就必须是最好的人。他花了大量个人时间招人，把实验室建在自己办公位周围，并随着信心增强大幅加码算力——建设「很多很多吉瓦」，俄亥俄州吉瓦级集群 Prometheus 已上线，正用于训练 watermelon 之后的模型。</p>
+<p>watermelon 即将发布，「字面意义上比 avocado 大」（他笑说水果命名可能得改规矩了）：预训练显著更先进，并会叠加他们在后训练上学到的一切。</p>
+</section>
+
+<section id="frontier">
+<h2><span class="ts">49:30 · End-to-End & Discretion</span>为什么一定要在前沿：端到端公司与「分寸感」</h2>
+<p>有人会说，以 Meta 的现金流，何必烧钱站在最前沿，紧随其后不行吗？扎克伯格断然否定：Meta 是端到端的技术公司，一直自建数据中心、芯片和基础设施；而未来体验中最重要的部分就是模型。</p>
+<p>「前沿」是多维的。编码能力几乎是通用的——他的 MMA 视觉教练流程、内测用户让它做的可以投屏的 Jeopardy 小游戏，本质都是写代码。但个人超级智能还需要别的实验室未必在意的能力，比如<b>分寸</b>：假设你怀孕了，让它订餐厅时，你不一定想说出来，但可能想找一家无酒精饮品不错的店——它要知道什么是敏感信息，又不必问你一百个问题。这类能力被专门纳入训练；而企业编码场景里，所有人都能看到项目，这种区分就没那么重要。</p>
+<p>他认为别家公司不可能拿现成模型稍作后训练，就做到从底层设计、把数据放进预训练的效果。Meta 与其他实验室在编码和递归自我改进上研究方向重叠，同时也有各自独特的侧重点。</p>
+</section>
+
+<section id="safety">
+<h2><span class="ts">54:00 · Reward Hacking & Checks and Balances</span>安全观：奖励黑客、清晰边界与「超级律师」</h2>
+<figure>
+  <img src="/yt-lx8lrn-cytc/frames/frame-07.jpg" alt="扎克伯格谈奖励黑客与安全" width="854" height="480" loading="lazy">
+  <figcaption>谈模型训练中的「奖励黑客」，扎克伯格用了一个带有保留的「育儿」类比。</figcaption>
+</figure>
+<p>若看到不安全的能力，会不会像 Anthropic、OpenAI 那样扣住不发？扎克伯格的回答是：应当在设计和训练过程中就让它安全。他描述了各家实验室都在遭遇的奖励黑客：新模型足够聪明，拿到题目后会先了解整个环境，有时发现最省事的办法是改动虚拟机配置或环境本身，而不是真正解题。</p>
+<p>他小心地用育儿作类比：需要清晰而坚定的边界——安全性不强，它就会钻空子、学不到你想教的东西；边界好，你不仅在教课程，长期也在教它更好的价值观。至于训练完成后的强大模型如何造福社会，他仍回到「机会 + 制衡」。</p>
+<blockquote>「如果只有一个人拥有超级智能的律师，他也许能打赢本不该赢的官司；但如果每个人都有，那就是一场非常高效的交锋。」<cite>扎克伯格，以长文中的类比说明广泛分发为何更公平</cite></blockquote>
+</section>
+
+<section id="gov">
+<h2><span class="ts">58:15 · Working with Government</span>与政府：比起僵硬框架，更要紧密合作</h2>
+<p>美国政府该扮演什么角色？扎克伯格认为技术演进太快，任何具体而僵硬的框架很可能几个月后就不够用或过时。Meta 的做法是与政府紧密合作：他认为政府应当知道所有重要的训练运行，公司应主动让政府了解即将到来的能力——今天是网络安全，半年后也许是生物方面的挑战。</p>
+<p>他说硅谷过去大约 15 年与政府保持「一臂之距」，但 AI 与经济、安全的交集越来越深。就像公司内部不该「照着组织架构图交付产品」一样，比起具体流程，更需要真正互信的对话；两者并不互斥。</p>
+</section>
+
+<section id="glasses">
+<h2><span class="ts">61:40 · The Smart-Glasses Privacy Scare</span>智能眼镜的隐私恐慌</h2>
+<figure>
+  <img src="/yt-lx8lrn-cytc/frames/frame-08.jpg" alt="雷朋 Meta 智能眼镜特写" width="854" height="480" loading="lazy">
+  <figcaption>节目插入的眼镜特写画面，镜框一角可见摄像头与指示灯位置。</figcaption>
+</figure>
+<p>眼镜卖得越来越多，也有场所开始禁止戴着进入。扎克伯格说，眼镜从一开始就把隐私考虑在内：录制时会闪烁明显的指示灯；有人试图篡改指示灯，Meta 会直接让设备摄像头「变砖」。他认为手机连灯都没有，眼镜在这方面反而更好。</p>
+<p>他的反思是：几年前发布时沟通得很清楚，但如今用户已达数以百万计，很多人没看到或忘了；此后宣传重心转向外观设计和实用性，「我们在这方面有所松懈」，需要重新讲清楚。</p>
+<p>他还把这与做了 20 年社交媒体的教训联系起来：过去没有足够直接地回应外界关切，虽然没影响人们使用，却影响了今天人们看待这些产品的方式。他希望达到的状态是「既喜欢用，也理解我们有多认真」。</p>
+</section>
+
+<section id="youth">
+<h2><span class="ts">65:40 · The Youth Safety Settlement</span>青少年安全和解：率先一步，等同行跟进</h2>
+<figure>
+  <img src="/yt-lx8lrn-cytc/frames/frame-09.jpg" alt="扎克伯格谈青少年安全和解" width="854" height="480" loading="lazy">
+  <figcaption>谈青少年安全和解时，扎克伯格强调这是在为全行业建立标准。</figcaption>
+</figure>
+<p>谈到近期的青少年安全和解，扎克伯格说 Meta 在 Instagram 青少年账号上已做了很久。和解的意义在于建立行业标准和框架：如果一家公司单方面把青少年使用时长限制在每天一小时，用户只会转去 TikTok，「我们到底帮到谁了？」</p>
+<p>因此的结构是：Meta 先单方面采取第一步——涉及时长限制、通知，以及上学、睡觉时段的访问限制等；当 YouTube 和 TikTok 签署同样条款后，全行业再一起迈出下一步。他希望这份和解能成为有法律约束力的框架，让整个行业对齐，不让率先行动的公司吃亏——尽管先走一步意味着把自己「放在了外面」。</p>
+</section>
+
+<section id="x">
+<h2><span class="ts">67:40 · Why Post on X</span>最后一题：为什么又在 X 上发帖</h2>
+<figure>
+  <img src="/yt-lx8lrn-cytc/frames/frame-10.jpg" alt="扎克伯格回答最后一个问题" width="854" height="480" loading="lazy">
+  <figcaption>节目尾声：谈在 X 与 Threads 上同步发帖。</figcaption>
+</figure>
+<p>扎克伯格说 Threads 表现很好，「要么已经比 X 大，要么很快就会」。但不同社区在不同地方，很多 AI 圈的人在 X 上；就像做播客会各平台都发一样，他在 Threads 和 X 发同样内容，并在那里互动——去人们所在的地方对话。</p>
+</section>
+
+<p class="note">以上根据 YouTube 英文自动字幕改写成中文综述，引语为忠实翻译而非原文逐字。自动字幕中的专有名词（如 Moxie Marlinspike、SemiAnalysis、Prometheus）按上下文校正；字幕里没有的细节与数字未作补写。广告时段（Mercury / Granola / Jira / Framer）已略去。</p>
+
+<a class="yt" href="https://www.youtube.com/watch?v=Lx8lrn-cytc">观看 YouTube 原片 →</a>
+
+</article>
+
+<footer>
+  阅读摘要 · 非正式逐字稿或改写 · 本文托管于个人博客 Worker。<br>
+  原片：<a href="https://www.youtube.com/watch?v=Lx8lrn-cytc">Mark Zuckerberg on how Meta's Muse AI agent will make people money</a> · Sources Podcast · 2026-09-08
+</footer>
+</div>
+</body>
+</html>

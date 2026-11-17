@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="/rethinking-skills-astra/">
+<title>重新思考 Skills 与提示词｜GPT-6 Astra 实践摘要</title>
+<meta name="description" content="OpenAI Developers：Eric Provencher 谈 GPT-6 Astra 时代如何精简 skills、AGENTS.md 与任务提示，避免臃肿上下文。中文阅读摘要。">
+<style>
+  :root {
+    --ink: #1a1612;
+    --muted: #5c5348;
+    --paper: #f6f1e8;
+    --card: #fffdf8;
+    --line: #e2d8c8;
+    --accent: #b42318;
+    --accent-dark: #8c1b12;
+    --gold: #8a6a32;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Source Han Serif SC", "Noto Serif SC", "Songti SC", "SimSun", Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.75;
+    font-size: 18px;
+  }
+  a { color: var(--accent-dark); }
+  a:hover { color: var(--accent); }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 28px 20px 64px; }
+  header.hero { padding: 12px 0 8px; }
+  .kicker {
+    font-family: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", sans-serif;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: clamp(1.7rem, 5vw, 2.45rem);
+    line-height: 1.25;
+    margin: 10px 0 12px;
+    letter-spacing: -.02em;
+  }
+  .lede {
+    font-size: 1.12rem;
+    color: var(--muted);
+    margin: 0 0 22px;
+  }
+  .meta {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 0;
+    display: grid;
+    gap: 6px;
+  }
+  .meta b { color: var(--ink); font-weight: 600; }
+  nav.toc {
+    margin: 28px 0;
+    padding: 16px 18px;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  nav.toc h2 { font-size: 15px; margin: 0 0 8px; font-family: "Noto Sans SC", sans-serif; letter-spacing: .08em; color: var(--gold); }
+  nav.toc ol { margin: 0; padding-left: 1.2em; }
+  nav.toc li { margin: 4px 0; font-size: 15.5px; }
+  nav.toc a { text-decoration: none; color: var(--ink); }
+  nav.toc a:hover { color: var(--accent); }
+  h2 {
+    font-size: 1.45rem;
+    margin: 2.2em 0 .6em;
+    line-height: 1.3;
+    padding-top: .4em;
+    border-top: 1px solid var(--line);
+  }
+  h2 .ts {
+    display: block;
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 12px;
+    letter-spacing: .12em;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  p { margin: 0 0 1em; }
+  ul.points {
+    margin: 0 0 1.2em;
+    padding-left: 1.25em;
+  }
+  ul.points li { margin: 0.35em 0; }
+  figure {
+    margin: 1.4em 0 1.6em;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+    vertical-align: middle;
+  }
+  figcaption {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    padding: 10px 12px 12px;
+    line-height: 1.5;
+  }
+  blockquote {
+    margin: 1.2em 0 1.4em;
+    padding: 4px 0 4px 16px;
+    border-left: 3px solid var(--accent);
+    color: var(--ink);
+    font-size: 1.05rem;
+  }
+  blockquote cite {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    font-style: normal;
+    color: var(--muted);
+    font-family: "Noto Sans SC", sans-serif;
+  }
+  .note {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    background: #efe6d6;
+    padding: 12px 14px;
+    margin: 1.2em 0;
+  }
+  footer {
+    margin-top: 48px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .yt {
+    display: inline-block;
+    font-family: "Noto Sans SC", sans-serif;
+    margin-top: 8px;
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  .yt:hover { background: var(--accent); color: #fff; }
+  @media (max-width: 480px) {
+    body { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <div class="kicker">OpenAI Developers · Codex · 阅读摘要</div>
+  <h1>重新思考 Skills 与提示词：给 GPT-6 Astra</h1>
+  <p class="lede">模型更强了，编码智能体的「最佳实践」也该换一套：精简 skills、修剪 AGENTS.md、写清完成标准——别再用臃肿上下文拖住 Astra。</p>
+</header>
+
+<div class="meta">
+  <div><b>来源</b> OpenAI Developers · <a href="https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra">Rethinking skills and prompts for GPT-6 Astra</a></div>
+  <div><b>作者</b> Eric Provencher</div>
+  <div><b>发布</b> 2026-09-11 · Codex</div>
+  <div><b>主题</b> Skills 描述、渐进披露、AGENTS.md、决策边界、任务持久性</div>
+  <div>本稿据英文原文改写成中文阅读摘要，非正式译文；未在原文出现的细节未予补写。</div>
+</div>
+
+<nav class="toc">
+  <h2>目录</h2>
+  <ol>
+    <li><a href="#why">为何要重想提示与技能</a></li>
+    <li><a href="#skills">Skills 是什么</a></li>
+    <li><a href="#desc">短而准的描述</a></li>
+    <li><a href="#progressive">渐进披露，别硬塞菜谱</a></li>
+    <li><a href="#agents">更新 AGENTS.md</a></li>
+    <li><a href="#testing">Astra 会自己跑检查</a></li>
+    <li><a href="#permission">给安全本地工作流松绑</a></li>
+    <li><a href="#ask">决策边界：别让「先问再做」过早停手</a></li>
+    <li><a href="#persist">写清完成标准与持久性</a></li>
+    <li><a href="#tip">收尾建议：让 Astra 审计你的说明</a></li>
+  </ol>
+</nav>
+
+<article>
+
+<figure>
+  <img src="/rethinking-skills-astra/frames/og-hero.jpg" alt="Rethinking skills and prompts for GPT-6 Astra 封面" width="2400" height="900">
+  <figcaption>原文封面图：OpenAI Developers 博文 OG。</figcaption>
+</figure>
+
+<section id="why">
+<h2><span class="ts">Context bloat</span>为何要重想提示与技能</h2>
+<p>编码智能体的最佳实践正随更强模型而变化。面对 GPT-6 Astra，作者建议重新审视 skills、仓库里的 <b>AGENTS.md</b>，以及日常任务提示——目标是避免把上下文塞得臃肿，反而拖累选型与执行。</p>
+</section>
+
+<section id="skills">
+<h2><span class="ts">Better skills</span>Skills 是什么</h2>
+<p>Skills = Markdown 提示词，外加可选的资源与脚本，面向特定工作流。系统会把技能的<b>名称与描述</b>载入上下文；当技能很多时，过长的描述会被 Codex 截断，反而更难正确挑选技能。描述之间还可能互相矛盾，或过度触发加载。</p>
+<p>$skill-creator 相关指引已随之更新：描述要短、要写清「何时该用」。</p>
+</section>
+
+<section id="desc">
+<h2><span class="ts">When-to-use</span>短而准的描述</h2>
+<blockquote>
+  坏例子：「在处理数据库、查询、模型或持久化时使用。」<br>
+  好例子：「在新增或修改迁移、或审查其上线时使用。」
+  <cite>—— 改写自原文关于 skill 描述的对照</cite>
+</blockquote>
+<p>宽泛关键词堆叠容易误触发；把触发条件写窄、写具体，模型才更容易在众多技能里选对那一个。</p>
+</section>
+
+<section id="progressive">
+<h2><span class="ts">Progressive disclosure</span>渐进披露，别硬塞菜谱</h2>
+<p>根 skill 宜做成最小路由：指向配套文档与脚本，而不是一次性把所有指引塞进上下文。不要强迫阅读用不到的说明。</p>
+<ul class="points">
+  <li>过细、过长的「菜谱」反而妨碍更强模型发挥。</li>
+  <li>仓库 skills 还会指导其他贡献者的智能体——它们可能跑在 Sol / Luna 等不同型号上，而不只是 Astra。</li>
+</ul>
+</section>
+
+<section id="agents">
+<h2><span class="ts">Up-to-date AGENTS.md</span>更新 AGENTS.md</h2>
+<p>AGENTS.md 会作用到每一次仓库工作，因此要定期修剪过时指令。不要要求在每次编辑前都先通读 architecture.md、database.md、deployment.md；应按场景<b>按需</b>指向相关上下文。</p>
+</section>
+
+<section id="testing">
+<h2><span class="ts">Tests on its own</span>Astra 会自己跑检查</h2>
+<p>GPT-6 Astra 往往会自行跑测试与检查。旧提示里常见的「鼓励多测一测」，在 Astra 上可能变成多余的重复测试，白白占用轮次与时间。</p>
+</section>
+
+<section id="permission">
+<h2><span class="ts">Local workflows</span>给安全本地工作流松绑</h2>
+<p>Astra 有时更谨慎、更犹豫。AGENTS.md 可以为安全的本地流程明确授权——例如可丢弃的 fixture 测试：允许自行「跑 → 修 → 再跑」，而不必每一步都先问人。</p>
+</section>
+
+<section id="ask">
+<h2><span class="ts">Decision boundaries</span>决策边界：别让「先问再做」过早停手</h2>
+<p>为较弱模型写的强硬「先问再做」措辞，在 Astra 上可能让它过早停下。切换到 Astra 时，应同步更新这些决策边界，让模型在安全范围内继续推进。</p>
+</section>
+
+<section id="persist">
+<h2><span class="ts">Persistence</span>写清完成标准与持久性</h2>
+<p>不同型号的「坚持程度」不同：Sol 可能会一路干很久；Astra 可能在第一轮实现后就交回结果。任务开头就应定义完成标准——例如实现、跑通、检查、修复——闭环写清楚。</p>
+<p>除非你真的希望「第一遍实现后停下来等人审」，否则不要默认要求中途停审。</p>
+</section>
+
+<section id="tip">
+<h2><span class="ts">Closing tip</span>收尾建议：让 Astra 审计你的说明</h2>
+<blockquote>
+  请 Astra 根据本文要点，审计你现有的 skills、AGENTS.md 与任务提示。
+  <cite>—— 原文收尾建议</cite>
+</blockquote>
+<p>把「为弱模型准备的冗长说明书」换成「为强模型准备的短路由 + 明确边界」，通常就是这一轮最划算的整理。</p>
+</section>
+
+<p class="note">以上根据 OpenAI Developers 原文 <em>Rethinking skills and prompts for GPT-6 Astra</em>（作者 Eric Provencher，2026-09-11）改写成中文综述。专有名词（Skills、AGENTS.md、Codex、Sol、Luna、Astra 等）保留通行写法；未在原文出现的事实未予添加。</p>
+
+<a class="yt" href="https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra">阅读 OpenAI Developers 原文 →</a>
+
+</article>
+
+<footer>
+  阅读摘要 / 非正式改写 / 个人博客 Worker；附原链。<br>
+  原文：<a href="https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra">https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra</a> · Eric Provencher · 2026-09-11
+</footer>
+</div>
+</body>
+</html>

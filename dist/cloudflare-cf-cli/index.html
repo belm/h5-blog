@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="/cloudflare-cf-cli/">
+<title>Cloudflare 推出 cf：为智能体打造、覆盖整个 API 的新命令行｜阅读摘要</title>
+<meta name="description" content="Cloudflare 博客《Introducing cf》中文摘要：智能体占 Wrangler 使用 48%，cf 借 Forge 覆盖 3,000+ API 操作，JSON 默认、cf cli search、cloudflare.config.ts、Vite 默认与 Wrangler 迁移时间表。">
+<style>
+  :root {
+    --ink: #1a1612;
+    --muted: #5c5348;
+    --paper: #f6f1e8;
+    --card: #fffdf8;
+    --line: #e2d8c8;
+    --accent: #b42318;
+    --accent-dark: #8c1b12;
+    --gold: #8a6a32;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Source Han Serif SC", "Noto Serif SC", "Songti SC", "SimSun", Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.75;
+    font-size: 18px;
+  }
+  a { color: var(--accent-dark); }
+  a:hover { color: var(--accent); }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 28px 20px 64px; }
+  header.hero { padding: 12px 0 8px; }
+  .kicker {
+    font-family: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", sans-serif;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: clamp(1.7rem, 5vw, 2.45rem);
+    line-height: 1.25;
+    margin: 10px 0 12px;
+    letter-spacing: -.02em;
+  }
+  .lede {
+    font-size: 1.12rem;
+    color: var(--muted);
+    margin: 0 0 22px;
+  }
+  .meta {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 0;
+    display: grid;
+    gap: 6px;
+  }
+  .meta b { color: var(--ink); font-weight: 600; }
+  nav.toc {
+    margin: 28px 0;
+    padding: 16px 18px;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  nav.toc h2 { font-size: 15px; margin: 0 0 8px; font-family: "Noto Sans SC", sans-serif; letter-spacing: .08em; color: var(--gold); }
+  nav.toc ol { margin: 0; padding-left: 1.2em; }
+  nav.toc li { margin: 4px 0; font-size: 15.5px; }
+  nav.toc a { text-decoration: none; color: var(--ink); }
+  nav.toc a:hover { color: var(--accent); }
+  h2 {
+    font-size: 1.45rem;
+    margin: 2.2em 0 .6em;
+    line-height: 1.3;
+    padding-top: .4em;
+    border-top: 1px solid var(--line);
+  }
+  h2 .ts {
+    display: block;
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 12px;
+    letter-spacing: .12em;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  p { margin: 0 0 1em; }
+  figure {
+    margin: 1.4em 0 1.6em;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+    vertical-align: middle;
+  }
+  figcaption {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    padding: 10px 12px 12px;
+    line-height: 1.5;
+  }
+  blockquote {
+    margin: 1.2em 0 1.4em;
+    padding: 4px 0 4px 16px;
+    border-left: 3px solid var(--accent);
+    color: var(--ink);
+    font-size: 1.05rem;
+  }
+  blockquote cite {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    font-style: normal;
+    color: var(--muted);
+    font-family: "Noto Sans SC", sans-serif;
+  }
+  .note {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    background: #efe6d6;
+    padding: 12px 14px;
+    margin: 1.2em 0;
+  }
+  footer {
+    margin-top: 48px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .yt {
+    display: inline-block;
+    font-family: "Noto Sans SC", sans-serif;
+    margin-top: 8px;
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  .yt:hover { background: var(--accent); color: #fff; }
+  code {
+    font-family: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: .86em;
+    background: #efe6d6;
+    color: var(--accent-dark);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+  pre {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--gold);
+    padding: 14px 16px;
+    overflow-x: auto;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 1.2em 0 1.4em;
+  }
+  pre code { background: none; padding: 0; color: var(--ink); font-size: 1em; }
+  ul.points { padding-left: 1.2em; margin: 0 0 1em; }
+  ul.points li { margin: 6px 0; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 1.2em 0 1.4em; }
+  .stat { background: var(--card); border: 1px solid var(--line); padding: 12px 14px; }
+  .stat b { display: block; font-size: 1.6rem; color: var(--accent); line-height: 1.2; }
+  .stat span { font-family: "Noto Sans SC", sans-serif; font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <div class="kicker">Cloudflare Blog · 阅读摘要</div>
+  <h1>Cloudflare 推出 cf：为智能体打造、覆盖整个 API 的新命令行</h1>
+  <p class="lede">智能体已经贡献了近一半的 Wrangler 使用量，但 Wrangler 只覆盖约 280 个操作。Cloudflare 用 API 生成管线 Forge 造出新 CLI <code>cf</code>：默认输出 JSON、自带自然语言命令搜索、用 TypeScript 写配置、默认基于 Vite——并宣布 Wrangler 将逐步让位。</p>
+</header>
+
+<div class="meta">
+  <div><b>原文</b> <a href="https://blog.cloudflare.com/cloudflare-cf-cli-launch/">Introducing cf: the agentic CLI for the entire Cloudflare API</a></div>
+  <div><b>作者</b> Matt “TK” Taylor、Samuel Macleod · Cloudflare 博客 · 2026-09-28（Birthday Week）</div>
+  <div><b>主题</b> 智能体友好的 CLI、Forge 自动生成命令、JSON 默认输出、<code>cf cli search</code>、<code>cloudflare.config.ts</code>、Vite、从 Wrangler 迁移</div>
+  <div>本页为中文分节综述，并非逐句翻译；数字与说法均出自原文。</div>
+</div>
+
+<nav class="toc">
+  <h2>目录</h2>
+  <ol>
+    <li><a href="#why">为什么需要新 CLI：智能体成了主要用户</a></li>
+    <li><a href="#forge">从 280 到 3,000+：Forge 生成整个 API</a></li>
+    <li><a href="#new">为「从没见过 cf 的智能体」设计</a></li>
+    <li><a href="#json">JSON 优先，表格退场</a></li>
+    <li><a href="#search">让智能体自己找命令</a></li>
+    <li><a href="#config">会替智能体做类型检查的配置</a></li>
+    <li><a href="#vite">默认 Vite 的开发体验</a></li>
+    <li><a href="#migrate">从 Wrangler 迁移与时间表</a></li>
+  </ol>
+</nav>
+
+<article>
+
+<section id="why">
+<h2><span class="ts">01 · Agents love CLIs</span>为什么需要新 CLI：智能体成了主要用户</h2>
+<p>文章开篇用一组 Wrangler 使用数据说明趋势：过去一年，智能体调用 Wrangler 的比例急速上升。一年前这个比例只有个位数百分比；到 2026 年 3 月，智能体已占 Wrangler 使用量的四分之一；而在发文前一周，这一比例达到 <b>48%</b>。</p>
+<div class="stats">
+  <div class="stat"><b>个位数 → 25%</b><span>2026 年 3 月智能体占 Wrangler 使用量（前一年为个位数）</span></div>
+  <div class="stat"><b>48%</b><span>发文前一周的智能体使用占比</span></div>
+  <div class="stat"><b>约 2×</b><span>智能体每天使用的不同命令数，约为人类的两倍</span></div>
+  <div class="stat"><b>约 4×</b><span>智能体使用 6 个以上命令的可能性</span></div>
+</div>
+<p>智能体不仅用得多，而且用得更「杂」。问题在于供给跟不上：Wrangler 大约只为 280 个操作提供命令，而 Cloudflare 的 API 有数千个。于是 Cloudflare 决定推出一个新的命令行工具 <code>cf</code>，让智能体能够操作每一款 Cloudflare 产品。</p>
+<blockquote>「智能体爱用 CLI。但 Wrangler 只提供约 280 个操作的命令，而 Cloudflare 提供的有数千个。」<cite>原文：Agents love CLIs. But Wrangler only provides commands for around 280 operations, and Cloudflare offers thousands.</cite></blockquote>
+<p>官方概括的四个卖点：</p>
+<ul class="points">
+  <li>智能体可以通过专门的搜索与引导（search and steering）找到所需命令；</li>
+  <li>JSON 是默认接口——给人看时美化排版，给智能体时压缩输出，以节省上下文；</li>
+  <li><code>cloudflare.config.ts</code> 成为整个 Cloudflare 的新配置格式，从 Workers 开始，把 TypeScript 的安全性与 LSP 提示带给开发者和智能体；</li>
+  <li>Vite 成为默认，带来本地开发服务器以及面向开发者和框架作者的插件体系。</li>
+</ul>
+<p>目前是公开测试版（open beta），全局安装即可在任何目录运行：</p>
+<pre><code>npm i -g cf
+cf d1 list</code></pre>
+</section>
+
+<section id="forge">
+<h2><span class="ts">02 · The entire Cloudflare API</span>从 280 到 3,000+：Forge 生成整个 API</h2>
+<p>Wrangler 是「手工拼起来」的：每个产品团队各自贡献命令、各有一套体验习惯，即便只有约 280 条命令路径，也几乎无法统一规范。文章举例，同样是「查看详情」，有 <code>d1 info</code>、<code>hyperdrive get</code>、<code>workflows describe</code> 三种叫法；有的团队写了数千行定制代码，结果很少有人用；不同团队还会用不同办法解决同一个问题。</p>
+<p>Cloudflare 想一次性既统一现有命令、又大幅扩张覆盖面。答案是 <b>Forge</b>——Cloudflare 新的统一 API 生成管线。思路是：API 文档和 SDK 本来就由 OpenAPI schema 生成，只要在 schema 上多加一点注解，就能用同一份来源自动生成 CLI 命令。</p>
+<p>这样一来，<code>cf</code> 从 Wrangler 多年累积的约 280 个功能，一跃覆盖整个 Cloudflare API 表面——超过 <b>3,000 个操作</b>。</p>
+<blockquote>「现在，只需把 cf 交给你的智能体，让它去创建一个 Worker、部署、监控观测，用 Cloudflare Access 保护它，买一个域名，再用 Cloudflare WAF 挡在前面——全部用同一个工具完成。」<cite>原文 “cf gives your agent access to the entire Cloudflare API” 一节</cite></blockquote>
+</section>
+
+<section id="new">
+<h2><span class="ts">03 · Built for an agent that has never used cf</span>为「从没见过 cf 的智能体」设计</h2>
+<p>一个有意思的取舍：Wrangler 的优势是多年来的文档、博客和第三方教程早已进入大模型训练数据；但这也是它的包袱——任何大改都会违背模型「学过的习惯」，而 Cloudflare 想做的改进规模又注定需要大改。</p>
+<p>所以团队认为，推出一个智能体完全没见过的新 CLI 听上去很颠覆，实际上反而最干净。借助设计上的决策、可注入的上下文、以及可追加的 <code>AGENTS.md</code> 文件，让智能体学一个新工具，比让它分辨同一工具新旧两版之间的巨大差异更不容易混淆。原文页面还附了一段可复制给智能体的提示词，大意是：新项目用 <code>cf</code>；只有已有 <code>wrangler.jsonc</code> / <code>wrangler.json</code> / <code>wrangler.toml</code> 的项目或用户要求时才继续用 Wrangler；迁移用 <code>cf migrate</code>；不确定时查 <code>cf --help</code> 或 <code>cf cli search</code>，不要瞎猜。</p>
+</section>
+
+<section id="json">
+<h2><span class="ts">04 · JSON, not tables</span>JSON 优先，表格退场</h2>
+<figure>
+  <img src="/cloudflare-cf-cli/frames/json.jpg" alt="终端截图：wrangler queues list --json 报错 Unknown argument，随后输出 Unicode 表格" width="1024" height="576" loading="lazy">
+  <figcaption>原文演示截图：在 Wrangler 里对 <code>queues list</code> 加 <code>--json</code> 会报「Unknown argument」，只能拿到给人看的 Unicode 表格。</figcaption>
+</figure>
+<p>智能体使用 Wrangler 时，几乎每条命令都会加 <code>--json</code>，再用 <code>jq</code> 过滤出需要的字段。可 Wrangler 只有部分命令支持 <code>--json</code>，很多命令只输出为终端里的人设计的 Unicode 表格。智能体能读懂，但比一个 <code>jq</code> 过滤耗费更多时间和 token。</p>
+<p><code>cf</code> 反其道而行：既然智能体将是主要用户，JSON 就应该是默认。文章的逻辑是，人类用户实际上已经「隔了一层」——让智能体高效过滤结果、再按你想要的格式汇报，好过给你一张你大概永远不会直接看的表。</p>
+<figure>
+  <img src="/cloudflare-cf-cli/frames/form.jpg" alt="终端截图：cf registrar registrations create example.com 的交互式确认表单" width="1024" height="576" loading="lazy">
+  <figcaption>原文演示截图：<code>cf registrar registrations create</code> 把买域名拆成逐项校验的交互表单，最后要求确认扣费。</figcaption>
+</figure>
+<p>那需要真人拍板的事情呢，比如挑一个域名来买？对于本来要靠一长串具名参数才能完成的命令，<code>cf</code> 会把 API 的要求拆成一系列经过校验的输入项，以表单形式让人填写——即使是要求复杂的域名注册也容易跟着走。当然，你也可以直接让智能体去办。</p>
+</section>
+
+<section id="search">
+<h2><span class="ts">05 · cf cli search</span>让智能体自己找命令</h2>
+<figure>
+  <img src="/cloudflare-cf-cli/frames/search.jpg" alt="终端截图：cf cli search &quot;look at messages stuck in my queue&quot; 返回 JSON 形式的候选命令" width="1024" height="576" loading="lazy">
+  <figcaption>原文演示截图：用自然语言描述任务，<code>cf cli search</code> 返回 JSON 形式的候选命令（如 <code>cf queues messages peek</code>）。</figcaption>
+</figure>
+<p>命令多达 3,000 条，智能体怎样既快又不撑爆上下文地找到正确操作？<code>cf</code> 加了 <code>cf cli search</code>：智能体用自然语言说明想做什么，一个小型搜索索引根据 API 描述与参数返回合适的命令列表。智能体第一次运行 <code>--help</code> 时，<code>cf</code> 会自动告诉它有这个命令。</p>
+<pre><code>cf cli search "look at messages stuck in my queue"</code></pre>
+<p>团队认为，这类面向智能体的命令发现工具，不久后会成为更多 CLI 的标配。</p>
+</section>
+
+<section id="config">
+<h2><span class="ts">06 · cloudflare.config.ts</span>会替智能体做类型检查的配置</h2>
+<p>新配置格式基于 TypeScript，人和智能体都容易解析，也能以编程方式生成配置。文章说，即使事先没有任何关于这种格式的上下文，智能体也能轻松定位并按需修改配置——包括 <code>env</code> 这种与 Wrangler 同名但含义已大变的部分。Claude Code、Codex 等使用 LSP 插件的智能体能在上下文中理解更多格式信息，从而给出准确得多的修改。相比之下，TOML 没有可用的 schema，JSONC 虽然链接了 schema，智能体却很少用。</p>
+<blockquote>「Cloudflare 内部一些超过 5,000 行、每位开发者都有大量自定义环境的 Wrangler 配置文件，被压缩了 40%，变成更高效地为每位开发者生成配置的工厂文件。」<cite>原文 “Configuration that type-checks your agent” 一节</cite></blockquote>
+<p>做法是从同一个通用基底以编程方式派生各个环境，而不是像 Wrangler 那样复制 <code>env</code> 块。多环境的 Worker 只需根据 Vite 原生的 <code>mode</code> 参数切换配置：</p>
+<pre><code>import { bindings, defineConfig } from "cf/config";
+import * as entrypoint from "./index.js" with { type: "cf-worker" };
+
+export default defineConfig(({ mode }) =&gt; ({
+  worker: {
+    name: "example-worker",
+    entrypoint,
+    compatibilityDate: "2026-09-27",
+    env: {
+      Environment: bindings.text(`This is ${mode} environment`),
+    },
+  },
+}));</code></pre>
+<p>两个辅助工具值得一提：</p>
+<ul class="points">
+  <li><b><code>bindings</code></b>：把环境变量、密钥、KV、D1、R2、Queues、Workers AI、Vectorize、服务绑定等集中在一处，编辑器可自动补全并解释，智能体也能从这里「发现」开发者平台有哪些能力（如 <code>bindings.secret()</code>、<code>bindings.d1({ name })</code>、<code>bindings.r2({ name })</code>）。</li>
+  <li><b><code>triggers</code></b>：定义路由、队列、定时任务与邮件触发的新方式——所有可能唤起 Worker 的入口集中在一个块里，不再散落在配置各处。</li>
+</ul>
+<pre><code>import { defineConfig, triggers } from "cf/config";
+
+export default defineConfig({
+  worker: {
+    triggers: [
+      triggers.fetch({ pattern: "example.com/*" }),
+      triggers.scheduled({ schedule: "0 * * * *" }),
+      triggers.queue({ name: "jobs", maxBatchSize: 10 }),
+      triggers.email({ addresses: ["support@example.com"] }),
+    ],
+  },
+});</code></pre>
+<p><code>defineConfig.worker</code> 只是开始。Cloudflare 的意图是让 <code>cloudflare.config.ts</code> 成为管理整个 Cloudflare 的方式：每个产品都能用类型安全的配置表达，很快还能在这个文件里配置策略、创建 zone、设置 DNS 等。</p>
+</section>
+
+<section id="vite">
+<h2><span class="ts">07 · Vite by default</span>默认 Vite 的开发体验</h2>
+<p>Wrangler 刚开始构建 JavaScript Workers 时，Vite 还不存在，所以它用 esbuild 打包；<code>:8787</code> 上的开发服务器是 Wrangler 团队自己写的，想改动就得深入 Miniflare 等 Cloudflare 专用本地工具的内部。</p>
+<p>Vite 带来庞大的插件生态、支持 HMR（热模块替换）的开发服务器，以及用 Rust 编写的 Rolldown 做 tree-shaking 构建。文章强调「Vite 能做的，Cloudflare Vite Plugin 都能做」；无论前端项目还是后端 API，它都是官方推荐的 Workers 构建方式，并与 Vitest 插件组成贴近 Workers 运行时、可直接访问绑定和平台 API 的开发测试环境。</p>
+<p><code>cf</code> 默认基于 Vite。多数 Worker 可以交给智能体轻松迁移；对仍需 esbuild 的 JavaScript Worker 以及 Rust、Python Worker，<code>cf</code> 会继续把开发和部署委托给 Wrangler。</p>
+</section>
+
+<section id="migrate">
+<h2><span class="ts">08 · Migrating from Wrangler</span>从 Wrangler 迁移与时间表</h2>
+<pre><code>cf migrate      # 迁移现有 Worker
+cf init         # 新建 Hello World 项目
+cf deploy       # 静态站点无需配置文件即可部署</code></pre>
+<ul class="points">
+  <li>已经用 Vite 构建的 Worker，<code>cf migrate</code> 会自动转换成 <code>cloudflare.config.ts</code>；依赖 Wrangler esbuild 的，<code>cf</code> 继续把构建委托给 Wrangler。</li>
+  <li>新项目可运行 <code>cf init</code> / <code>cf deploy</code> 自动配置：安装 Cloudflare Vite Plugin 并生成配置文件。</li>
+  <li>静态站点仍不需要配置文件，在项目里运行 <code>cf deploy</code> 即可。</li>
+  <li><code>cf</code> 开源，问题可提交到其 GitHub 仓库。</li>
+</ul>
+<blockquote>「公开测试结束时，我们会发布 Wrangler 的最后一个大版本，引导你和你的智能体改用 cf；测试结束后，我们仍会为 Wrangler 提供 18 个月的维护支持，给你留出迁移时间。」<cite>原文 “Migrating from Wrangler” 一节</cite></blockquote>
+</section>
+
+<p class="note">读后一句话：这次发布的重点不只是「多了一个 CLI」，而是 Cloudflare 公开把智能体当作命令行的第一用户——命令由 API schema 自动生成、输出默认机器可读、配置可被类型检查，Wrangler 则进入倒计时（测试版结束后维护 18 个月）。本页数字均来自原文；原文中的演示为动图/视频，此处仅取其截图。文中未给出 open beta 结束的具体日期。</p>
+
+<a class="yt" href="https://blog.cloudflare.com/cloudflare-cf-cli-launch/">阅读 Cloudflare 博客原文 →</a>
+
+</article>
+
+<footer>
+  这是阅读摘要，非正式逐字稿或改写全文；本文托管于个人博客 Worker。<br>
+  原文：<a href="https://blog.cloudflare.com/cloudflare-cf-cli-launch/">Introducing cf: the agentic CLI for the entire Cloudflare API</a> · Cloudflare Blog · Matt “TK” Taylor、Samuel Macleod · 2026-09-28
+</footer>
+</div>
+</body>
+</html>

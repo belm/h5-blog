@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="/yt-6d-h-do2xk/">
+<title>iPhone Duo 发布后遗漏了什么｜MKBHD 摘要</title>
+<meta name="description" content="Marques Brownlee 在 Duo 发布数日后补充：与 iPad 的定位冲突、Craig Federighi 访谈、谁该买、海外定价与软件并非简单拉伸——中文图文摘要。">
+<style>
+  :root {
+    --ink: #1a1612;
+    --muted: #5c5348;
+    --paper: #f6f1e8;
+    --card: #fffdf8;
+    --line: #e2d8c8;
+    --accent: #b42318;
+    --accent-dark: #8c1b12;
+    --gold: #8a6a32;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Source Han Serif SC", "Noto Serif SC", "Songti SC", "SimSun", Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.75;
+    font-size: 18px;
+  }
+  a { color: var(--accent-dark); }
+  a:hover { color: var(--accent); }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 28px 20px 64px; }
+  header.hero { padding: 12px 0 8px; }
+  .kicker {
+    font-family: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", sans-serif;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: clamp(1.7rem, 5vw, 2.45rem);
+    line-height: 1.25;
+    margin: 10px 0 12px;
+    letter-spacing: -.02em;
+  }
+  .lede {
+    font-size: 1.12rem;
+    color: var(--muted);
+    margin: 0 0 22px;
+  }
+  .meta {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 0;
+    display: grid;
+    gap: 6px;
+  }
+  .meta b { color: var(--ink); font-weight: 600; }
+  nav.toc {
+    margin: 28px 0;
+    padding: 16px 18px;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  nav.toc h2 { font-size: 15px; margin: 0 0 8px; font-family: "Noto Sans SC", sans-serif; letter-spacing: .08em; color: var(--gold); }
+  nav.toc ol { margin: 0; padding-left: 1.2em; }
+  nav.toc li { margin: 4px 0; font-size: 15.5px; }
+  nav.toc a { text-decoration: none; color: var(--ink); }
+  nav.toc a:hover { color: var(--accent); }
+  h2 {
+    font-size: 1.45rem;
+    margin: 2.2em 0 .6em;
+    line-height: 1.3;
+    padding-top: .4em;
+    border-top: 1px solid var(--line);
+  }
+  h2 .ts {
+    display: block;
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 12px;
+    letter-spacing: .12em;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  p { margin: 0 0 1em; }
+  ul { margin: 0 0 1em; padding-left: 1.3em; }
+  li { margin: 0.25em 0; }
+  figure {
+    margin: 1.4em 0 1.6em;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+    vertical-align: middle;
+  }
+  figcaption {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    padding: 10px 12px 12px;
+    line-height: 1.5;
+  }
+  blockquote {
+    margin: 1.2em 0 1.4em;
+    padding: 4px 0 4px 16px;
+    border-left: 3px solid var(--accent);
+    color: var(--ink);
+    font-size: 1.05rem;
+  }
+  blockquote cite {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    font-style: normal;
+    color: var(--muted);
+    font-family: "Noto Sans SC", sans-serif;
+  }
+  .note {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    background: #efe6d6;
+    padding: 12px 14px;
+    margin: 1.2em 0;
+  }
+  footer {
+    margin-top: 48px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .yt {
+    display: inline-block;
+    font-family: "Noto Sans SC", sans-serif;
+    margin-top: 8px;
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  .yt:hover { background: var(--accent); color: #fff; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <div class="kicker">Marques Brownlee · 阅读摘要</div>
+  <h1>iPhone Duo 发布后遗漏了什么</h1>
+  <p class="lede">上手片发出去之后，Marques 又盯着一圈舆论与现场补遗：Duo 合上是 iPhone、打开像小 iPad——苹果终于要踩自己产品线的脚了吗？他顺手问了 Craig Federighi，也把「该不该买」与海外定价摊开说清楚。</p>
+</header>
+
+<div class="meta">
+  <div><b>来源</b> Marques Brownlee（@mkbhd）</div>
+  <div><b>原片</b> <a href="https://www.youtube.com/watch?v=6D__H_DO2Xk">youtube.com/watch?v=6D__H_DO2Xk</a></div>
+  <div><b>频道</b> <a href="https://www.youtube.com/@mkbhd">@mkbhd</a> · 上传 2026-09-12 · 时长 10:36</div>
+  <div><b>主题</b> iPhone Duo 定位、iPhone/iPad 产品线、Craig Federighi 访谈、谁适合买、海外定价、软件与形态适配</div>
+  <div>相关上手：<a href="https://blog.htsgyag6.workers.dev/yt-od6m0axpcxq/">iPhone 18 Pro / Duo 上手：被「碾压」的折叠机</a></div>
+  <div>本稿依据 YouTube 自动英文字幕改写为简体中文阅读摘要，非正式逐字稿。</div>
+</div>
+
+<nav class="toc">
+  <h2>目录</h2>
+  <ol>
+    <li><a href="#challenge">苹果没碰过的产品线难题</a></li>
+    <li><a href="#middle">iPad 一直卡在中间</a></li>
+    <li><a href="#no">舞台上那声「No」</a></li>
+    <li><a href="#craig">当面问 Federighi</a></li>
+    <li><a href="#who">该不该买 Duo</a></li>
+    <li><a href="#price">海外定价更贵一截</a></li>
+    <li><a href="#software">软件不是硬拉 iPad</a></li>
+    <li><a href="#apps">设置像平板，主屏与相机不同</a></li>
+    <li><a href="#wrap">十月见、不是给所有人</a></li>
+  </ol>
+</nav>
+
+<article>
+
+<section id="challenge">
+<h2><span class="ts">00:00 · The Duo Challenge</span>苹果没碰过的产品线难题</h2>
+<figure>
+  <img src="/yt-6d-h-do2xk/frames/frame-01.jpg" alt="手持合上的 iPhone Duo，外屏显示锁屏" width="854" height="428">
+  <figcaption>约 00:08。开场特写：合上的 Duo 外屏锁屏，右上角挖孔、细边框——整期讨论都围绕「这台折叠机到底站在哪条产品线上」。</figcaption>
+</figure>
+<p>除非你这周完全没上网，否则你已经知道苹果终于揭开了折叠机 <b>iPhone Duo</b>。Marques 说他最近一样好奇地看着各方反应，几乎不亚于研究手机本身——因为公司手上的挑战，是他觉得苹果以前没真正面对过的：这款新品本质上把另外两款现成产品揉在一起，手机与平板，也就是 <b>iPhone 与 iPad</b>。</p>
+<p>这很重要，因为他们长期以来刻意回避这种重叠。</p>
+</section>
+
+<section id="middle">
+<h2><span class="ts">00:36 · iPad In Between</span>iPad 一直卡在中间</h2>
+<figure>
+  <img src="/yt-6d-h-do2xk/frames/frame-02.jpg" alt="工作室讲解产品线定位" width="854" height="428">
+  <figcaption>约 00:55。谈生态系统：苹果当然希望你把能买的都买齐，连续性与闭环是卖点。</figcaption>
+</figure>
+<p>苹果卖很多产品，公司当然希望你能买多少买多少——生态无缝、受保护，设备之间有 Continuity；iPhone 基本是枢纽。他自己大约 2015 年被 Final Cut Pro「拉进」Mac 阵营。而 iPad 一直完美坐在 iPhone 与 Mac 中间：更大屏幕、更强媒体能力、还有手写笔，永远比 iPhone 更能干，但又不够「桌面级」去踩 Mac 的销量。</p>
+<p>高端更有意思：iPad Pro 已经长出近乎 macOS 的界面范式，还塞进桌面级 M 系列芯片，于是有人问「能不能用 iPad 换掉 Mac」——甚至会不会合并 macOS 与 iPadOS。</p>
+</section>
+
+<section id="no">
+<h2><span class="ts">01:49 · Famous No</span>舞台上那声「No」</h2>
+<figure>
+  <img src="/yt-6d-h-do2xk/frames/frame-03.jpg" alt="回放苹果发布会经典 No 片段" width="854" height="428">
+  <figcaption>约 02:00。那句著名的「No, of course not」——拒绝合并系统的姿态，如今撞上了 Duo。</figcaption>
+</figure>
+<p>那问题催生了舞台上著名的一句：</p>
+<blockquote>No, of course not.<cite>—— 发布会现场（片中回放）</cite></blockquote>
+<p>好，你们不合并，可以继续分开卖 iPhone、iPad 和 Mac——都很正当。但现在最新产品是 Duo：合上时「完全就是一台 iPhone」，打开后行为「活像一台 iPad」，尺寸非常接近 iPad mini，而且今年晚些时候会有完整 <b>Apple Pencil</b> 支持。苹果 TikTok 账号甚至发过一条配文「The making of」的视频——画面就是把 iPhone 和 iPad mini 拼成 Duo 的梗。</p>
+<p>那么，他们终于要踩自家产品线的脚趾了吗？还是得想办法「扭」出去？</p>
+</section>
+
+<section id="craig">
+<h2><span class="ts">02:33 · Craig Federighi</span>当面问 Federighi</h2>
+<figure>
+  <img src="/yt-6d-h-do2xk/frames/frame-04.jpg" alt="户外采访 Craig Federighi" width="854" height="428">
+  <figcaption>约 02:55。短访谈：软件负责人 Craig Federighi——也是台上说「No」的那位。</figcaption>
+</figure>
+<p>他现场 briefly 问了苹果全球软件负责人 <b>Craig Federighi</b>。Marques 的基本说法是：合上像 iPhone，打开像小 iPad——价值主张就这么直白。Federighi 没有反驳，反而把问题类比到「你有 iPad 又有 Mac，什么时候用哪一台」：人会自然形成习惯，某类事觉得 Mac 合适、某类事觉得 iPad 合适；Duo 也会「很自然地」走成那样。</p>
+<p>Federighi 还透露自己已经用了几个月：从 iPhone 侧开始用，坐下想更深入读一段内容时，打开设备「extraordinary」——常常竖屏翻页。他也承认：对原本有 iPad mini 的人，这台机「often」能填那个位置。</p>
+<figure>
+  <img src="/yt-6d-h-do2xk/frames/frame-05.jpg" alt="讨论折叠机日常开合比例" width="854" height="428">
+  <figcaption>约 03:50。回到工作室：他认可 Federighi 描述的是相当标准的折叠机用法。</figcaption>
+</figure>
+<p>Marques 先吐槽「先秀自己用了几个月」——然后同意：他自己用折叠机大概 <b>70%</b> 时间合着当普通手机；真想干活、写邮件、读一阵子，才打开，「整件事有仪式感」。结尾那句「能填 iPad mini 的空」才是关键 admission。</p>
+</section>
+
+<section id="who">
+<h2><span class="ts">04:43 · Who Is It For</span>该不该买 Duo</h2>
+<figure>
+  <img src="/yt-6d-h-do2xk/frames/frame-06.jpg" alt="谈谁适合购买 Duo" width="854" height="428">
+  <figcaption>约 04:50。本周被问最多的问题：我该不该换折叠 / 该不该上 Duo？</figcaption>
+</figure>
+<p>上手片发出后，他被问得最多的是：「我该不该买 Fold / Duo？」这比以前多数新 iPhone 更难答——因为它显然不是给所有人的：约 <b>$2,000</b>，而且折叠品类大概只占智能手机销量的 <b>1%</b> 左右。</p>
+<p>他的感受：苹果把这个品类做得很好看、好用，动画与细节到位，但还没真正讲清楚「你为什么需要一台」。</p>
+<ul>
+  <li>已经同时喜欢 iPhone + iPad mini 的人——大概不该买；</li>
+  <li>死磕最好影像硬件、爱拍照片视频的人——大概也不该买；</li>
+  <li>过去约八年一直好奇折叠机、又不想离开 iPhone 生态、还有足够可支配收入、就想试一把的人——这台才是给他们的。</li>
+</ul>
+</section>
+
+<section id="price">
+<h2><span class="ts">06:13 · International Pricing</span>海外定价更贵一截</h2>
+<figure>
+  <img src="/yt-6d-h-do2xk/frames/frame-07.jpg" alt="Marques 讲解海外定价差异" width="854" height="428">
+  <figcaption>约 06:05。补遗第一刀：美国发布会报的两千刀，放到海外并不一样。</figcaption>
+</figure>
+<p>第一印象片与发布会里漏掉的几点，首先是国际定价。美国公司对着美国观众讲，起售 <b>$2,000</b> 他仍觉得相对合理；但海外明显更鼓。他整理的大致换算：</p>
+<ul>
+  <li>各地大约再贵约 <b>10%</b>；</li>
+  <li>加拿大约 <b>C$2,999</b>（约合 $2,160）；</li>
+  <li>台湾约 <b>NT$74,900</b>（约合 $2,370）；</li>
+  <li>英国标价约 <b>£1,999</b>（他算成约 $2,700，并自问「我读对了吗」）。</li>
+</ul>
+<p>而且不只 Duo：新 Pro 以及仍在售、被抬价的老款也一样贵。他觉得几周前刚宣布的融资方案不是巧合——「一个月 35 刀」听起来就不一样了。</p>
+</section>
+
+<section id="software">
+<h2><span class="ts">07:32 · Software Form Factor</span>软件不是硬拉 iPad</h2>
+<figure>
+  <img src="/yt-6d-h-do2xk/frames/frame-08.jpg" alt="Federighi 谈软件与形态一体设计" width="854" height="428">
+  <figcaption>约 07:10。再问 Federighi：公开反应来了之后，还想让大家看到什么？</figcaption>
+</figure>
+<p>他问：现在舆论已经出来了，还有什么想让人看到、或想解释给「已经有反应」的人听？Federighi 说，兴奋点在于大家未必充分预期到苹果会把软件体验「适配到这个形态」——从硅片到外壳到体验自上而下设计，而不是像很多设备那样把别的体验硬拉、硬塞进新外形。</p>
+<blockquote>Yeah, it is. But it's not an iPad.<cite>—— Federighi，回应「打开像不像 iPad」</cite></blockquote>
+<p>打开后并不是原样 iPad 布局，而是从外屏另一种布局出发，追求控制项在开合之间「连续且合理」的体验。他希望大家带走的，不是硬件或软件各说各话，而是两者如何被合在一起。</p>
+<p>Marques 点评：非常苹果式的回答——经典「晚进品类、观察全行业，再自上而下整合自己的东西」。</p>
+</section>
+
+<section id="apps">
+<h2><span class="ts">09:13 · App Layouts</span>设置像平板，主屏与相机不同</h2>
+<figure>
+  <img src="/yt-6d-h-do2xk/frames/frame-09.jpg" alt="对比 Duo 与 iPad 上的 App 布局" width="854" height="428">
+  <figcaption>约 08:10。他回去对照了 Duo 与 iPad 上的一批 App——Federighi 说得对，并不完全一样。</figcaption>
+</figure>
+<p>对照之后：</p>
+<ul>
+  <li><b>设置</b>打开后很像 iPad 双栏；</li>
+  <li><b>照片</b>看起来也与 iPad 版相同；</li>
+  <li><b>主屏幕</b>明显不同，为了合上/打开之间分页连续性；</li>
+  <li><b>相机</b>也很不一样。</li>
+</ul>
+<p>所以是混合物：每个开发者都有机会给「iPhone Duo 版」加一点专属拧法——既不是单纯 iPhone 版，也不是单纯 iPad 版；他估计苹果也会让「沿用其中一个」变得很轻松。</p>
+</section>
+
+<section id="wrap">
+<h2><span class="ts">10:11 · Until October</span>十月见、不是给所有人</h2>
+<figure>
+  <img src="/yt-6d-h-do2xk/frames/frame-10.jpg" alt="收尾：十月发售前还会继续琢磨" width="854" height="428">
+  <figcaption>约 09:20。收尾：再到十月真机铺开，还有几周可以慢慢想。</figcaption>
+</figure>
+<p>接下来几周会继续琢磨，直到十月真机出现。他请观众在评论里说完整评测想看什么。最后一句收得很干净：想清楚这件事很有帮助——它不是给所有人的，就像当年第一代 Surface Duo 之类「也不是给所有人的」。</p>
+<p class="note">以上根据 YouTube 自动英文字幕改写成中文综述。口误与专有名词（iPhone Duo、iPad mini、Craig Federighi、Apple Pencil、Final Cut Pro 等）按上下文校正；片中未给出的规格没有补写。相关上手摘要见 <a href="https://blog.htsgyag6.workers.dev/yt-od6m0axpcxq/">yt-od6m0axpcxq</a>。</p>
+
+<a class="yt" href="https://www.youtube.com/watch?v=6D__H_DO2Xk">观看 YouTube 原片 →</a>
+<a class="yt" href="https://blog.htsgyag6.workers.dev/yt-od6m0axpcxq/" style="margin-left:8px;background:transparent;color:var(--ink);border:1px solid var(--line);">相关：上手「mogged」篇 →</a>
+
+</article>
+
+<footer>
+  这是阅读摘要，非正式逐字稿；本文托管于个人博客 Worker。<br>
+  原片：<a href="https://www.youtube.com/watch?v=6D__H_DO2Xk">iPhone Duo: What We Missed!</a> · Marques Brownlee · 2026-09-12 · YouTube
+</footer>
+</div>
+</body>
+</html>

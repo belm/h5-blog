@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>图文摘要</title>
+<meta name="description" content="图文阅读摘要合集：长视频要点速览。">
+<style>
+  :root {
+    --ink: #1a1612;
+    --muted: #5c5348;
+    --paper: #f6f1e8;
+    --card: #fffdf8;
+    --line: #e2d8c8;
+    --accent: #b42318;
+    --accent-dark: #8c1b12;
+    --gold: #8a6a32;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Source Han Serif SC", "Noto Serif SC", "Songti SC", "SimSun", Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.75;
+    font-size: 18px;
+  }
+  a { color: var(--accent-dark); }
+  a:hover { color: var(--accent); }
+  .wrap { max-width: 800px; margin: 0 auto; padding: 28px 20px 64px; }
+  .kicker {
+    font-family: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", sans-serif;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: clamp(1.7rem, 5vw, 2.45rem);
+    line-height: 1.25;
+    margin: 10px 0 12px;
+    letter-spacing: -.02em;
+  }
+  .lede {
+    font-size: 1.12rem;
+    color: var(--muted);
+    margin: 0 0 28px;
+  }
+  .list { display: grid; gap: 22px; }
+  .card {
+    display: block;
+    background: var(--card);
+    border: 1px solid var(--line);
+    color: inherit;
+    text-decoration: none;
+    overflow: hidden;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 6px 24px rgba(26, 22, 18, .08);
+    color: inherit;
+  }
+  .card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: #efe6d6;
+  }
+  .card-body { padding: 16px 18px 18px; }
+  .card h2 {
+    font-size: 1.22rem;
+    margin: 0 0 8px;
+    line-height: 1.35;
+    color: var(--ink);
+  }
+  .card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.98rem;
+  }
+  .card .meta {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--gold);
+    letter-spacing: .02em;
+  }
+  footer {
+    margin-top: 48px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  @media (max-width: 480px) {
+    body { font-size: 16px; }
+    .card-body { padding: 14px 14px 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">阅读摘要 · 合集</div>
+  <h1>图文摘要</h1>
+  <p class="lede">把长访谈整理成可滑动阅读的图文要点——纸质杂志式排版，方便慢慢读。</p>
+  <div class="list">
+    <a class="card" href="/cursor-pstack-skills/">
+      <img src="/cursor-pstack-skills/frames/cover.jpg" alt="pstack 指南配图：/architect、/arena、/interrogate 并行设计" width="1200" height="675">
+      <div class="card-body">
+        <h2>Cursor pstack 全解：58 条指令和原则各自做什么</h2>
+        <p>poteto（Lauren Tan）把日常在 Cursor 里用的工程技能做成插件：少写、写好、无畏并行。本页按官方仓库逐条说明 /poteto-mode、23 个 playbook，以及全部 skill 与原则。</p>
+        <div class="meta">Cursor 插件 · pstack 0.15.42 · 2026-11-16</div>
+      </div>
+    </a>
+    <a class="card" href="/claude-building-always-on-agents/">
+      <img src="/claude-building-always-on-agents/frames/cover.jpg" alt="构建常在线智能体封面" width="2400" height="1260">
+      <div class="card-body">
+        <h2>构建常在线智能体：在多次会话里自己决定何时行动</h2>
+        <p>所谓 always-on 其实是体验：智能体大部分时间休眠，靠事件收件箱、计时器、记忆、权限与发件箱五块原语，在多次会话里主动做事。——Anthropic / Claude 指南中文摘要。</p>
+        <div class="meta">Claude · William Hu · 2026-11-13</div>
+      </div>
+    </a>
+    <a class="card" href="/deepseek-super-agent/">
+      <img src="/deepseek-super-agent/frames/cover.jpg" alt="DeepSeek Super-agent 设计封面" width="2400" height="960">
+      <div class="card-body">
+        <h2>探索 Super-agent 设计：迈向更自主的智能体系统</h2>
+        <p>单会话不够用：Router + Worker 两层架构、事件 Trigger 与透传、计算—状态—环境分离与 Watchdog——DeepSeek Harness 团队 X Article 中文摘要。</p>
+        <div class="meta">X Article · @DeepSeekHarness · 2026-11-01</div>
+      </div>
+    </a>
+    <a class="card" href="/yt-1lrvmrc-pfy/">
+      <img src="/yt-1lrvmrc-pfy/frames/cover.jpg" alt="王嘉杰谈 Muse 访谈封面" width="640" height="360">
+      <div class="card-body">
+        <h2>王嘉杰谈 Muse：ChatGPT 以来最大的消费级发布</h2>
+        <p>22 天五百万下载的个人智能体：省钱省时、Secure / Confidential VM、Sentinel、安全推迟发布、信任重于能力与监管光谱——Cleo Abram 与 Meta AI 负责人长访谈中文摘要。</p>
+        <div class="meta">Huge Conversations · Alexandr Wang · 约 1:08:21</div>
+      </div>
+    </a>
+    <a class="card" href="/ai-worker-compass/">
+      <img src="/ai-worker-compass/frames/cover.svg" alt="AI 打工指南封面" width="1600" height="900">
+      <div class="card-body">
+        <h2>AI 打工指南：写代码的人的学习与方向罗盘</h2>
+        <p>Coding Agent 不是终点。一手信源、Personal Agent / Context、Builder 习惯与能力选择——综合自 @xiaogaifun 公开推文主题的行动指南。</p>
+        <div class="meta">指南 · @xiaogaifun 主题综合 · 2026-10-12</div>
+      </div>
+    </a>
+    <a class="card" href="/grokbot-opus55-harness/">
+      <img src="/grokbot-opus55-harness/frames/cover.jpg" alt="Grok Bot × Opus 5.5 封面" width="1973" height="789">
+      <div class="card-body">
+        <h2>Grok Bot × Opus 5.5：十步搭建你的智能体团队</h2>
+        <p>Grok Bot 换上 Claude Opus 5.5 大脑后，从岗位章程、登录交接、例行任务到多 Bot 群聊协作与审批线的十步实战指南——@0xMorlex X 长文中文摘要。</p>
+        <div class="meta">X Article · @0xMorlex · 2026-10-08</div>
+      </div>
+    </a>
+    <a class="card" href="/cloudflare-cf-cli/">
+      <img src="/cloudflare-cf-cli/frames/search.jpg" alt="cf cli search 终端截图封面" width="1024" height="576">
+      <div class="card-body">
+        <h2>Cloudflare 推出 cf：为智能体打造、覆盖整个 API 的新命令行</h2>
+        <p>智能体已占 Wrangler 使用量 48%；cf 借 Forge 从约 280 个命令扩到 3,000+ API 操作，JSON 默认输出、自然语言 cf cli search、TypeScript 配置与 Vite 默认，Wrangler 测试结束后再维护 18 个月——Cloudflare 博客中文摘要。</p>
+        <div class="meta">Cloudflare Blog · Birthday Week · 2026-09-28</div>
+      </div>
+    </a>
+    <a class="card" href="/yt-lx8lrn-cytc/">
+      <img src="/yt-lx8lrn-cytc/frames/frame-01.jpg" alt="扎克伯格 Sources 访谈封面" width="854" height="480">
+      <div class="card-body">
+        <h2>扎克伯格谈 Muse：24/7 替你赚钱的个人 AI 智能体</h2>
+        <p>免费每周 1 亿 token、靠交易抽成回本；反对 AI 权力集中、数据中心反弹、机密虚拟机、Llama 4 的教训、眼镜隐私与青少年安全和解——Sources 长访谈中文摘要。</p>
+        <div class="meta">Sources Podcast · Mark Zuckerberg · 1:10:10</div>
+      </div>
+    </a>
+    <a class="card" href="/anthropic-econ-scenarios/">
+      <img src="/anthropic-econ-scenarios/frames/og-hero.jpg" alt="经济前景三种情景封面" width="1200" height="630">
+      <div class="card-body">
+        <h2>经济前景三种情景｜Anthropic Institute</h2>
+        <p>任务层面情景探索器：温和/显著/极端下 2030 GDP、就业再配置、知识岗工资与劳资份额——Economic Scenarios for Transformative AI 中文摘要。</p>
+        <div class="meta">Anthropic Institute · Economics · 2026</div>
+      </div>
+    </a>
+    <a class="card" href="/yt-6d-h-do2xk/">
+      <img src="/yt-6d-h-do2xk/frames/frame-01.jpg" alt="iPhone Duo 发布后补遗封面" width="854" height="428">
+      <div class="card-body">
+        <h2>iPhone Duo 发布后遗漏了什么</h2>
+        <p>产品线撞车、Federighi 访谈、谁该买、海外定价与「不是硬拉 iPad」的软件——MKBHD 发布数日后的补遗中文摘要。</p>
+        <div class="meta">Marques Brownlee · 10:36</div>
+      </div>
+    </a>
+    <a class="card" href="/dario-pace-the-frontier/">
+      <img src="/dario-pace-the-frontier/frames/og-hero.jpg" alt="我们必须为前沿定速封面" width="2000" height="1000">
+      <div class="card-body">
+        <h2>我们必须为前沿定速｜Dario Amodei</h2>
+        <p>递归自我改进与 OAI-HF 之后：嵌入式评估、民主协调与全球协调——让能力推进慢到风险防控跟得上。</p>
+        <div class="meta">Dario Amodei · Anthropic · September 2026</div>
+      </div>
+    </a>
+    <a class="card" href="/dario-policy-ai-exponential/">
+      <img src="/dario-policy-ai-exponential/frames/og-hero.jpg" alt="AI 指数曲线上的政策封面" width="2000" height="1000">
+      <div class="card-body">
+        <h2>AI 指数曲线上的政策｜Dario Amodei</h2>
+        <p>霍比特人催醒树须：五大政策领域如何合上 AI 指数与立法慢节拍的差距——监管、宏观、下游科学、公民自由与民主领导力。</p>
+        <div class="meta">Dario Amodei · Anthropic · June 2026</div>
+      </div>
+    </a>
+    <a class="card" href="/yt-2my-nu6lucm/">
+      <img src="/yt-2my-nu6lucm/frames/frame-01.jpg" alt="萨姆·奥特曼 Fortune 访谈封面" width="640" height="360">
+      <div class="card-body">
+        <h2>奥特曼：失控「绝对」可能，誓守安全红线</h2>
+        <p>P(doom)、对齐与 Hugging Face、暂停训练、中美标准、纳维–斯托克斯与 IPO——Fortune Titans 长访谈中文摘要。</p>
+        <div class="meta">Fortune Magazine · Sam Altman · 46:06</div>
+      </div>
+    </a>
+    <a class="card" href="/shopify-back-to-native/">
+      <img src="/shopify-back-to-native/frames/og-hero.png" alt="Shopify 回到原生移动开发封面" width="1700" height="949">
+      <div class="card-body">
+        <h2>原生才是 Shopify 移动端的未来</h2>
+        <p>编码智能体改写「做两遍」成本账：从 React Native 回到 Swift/Kotlin、Helix 检查点与开源交接——Mustafa Ali 长文中文摘要。</p>
+        <div class="meta">Shopify Engineering · Mustafa Ali · 2026-09-10</div>
+      </div>
+    </a>
+    <a class="card" href="/rethinking-skills-astra/">
+      <img src="/rethinking-skills-astra/frames/og-hero.jpg" alt="重新思考 Skills 与提示词封面" width="2400" height="900">
+      <div class="card-body">
+        <h2>重新思考 Skills 与提示词：给 GPT-6 Astra</h2>
+        <p>精简 skill 描述、渐进披露、修剪 AGENTS.md、写清完成标准——Eric Provencher 谈 Astra 时代如何避免臃肿上下文。</p>
+        <div class="meta">OpenAI Developers · Eric Provencher · 2026-09-11</div>
+      </div>
+    </a>
+    <a class="card" href="/yt-caagabmn-a/">
+      <img src="/yt-caagabmn-a/frames/frame-01.jpg" alt="SpaceX CFO Bret Johnsen 高盛会议封面" width="640" height="360">
+      <div class="card-body">
+        <h2>SpaceX CFO Bret Johnsen：星舰、轨道算力与 Starlink</h2>
+        <p>垂直整合、星舰 13/14、轨道与地面算力、千亿 ARR、Grok/Cursor、直连手机——Goldman Sachs Communacopia 炉边谈话中文摘要。</p>
+        <div class="meta">Panke · Goldman Sachs · 34:07</div>
+      </div>
+    </a>
+    <a class="card" href="/cisa-aa26-251a/">
+      <img src="/cisa-aa26-251a/frames/og-hero.jpg" alt="CISA AA26-251A 摘要封面" width="1200" height="630">
+      <div class="card-body">
+        <h2>中国相关 AI 公司工业级蒸馏行动｜AA26-251A</h2>
+        <p>DeepSeek、Moonshot、阿里、MiniMax、StepFun、Z.AI 对 Claude/GPT/Gemini/Grok 的工业级知识蒸馏——NSA/CISA/FBI 联合通告中文摘要。</p>
+        <div class="meta">NSA · CISA · FBI · 2026-09-08</div>
+      </div>
+    </a>
+    <a class="card" href="/anthropic-ti-sep-2026/">
+      <img src="/anthropic-ti-sep-2026/frames/og-hero.jpg" alt="Anthropic 2026年9月威胁情报封面" width="1200" height="630">
+      <div class="card-body">
+        <h2>检测并反击 AI 滥用｜Anthropic 威胁情报 2026.09</h2>
+        <p>网络 kill chain 自主化、俄系间谍闭环重建、ShinyHunters vibe hacking、长沙 exploit foundry、AI 供应链盗钥与九起影响力作战——原报告中文阅读摘要。</p>
+        <div class="meta">Anthropic · 2025-12 – 2026-08</div>
+      </div>
+    </a>
+    <a class="card" href="/yt-od6m0axpcxq/">
+      <img src="/yt-od6m0axpcxq/frames/frame-01.jpg" alt="iPhone 18 Pro / Duo 上手封面" width="640" height="320">
+      <div class="card-body">
+        <h2>iPhone 18 Pro / Duo 上手：被「碾压」的折叠机</h2>
+        <p>Pro 可变光圈与续航宣称、首款折叠 iPhone Duo 的动画与哑光内屏，以及对标 Galaxy Z Fold 8 的「mogged」——MKBHD 上手的中文图文摘要。</p>
+        <div class="meta">Marques Brownlee · 17:14</div>
+      </div>
+    </a>
+    <a class="card" href="/yt-o-wv-szz0v0/">
+      <img src="/yt-o-wv-szz0v0/frames/frame-01.jpg" alt="吴恩达访谈封面" width="640" height="360">
+      <div class="card-body">
+        <h2>吴恩达：AI 最大机会不在你以为的地方</h2>
+        <p>恐惧叙事、就业神话、学习失效、隐私与本地模型、产品管理瓶颈——Silicon Valley Girl 访谈的中文图文摘要。</p>
+        <div class="meta">Silicon Valley Girl · 37:51</div>
+      </div>
+    </a>
+    <a class="card" href="/an-alien-mind/">
+      <img src="/an-alien-mind/frames/og-an-alien-mind.png" alt="An Alien Mind 封面" width="1600" height="900">
+      <div class="card-body">
+        <h2>一颗异类心智｜Jakub Pachocki</h2>
+        <p>异类智能、目标与价值对齐、思维链监控、可扩展防御与 RSI 节奏——OpenAI 首席科学家长文的中文阅读摘要。</p>
+        <div class="meta">OpenAI · 2026-09-06</div>
+      </div>
+    </a>
+    <a class="card" href="/sam-altman-sources/">
+      <img src="/sam-altman-sources/frames/frame-01.jpg" alt="萨姆·奥特曼 Sources 访谈封面" width="960" height="540">
+      <div class="card-body">
+        <h2>萨姆·奥特曼谈 OpenAI 下一代模型与 AI 反弹</h2>
+        <p>为何放慢前沿训练、Astra、社会反弹、消费硬件与 IPO——Sources Podcast 长访谈的中文图文摘要。</p>
+        <div class="meta">Sources Podcast · 1:08:39</div>
+      </div>
+    </a>
+    <a class="card" href="/yt-nyfgcesmika/">
+      <img src="/yt-nyfgcesmika/frames/frame-01.jpg" alt="DHH × Lex Fridman 访谈封面" width="960" height="540">
+      <div class="card-body">
+        <h2>DHH × Lex Fridman #501</h2>
+        <p>编程的未来、AI 智能体、Vibe Coding 与 Omarchy Linux——一期五小时长谈的中文图文速览。</p>
+        <div class="meta">Lex Fridman Podcast · 5:15:51</div>
+      </div>
+    </a>
+  </div>
+  <footer>
+    <p>托管于 Cloudflare Worker · reading summaries</p>
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+.wrangler/
+.dev.vars
+.env
+.env.*
+*.bak
+*.bak-*
+index.html.bak*
+mirror/
+ai-worker-compass-state.json
+node_modules/
+.DS_Store

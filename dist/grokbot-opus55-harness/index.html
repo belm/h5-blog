@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="/grokbot-opus55-harness/">
+<title>Grok Bot × Opus 5.5：十步搭建你的智能体团队｜X Article 摘要</title>
+<meta name="description" content="@0xMorlex 的 X 长文中文摘要：Grok Bot 换上 Claude Opus 5.5 后，如何从一个 Bot 走到协作的专家团队。">
+<style>
+  :root {
+    --ink: #1a1612;
+    --muted: #5c5348;
+    --paper: #f6f1e8;
+    --card: #fffdf8;
+    --line: #e2d8c8;
+    --accent: #b42318;
+    --accent-dark: #8c1b12;
+    --gold: #8a6a32;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Source Han Serif SC", "Noto Serif SC", "Songti SC", "SimSun", Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.75;
+    font-size: 18px;
+  }
+  a { color: var(--accent-dark); }
+  a:hover { color: var(--accent); }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 28px 20px 64px; }
+  header.hero { padding: 12px 0 8px; }
+  .kicker {
+    font-family: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", sans-serif;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: clamp(1.7rem, 5vw, 2.45rem);
+    line-height: 1.25;
+    margin: 10px 0 12px;
+    letter-spacing: -.02em;
+  }
+  .lede {
+    font-size: 1.12rem;
+    color: var(--muted);
+    margin: 0 0 22px;
+  }
+  .meta {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 0;
+    display: grid;
+    gap: 6px;
+  }
+  .meta b { color: var(--ink); font-weight: 600; }
+  nav.toc {
+    margin: 28px 0;
+    padding: 16px 18px;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  nav.toc h2 { font-size: 15px; margin: 0 0 8px; font-family: "Noto Sans SC", sans-serif; letter-spacing: .08em; color: var(--gold); }
+  nav.toc ol { margin: 0; padding-left: 1.2em; }
+  nav.toc li { margin: 4px 0; font-size: 15.5px; }
+  nav.toc a { text-decoration: none; color: var(--ink); }
+  nav.toc a:hover { color: var(--accent); }
+  h2 {
+    font-size: 1.45rem;
+    margin: 2.2em 0 .6em;
+    line-height: 1.3;
+    padding-top: .4em;
+    border-top: 1px solid var(--line);
+  }
+  h2 .ts {
+    display: block;
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 12px;
+    letter-spacing: .12em;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  p { margin: 0 0 1em; }
+  figure {
+    margin: 1.4em 0 1.6em;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+    vertical-align: middle;
+  }
+  figcaption {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    padding: 10px 12px 12px;
+    line-height: 1.5;
+  }
+  blockquote {
+    margin: 1.2em 0 1.4em;
+    padding: 4px 0 4px 16px;
+    border-left: 3px solid var(--accent);
+    color: var(--ink);
+    font-size: 1.05rem;
+  }
+  blockquote cite {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    font-style: normal;
+    color: var(--muted);
+    font-family: "Noto Sans SC", sans-serif;
+  }
+  .note {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    background: #efe6d6;
+    padding: 12px 14px;
+    margin: 1.2em 0;
+  }
+  footer {
+    margin-top: 48px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .yt {
+    display: inline-block;
+    font-family: "Noto Sans SC", sans-serif;
+    margin-top: 8px;
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  .yt:hover { background: var(--accent); color: #fff; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+<div class="kicker">X Article · 阅读摘要</div>
+<h1>Grok Bot × Opus 5.5：十步搭建你的智能体团队</h1>
+<p class="lede">SpaceX 保留了 Grok Bot 的“外壳”，把“大脑”换成 Claude Opus 5.5。Morlex 写了一份十步教程：从写岗位章程、管连接与登录，到让多个 Bot 在群聊里分工协作，并守住审批线与成本。</p>
+<div class="meta"><div><b>作者</b> Morlex（@0xMorlex）</div><div><b>发布</b> 2026-10-08 20:24（SGT）· X Article</div><div><b>原文</b> <a href="https://x.com/0xMorlex/status/2108171726412464173">x.com/0xMorlex/status/2108171726412464173</a></div></div>
+</header>
+<div class="note">说明：本文为个人阅读摘要与中文改写，引语为意译。文中关于模型评测、价格、收购与上线时间等说法均来自原作者，尚未独立核实。</div>
+<nav class="toc"><h2>目录</h2><ol><li><a href="#s01">到底变了什么</a></li><li><a href="#s02">安装，并认识“Chief”</a></li><li><a href="#s03">为更强的大脑写一份“岗位章程”</a></li><li><a href="#s04">连接要节制：数据多了一个去处</a></li><li><a href="#s05">交出登录态，绝不交出密码</a></li><li><a href="#s06">演示一次，变成例行任务</a></li><li><a href="#s07">雇专家，让它们派生 Cursor 智能体</a></li><li><a href="#s08">放进同一个群聊</a></li><li><a href="#s09">划清审批线</a></li><li><a href="#s10">盯住成本，每周复盘</a></li><li><a href="#end">结语：外壳才是产品</a></li></ol></nav>
+<h2 id="s01"><span class="ts">STEP 01</span>到底变了什么</h2>
+<p>10 月 6 日美国时间深夜，马斯克在 X 上表示 SpaceX 会为每项任务选用最合适的后端模型，点名 Claude Opus 5.5、Midjourney 与 Suno。数小时后 Grok Bot 团队的 Lauren（@poteto）补充：所有 Bot 将由 Opus 5.5 驱动，并可派生运行 Cursor 模型的云端智能体；9to5Mac 报道 10 月 7 日已上线。作者引用 Artificial Analysis 同一套评测框架的数据，认为在多步智能体任务（Terminal-Bench）上两家差距接近 3 倍，但也坦承对比的是 Grok 4.6 而非 9 月的 Grok 4.7，且测量相隔一个月。</p>
+<blockquote>“SpaceX 保留了外壳（harness），大脑如今换成了 Anthropic 的。”<cite>— 译自 @0xMorlex 原文</cite></blockquote>
+<h2 id="s02"><span class="ts">STEP 02</span>安装，并认识“Chief”</h2>
+<p>Grok Bot 是 App 而非浏览器标签页，支持 Mac、iPhone、iPad，用 Grok 或 Cursor 账号登录，随多数 SuperGrok 与付费 Cursor 套餐附送。界面更像即时通讯：左侧是具名 Bot，每个 Bot 在云端拥有自己的电脑。据团队说法 Opus 5.5 是默认模型，无需另购 Claude 订阅。作者建议先建一个通用 Bot“Chief”，交给它一件 30 秒内能核验结果的真实小事，从可验证处建立信任。</p>
+<figure><img src="/grokbot-opus55-harness/frames/cover.jpg" alt="安装，并认识“Chief” 配图" loading="lazy"><figcaption>原文配图（来自 X Article）</figcaption></figure>
+<h2 id="s03"><span class="ts">STEP 03</span>为更强的大脑写一份“岗位章程”</h2>
+<p>提示词是一次请求，Bot 则是一个岗位：会持续存在、积累记忆、负责一个领域。所以要按职位命名（收件箱经理、研究主管、销售外联），并像对新员工那样说明：负责什么、什么算做好、何时必须停下来问你。作者认为旧默认模型几步就卡住，章程只能写得保守；换上多步能力更强的 Opus 5.5 后，可以把整件事而非第一步交出去。Opus 5.5 API 支持 1M token 上下文、最多 128K 输出，但 Grok Bot 实际开放多少未公布。</p>
+<blockquote>“提示词是请求，Bot 是一个角色。”<cite>— 译自 @0xMorlex 原文</cite></blockquote>
+<figure><img src="/grokbot-opus55-harness/frames/charter.jpg" alt="为更强的大脑写一份“岗位章程” 配图" loading="lazy"><figcaption>原文配图（来自 X Article）</figcaption></figure>
+<h2 id="s04"><span class="ts">STEP 04</span>连接要节制：数据多了一个去处</h2>
+<p>插件面板可一键连接 Notion、Slack、Google Drive、Browserbase、Composio、Context7 等；连接是账号级的，接一次所有 Bot 可用。新问题在于：Bot 用 Opus 5.5 思考时，它读到的内容会在那一步发送给 Anthropic；能否退出、共享条款如何，SpaceXAI 尚未公布。作者建议在每份章程里写明“禁止打开的文件夹、邮件与含密码/助记词/2FA 的消息”，只连真正需要的服务。</p>
+<h2 id="s05"><span class="ts">STEP 05</span>交出登录态，绝不交出密码</h2>
+<p>大多数企业软件没有 API。Grok Bot 的做法是：Bot 在自己的云端浏览器里操作，遇到登录墙就把屏幕交给你，你登录后点完成，它在同一会话继续。Bot 拿到的是会话而不是秘密；第三方模型在环路里，粘贴进聊天的密码就是模型会读到的文本。</p>
+<blockquote>“任何工具要你把密码贴进消息里，那就是走错了路。”<cite>— 译自 @0xMorlex 原文</cite></blockquote>
+<h2 id="s06"><span class="ts">STEP 06</span>演示一次，变成例行任务</h2>
+<p>你可以亲手做一遍让 Bot 看着学，它会保存步骤下次自动执行。最适合首录的是每周重复、跨两个以上应用、步骤稳定的活儿。触发方式用自然语言设定：定时（如每个工作日早 7 点的晨报），或事件触发。作者认为更强的模型在页面改版时更可能自我恢复，而不是静默失败。</p>
+<figure><img src="/grokbot-opus55-harness/frames/routine.jpg" alt="演示一次，变成例行任务 配图" loading="lazy"><figcaption>原文配图（来自 X Article）</figcaption></figure>
+<h2 id="s07"><span class="ts">STEP 07</span>雇专家，让它们派生 Cursor 智能体</h2>
+<p>多个 Bot 并行、各管一域，意味着独立记忆与上下文、出错时有干净的线程可查。按领域而不是按任务大小拆分。公告中较少被注意的一半：Bot 可派生运行 Cursor 模型的云端智能体（作者提到 SpaceX 8 月以 600 亿美元收购 Cursor）。于是编码 Bot 变成经理：Opus 驱动的 Bot 规划并掌握上下文，Cursor 智能体并行干重活，Bot 再审查结果。</p>
+<h2 id="s08"><span class="ts">STEP 08</span>放进同一个群聊</h2>
+<p>Bot 之间可以互发消息、在线程中共享上下文。放进一个群聊，它们会自行分工、移交所有权，只在需要判断时拉你进来。SpaceXAI 自己的例子是工程 Bot 复现 bug、建工单、交给另一个 Bot 调试。诀窍是给群组一个目标而不是任务清单——拆解本身正是多步推理强项。</p>
+<blockquote>“给群组一个目标，而不是一张任务清单。”<cite>— 译自 @0xMorlex 原文</cite></blockquote>
+<h2 id="s09"><span class="ts">STEP 09</span>划清审批线</h2>
+<p>界线不在任务大小，而在可逆性：能撤销的 Bot 自己做完；外界可见、涉及资金或无法收回的，一律停下等你。大脑越强，越会在撞线前把活推得更远，所以这条线必须写明。</p>
+<blockquote>“36 份草稿已排队，0 份已发送。”<cite>— 译自 @0xMorlex 原文</cite></blockquote>
+<h2 id="s10"><span class="ts">STEP 10</span>盯住成本，每周复盘</h2>
+<p>Opus 5.5 的 API 价格明显高于 Grok：作者估算一次 3 万输入 / 8 千输出的小任务约 28 美分对 11 美分；超过 20 万 token 的长上下文则反过来，因为 Grok 费率翻倍而 Opus 不变。Grok Bot 内不按 token 计费，但 Opus 任务是否更快耗尽套餐额度官方未说明，建议首周先观察用量。Midjourney、Suno 尚无日期。每周花 15 分钟让 Bot 汇报各例行任务，并亲手抽查每个任务的一份产出。</p>
+
+<h2 id="end"><span class="ts">CONCLUSION</span>结语：外壳才是产品</h2>
+<p>过去三年大家问的是“哪个模型最好”；作者认为这周问题变成了“哪个外壳最好”——外壳拥有电脑、登录、记忆和例行任务，大脑可以在底下替换。你的职责不变：决定委派什么、Bot 的权限止于何处、它能碰哪些数据，并把这三点写进章程。</p>
+<blockquote>“写进章程——然后让市场上最强的大脑去点鼠标。”<cite>— 译自 @0xMorlex 原文</cite></blockquote>
+<p><a class="yt" href="https://x.com/0xMorlex/status/2108171726412464173">阅读 X 原文 →</a></p>
+<footer style="margin-top:3em;border-top:1px solid var(--line);padding-top:14px;font-size:13px;color:var(--muted);font-family:'Noto Sans SC',sans-serif">阅读摘要 / 非正式逐字稿或改写 / 个人博客 Worker · 原文：<a href="https://x.com/0xMorlex/status/2108171726412464173">@0xMorlex on X</a></footer>
+</div>
+</body>
+</html>

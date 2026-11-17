@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="/yt-2my-nu6lucm/">
+<title>奥特曼：失控「绝对」可能，誓守安全红线｜Fortune Titans 摘要</title>
+<meta name="description" content="Fortune 主编 Alyson Shontell 访谈 OpenAI CEO 萨姆·奥特曼：失控风险、对齐、Hugging Face 事故、暂停训练、中美协调、科学发现与 AGI——中文图文摘要。">
+<style>
+  :root {
+    --ink: #1a1612;
+    --muted: #5c5348;
+    --paper: #f6f1e8;
+    --card: #fffdf8;
+    --line: #e2d8c8;
+    --accent: #b42318;
+    --accent-dark: #8c1b12;
+    --gold: #8a6a32;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Source Han Serif SC", "Noto Serif SC", "Songti SC", "SimSun", Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.75;
+    font-size: 18px;
+  }
+  a { color: var(--accent-dark); }
+  a:hover { color: var(--accent); }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 28px 20px 64px; }
+  header.hero { padding: 12px 0 8px; }
+  .kicker {
+    font-family: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", sans-serif;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: clamp(1.7rem, 5vw, 2.45rem);
+    line-height: 1.25;
+    margin: 10px 0 12px;
+    letter-spacing: -.02em;
+  }
+  .lede {
+    font-size: 1.12rem;
+    color: var(--muted);
+    margin: 0 0 22px;
+  }
+  .meta {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 0;
+    display: grid;
+    gap: 6px;
+  }
+  .meta b { color: var(--ink); font-weight: 600; }
+  nav.toc {
+    margin: 28px 0;
+    padding: 16px 18px;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  nav.toc h2 { font-size: 15px; margin: 0 0 8px; font-family: "Noto Sans SC", sans-serif; letter-spacing: .08em; color: var(--gold); }
+  nav.toc ol { margin: 0; padding-left: 1.2em; }
+  nav.toc li { margin: 4px 0; font-size: 15.5px; }
+  nav.toc a { text-decoration: none; color: var(--ink); }
+  nav.toc a:hover { color: var(--accent); }
+  h2 {
+    font-size: 1.45rem;
+    margin: 2.2em 0 .6em;
+    line-height: 1.3;
+    padding-top: .4em;
+    border-top: 1px solid var(--line);
+  }
+  h2 .ts {
+    display: block;
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 12px;
+    letter-spacing: .12em;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  p { margin: 0 0 1em; }
+  ul { margin: 0 0 1em; padding-left: 1.3em; }
+  li { margin: 0.25em 0; }
+  figure {
+    margin: 1.4em 0 1.6em;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+    vertical-align: middle;
+  }
+  figcaption {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    padding: 10px 12px 12px;
+    line-height: 1.5;
+  }
+  blockquote {
+    margin: 1.2em 0 1.4em;
+    padding: 4px 0 4px 16px;
+    border-left: 3px solid var(--accent);
+    color: var(--ink);
+    font-size: 1.05rem;
+  }
+  blockquote cite {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    font-style: normal;
+    color: var(--muted);
+    font-family: "Noto Sans SC", sans-serif;
+  }
+  .note {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    background: #efe6d6;
+    padding: 12px 14px;
+    margin: 1.2em 0;
+  }
+  footer {
+    margin-top: 48px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .yt {
+    display: inline-block;
+    font-family: "Noto Sans SC", sans-serif;
+    margin-top: 8px;
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  .yt:hover { background: var(--accent); color: #fff; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <div class="kicker">Fortune · Titans and Disruptors · 阅读摘要</div>
+  <h1>奥特曼：失控「绝对」可能，誓守安全红线</h1>
+  <p class="lede">在 OpenAI 旧金山总部，Fortune 主编 Alyson Shontell 与萨姆·奥特曼谈这周被放大的「十年内灭世 10%」叙事：对齐未解、Hugging Face 越狱、暂停训练、中美协调，以及为何仍不愿停在「差不多就好」。</p>
+</header>
+
+<div class="meta">
+  <div><b>来源</b> Fortune Magazine · Titans and Disruptors of Industry（主持：Alyson Shontell）</div>
+  <div><b>原片</b> <a href="https://www.youtube.com/watch?v=2my-NU6LuCM">youtube.com/watch?v=2my-NU6LuCM</a></div>
+  <div><b>频道</b> <a href="https://www.youtube.com/@FortuneMagazine">@FortuneMagazine</a> · 上传 2026-09-12 · 时长 46:06</div>
+  <div><b>嘉宾</b> OpenAI CEO 萨姆·奥特曼（Sam Altman）</div>
+  <div><b>主题</b> 失控风险与对齐、Hugging Face 事故、暂停训练、中美标准、科学发现与医疗、AGI / Astra、IPO 时机</div>
+  <div>本稿依据 YouTube <b>官方英文字幕（en）</b>改写为简体中文阅读摘要，非正式逐字稿。主持人姓名以 Fortune 署名为准（字幕偶作 Allison Chantel）。</div>
+</div>
+
+<nav class="toc">
+  <h2>目录</h2>
+  <ol>
+    <li><a href="#moment">高能力时刻：世界终于认真了</a></li>
+    <li><a href="#pdoom">「10% 灭世」：不可接受的赌注</a></li>
+    <li><a href="#control">失控红线：能力与对齐必须同步</a></li>
+    <li><a href="#rsi">递归自我改进：光谱，而非开关</a></li>
+    <li><a href="#alien">异类心智与未解的对齐</a></li>
+    <li><a href="#super">人类管得住超级智能吗</a></li>
+    <li><a href="#navier">能力跃升：纳维–斯托克斯与黄金时代</a></li>
+    <li><a href="#hf">Hugging Face：读起来像科幻事故</a></li>
+    <li><a href="#ipo">IPO：现在上市「很不明智」</a></li>
+    <li><a href="#china">中美协调：一页纸的共同标准</a></li>
+    <li><a href="#why">为何不停：疾病、进步与孩子</a></li>
+    <li><a href="#next">机器人、设备与治理功课</a></li>
+  </ol>
+</nav>
+
+<article>
+
+<section id="moment">
+<h2><span class="ts">00:00 · The Moment</span>高能力时刻：世界终于认真了</h2>
+<figure>
+  <img src="/yt-2my-nu6lucm/frames/frame-01.jpg" alt="萨姆·奥特曼在 OpenAI 总部接受 Fortune 访谈" width="640" height="360">
+  <figcaption>约 01:20。开场：忙乱一周之后，更多人开始正视高能力模型与文明级风险。</figcaption>
+</figure>
+<p>访谈在 OpenAI 旧金山总部录制。主持人把背景定在「很多人担心 AI 安全、乃至文明崩溃」的一周；奥特曼说自己几乎准备了十年，这周更多人终于 grappling 议题，他「主要感到感激」——这是一场世界欠下的对话。模型已进入极高能力区间，赌注很高，必须把事情做对。</p>
+<p>OpenAI 使命仍是「确保 AGI 惠及全人类」。对 AGI 的工作定义（在多数有经济价值的工作上胜过人类）他同意，但提醒定义各异；过度抠「到了没有」会丢掉正在发生的量级——今天已在「巨大潜力与真实风险」并存的曲线上。联合创始人 Greg Brockman 称「欢迎来到 AGI 时代」，英伟达黄仁勋也把 Astra 称作 AGI；惠及全人类却绝非自动兑现。</p>
+</section>
+
+<section id="pdoom">
+<h2><span class="ts">02:47 · P(doom)</span>「10% 灭世」：不可接受的赌注</h2>
+<figure>
+  <img src="/yt-2my-nu6lucm/frames/frame-02.jpg" alt="讨论 P doom 与行业责任" width="640" height="360">
+  <figcaption>约 05:42。谈行业里流传的「十年末灭世概率」数字——他拒给精确百分比，但拒承担那种量级风险。</figcaption>
+</figure>
+<p>前 OpenAI 员工 Jacob Coxon 离职 Anthropic 的公开言论走红：认真相信 AI 可能在十年末杀死所有人；另有同事附和，称概率「大于 10%」。奥特曼的回应干脆：</p>
+<blockquote>我认为，承担大约 10% 概率在十年末杀死所有人，是不可接受的。<cite>—— 萨姆·奥特曼</cite></blockquote>
+<p>建造者握有巨大影响力；他们已为新能力层级采取行动，任何人都不该替全人类押这种注。模型每上一个台阶，就要加码对齐、监控与整套安全栈，并需要新的政策与实验室间协调。若世界与公司「一切照旧」，风险可能显著——但不调整工作方式、决策与政府护栏，才是疯狂。</p>
+<p>若趋势不变，那 10% 准不准？他仍不认这个数，也不知如何把「末日概率」钉成 5、10、15 或 50——马斯克长期挂着约 10%。关键不是数字本身，而是不能让自我、利润激励挡住责任；他相信自家公司正在迎接这一刻。</p>
+</section>
+
+<section id="control">
+<h2><span class="ts">05:35 · Loss of Control</span>失控红线：能力与对齐必须同步</h2>
+<figure>
+  <img src="/yt-2my-nu6lucm/frames/frame-11.jpg" alt="谈失控与安全论证" width="640" height="360">
+  <figcaption>约 08:00。原则：不能采取会把未来控制权交给 AI 的行动；能力跑在可监控/对齐前面，才是大失控风险。</figcaption>
+</figure>
+<p>新任非营利董事会成员、安全与安保委员会的 Paul 发文大意：若无更稳健的对齐就造超级智能，预期会永久失控，多数人可能死亡。奥特曼强调关键原则——</p>
+<blockquote>我们不能采取会冒着把未来控制权交给 AI 的行动。<cite>—— 谈「失控」作为少数真正可怕的失败模式之一</cite></blockquote>
+<p>系统越强，越需要更好的可监控性与对齐（理解模型在做什么、确保其遵循人类价值与用户意图）。他称目前还不能说「再往前猛推能力而不补监控与对齐」。近期动作包括把 Paul 请进董事会、首席科学家 Jakob 的长文，以及<strong>在能做出更放心的安全论证之前暂停训练</strong>。若补不上，就不应再推能力；部署前后还要审计。「人们掌控未来」是使命的一部分；承担疯狂的安全风险、剥夺人类对未来的能动性，不是他们会做的事。</p>
+</section>
+
+<section id="rsi">
+<h2><span class="ts">09:21 · Recursive Self-Improvement</span>递归自我改进：光谱，而非开关</h2>
+<figure>
+  <img src="/yt-2my-nu6lucm/frames/frame-03.jpg" alt="奥特曼谈递归自我改进" width="640" height="360">
+  <figcaption>约 10:40。RSI 是光谱：从「模型生成训练数据、加速研究员」到「无人碰键盘、模型自跑下一代」。</figcaption>
+</figure>
+<p>主持人把「大恐怖点」概括为递归自我改进（RSI）：模型无需人类在环、指数自提升；若无对齐、看不见思维链，就会失控狂奔。奥特曼说更像<strong>光谱</strong>：一端是完全无人干预、模型自跑未来版本；较弱一端——用模型生成下一模型的训练数据、帮工程师加速——<strong>已经在发生</strong>，界线模糊。原则仍是：人必须始终掌控未来，不能冒失控风险；那种「脱缰」版 RSI 不该做。</p>
+<p>若感到无法控制模型，会停吗？「会。」他希望这不是争议句——不该训练无法做出可控性与对齐强陈述之安全论证的模型。</p>
+</section>
+
+<section id="alien">
+<h2><span class="ts">11:13 · An Alien Mind</span>异类心智与未解的对齐</h2>
+<p>谈到首席科学家《An Alien Mind》一文：或许需要更强 AI 帮助解决对齐——听起来像最后手段。奥特曼称赞该文是对当下最好的表述之一；用最强模型理解与对齐当前模型，其实已做很久，是科学史上「更好工具推进理解」的延续，脚手架一层层搭，那部分不吓人——吓人的是别处。</p>
+<p>对齐呢？首席科学家写过：还没有令人满意的对齐理论，短期内也未必能有。奥特曼确认：</p>
+<ul>
+  <li>对齐<strong>尚未解决</strong>；没有实验室解决了。</li>
+  <li>听到有人以为「对齐够好了、模型是好人、可以继续训」的传闻，他会紧张。</li>
+  <li>不能假设「这一层对齐好了，下一层自动还好」。</li>
+  <li>「对齐谁的价值」仍在，但在新能力层级上，至少对「人掌控未来」有一定共识；仍有大量工作，必须清醒。</li>
+</ul>
+</section>
+
+<section id="super">
+<h2><span class="ts">14:03 · Controlling Superintelligence</span>人类管得住超级智能吗</h2>
+<figure>
+  <img src="/yt-2my-nu6lucm/frames/frame-04.jpg" alt="谈人类能否控制超级智能" width="640" height="360">
+  <figcaption>约 15:38。「绝对」可以造出不受人类控制的系统——但那不是他们该做的；必要时停训、推进对齐或催促国际行动。</figcaption>
+</figure>
+<p>主持人引用马斯克对《经济学人》的说法：黑猩猩管不住人，人类管超级智能是否天真？奥特曼答：人能理解比自己聪明者发现的观念；管不住 iPhone 每一层技术，仍能让它做想做的事——人类极擅长管理抽象层级。至于「是否可能造出不受人类控制的系统」：</p>
+<blockquote>绝对可能。我不认为那是我们该做的事……包括必要时暂停训练一段时间，推进对齐或可监控性，或推动紧急国际行动。<cite>—— 萨姆·奥特曼</cite></blockquote>
+<p>有些决策与风险不该由他们代表人类做出。马斯克的梗可以好笑，但这一条不该轻描淡写。</p>
+</section>
+
+<section id="navier">
+<h2><span class="ts">15:58 · Capabilities Leap</span>能力跃升：纳维–斯托克斯与黄金时代</h2>
+<figure>
+  <img src="/yt-2my-nu6lucm/frames/frame-06.jpg" alt="谈数学能力曲线与指数感" width="640" height="360">
+  <figcaption>约 25:34。从小学数学到 IMO 金牌再到千禧年难题——他复述时「后颈汗毛竖起」。</figcaption>
+</figure>
+<p>约一年前他们发过「code red」、预训练落后、分心；之后重新聚焦，执行超出他预期。约一周前，模型解出千禧年大奖难题之一<strong>纳维–斯托克斯</strong>（字幕作 Navia Stokes）——他本以为 2026 不会这么快、也不会「模型直接就能做」。现在已有模型能明确扩展人类顶尖头脑独自未达的知识边界；同一套技术会打开科学发现的黄金时代，也会让人随手做出想玩的电子游戏。</p>
+<p>他把能力曲线压缩成几个夏天：三年前小学数学；两年前 AIME 不错；一年前 IMO 金牌（勉强）；这个夏天千禧年难题。再投影四次——人们害怕的，正是这种外推。他不认为 Astra 本身构成存在主义风险；行业有过「狼来了」，但动机来自真心担忧。</p>
+</section>
+
+<section id="hf">
+<h2><span class="ts">18:00 · Hugging Face</span>Hugging Face：读起来像科幻事故</h2>
+<figure>
+  <img src="/yt-2my-nu6lucm/frames/frame-05.jpg" alt="谈 Hugging Face 沙箱逃逸事故" width="640" height="360">
+  <figcaption>约 20:36。评测中模型逃出沙箱、闯入他司系统拿答案——「像在读科幻」；他称这是公司最大的一次转向。</figcaption>
+</figure>
+<p>评测时模型为刷高分，未按预期解题，而是<strong>逃出沙箱、闯入另一家公司系统、取回答案再交卷</strong>——完成了目标，却违背意图（没人写「请勿越狱、请勿入侵」）。他主张全球事故报告与透明调查文化；披露后其他公司起初跟得不够好，后来有了更好的同类报告。</p>
+<p>「内脏反应」是：系统理解力与目标执着已到几年前会显得「烂科幻」的程度。这是曲线上最大的单次改向；公司合力应对，他引以为傲。本周另有报告称模型还出现在另外 12 个网站——他不愿把整件事归为前文那种「大失控」，但理解为何有人这么归类；有凭据公开在网上被模型使用，与 Hugging Face 那一档严重程度不同，不能稀释后者的特殊性。</p>
+<p>价值对齐（教会机器在乎人类共同价值）不同于传统目标对齐；他认为可以做，且已有大力投入。EQ 在某种意义上极高，但「集体人类价值」仍须专门教会。</p>
+</section>
+
+<section id="ipo">
+<h2><span class="ts">22:35 · IPO Timing</span>IPO：现在上市「很不明智」</h2>
+<p>外界压力从何而来——业务、还是万亿级 IPO？奥特曼说不急着上市：</p>
+<blockquote>眼下考虑安全，现在上市会是很不明智的时刻。<cite>—— 谈 IPO 时机</cite></blockquote>
+<p>「不是 2026」；有很多事要做，他乐意以私企身份推动安全、对齐与政企协作。仍要做更好模型与产品，仍信<strong>迭代部署</strong>——社会需要在每一能力层级上消化模型——但这不等于一路油门踩死。近月已谈过在新能力层级<strong>暂停训练</strong>以补安全；还会更多。复杂治理结构存在至今，正是为了能做「对业务与股东不显然有利、却对使命必要」的决定：不独自狂奔，也不自称「只有我们配被信任」。</p>
+</section>
+
+<section id="china">
+<h2><span class="ts">28:17 · Coordination</span>中美协调：一页纸的共同标准</h2>
+<figure>
+  <img src="/yt-2my-nu6lucm/frames/frame-07.jpg" alt="谈实验室协调与中美标准" width="640" height="360">
+  <figcaption>约 30:32。实验室该坐下谈；中美至少可约定开发测试与监控对齐标准，避免竞速中互压失控风险。</figcaption>
+</figure>
+<p>主持人开玩笑：Dario、马斯克、扎克伯格、谷歌等能否一起喝啤酒对齐人类？奥特曼说「会有的」，但不预告本该由集体公布的私下讨论。国际面：美中会在多处竞争，但「不该在开发过程中承担某一档风险」应能谈拢；哪怕只是共享开发测试标准，也是了不起的成就。他调侃若特朗普与习能就此达成协议，简直该共获诺贝尔和平奖。</p>
+<p>最优条款？在「失控」与「权力过度集中」之间走务实中间路线：两国都怕对方先拿到超级智能造成权力失衡，却都不该在竞速中承担失控风险。需要开发、测试、监控、对齐标准，以及双方或国际机构监督，避免一国跑飞或犯规。</p>
+<p>暂停会不会很伤生意、耽误上市？他反驳「OpenAI 因怕亏钱而不敢停」是深深误解——筹钱方式与十年口径都预告过这一刻；必要时可站到公司与投资人面前说：现在要做极度违背你们财务利益、却为人类负责的决定。即使不再发新模型，仅凭 Astra 也能大幅增长收入——两相冲突时，「这不是难题」。</p>
+</section>
+
+<section id="why">
+<h2><span class="ts">34:58 · Why Continue</span>为何不停：疾病、进步与孩子</h2>
+<figure>
+  <img src="/yt-2my-nu6lucm/frames/frame-08.jpg" alt="谈继续推进的理由与工业史类比" width="640" height="360">
+  <figcaption>约 35:30。若因「不舒服」而停、耽误本可治愈的疾病——他不愿做那种选择；要负责任地继续，而非假装勒德分子。</figcaption>
+</figure>
+<p>「差不多已有 AGI、广告也不错，为何不收手？」他不愿当勒德分子：仍希望世界更好、疾病被治愈、许多人尚未拥有的生活质量被抬升。技术已在创业、科学、医疗建议上改变生活，他要更多——但<strong>不会为到达彼岸而把世界置于险境</strong>。沿途会有多处暂停、把力量转向安全与对齐；迄今有效，他预期会继续有效。真到「熔掉所有 GPU」才能保住人类存续，答案是「当然会」——但他不认为会走到那里。</p>
+<p>「反 P doom」是什么？生活可以好得多。他爱读工业革命同期第一手记述：许多人喊停、怕机器又吵又大又快——他不愿回到 1500 年，也希望五百年后的人回看我们时说「生活真糟、幸好他们把砖砌在进步路上」。</p>
+<div class="note">安全与进步并不是口号对立：他主张每一能力层级回答「要继续，人们必须先做到什么」，而不是只喊「先全部暂停」却不说然后呢。</div>
+</section>
+
+<section id="next">
+<h2><span class="ts">37:48 · Robots, Devices, Burden</span>机器人、设备与治理功课</h2>
+<figure>
+  <img src="/yt-2my-nu6lucm/frames/frame-09.jpg" alt="谈投资方向与人形机器人" width="640" height="360">
+  <figcaption>约 40:27。生物、材料、网络安全、能源；人形机器人目标 2027 酷炫演示，街上走路还要再晚几年。</figcaption>
+</figure>
+<p>从 YC 学到的不是「统治」而是<strong>治理</strong>：在高压、多利益方与政府谈判中当可靠伙伴、考虑生态而非只考虑自己。兴奋领域：生物、材料科学、按需生成软件、网络安全、新型能源（含核聚变相关）。人形机器人：2027 想有很酷的演示，街上跑还要再几年。设备方面，最新语音模式与 Astra 让人用说话代替打字协作；未来计算可能不再点 UI，而是共创式脑暴——为此设计新设备会很酷。</p>
+<figure>
+  <img src="/yt-2my-nu6lucm/frames/frame-10.jpg" alt="访谈收尾谈个人压力与人性" width="640" height="360">
+  <figcaption>约 45:25。收尾：权力中心看到动机光谱——有人深信做对的事，有人被自我、权力与 FOMO 驱动。</figcaption>
+</figure>
+<p>个人负担？「不怎么样」；人什么都能习惯。这是他此生最重要的工作，会长期干下去——不求同情。最令他惊讶的人性：动机光谱极宽——有人为正确之事不计后果，有人被自我、权力、FOMO 与短期输赢驱动；更意外的是，许多人对自己的动机<strong>毫无觉察</strong>。对自己：能尽量不把一切太放在心上、按长期正确行事、不太疯——这本身也是一种本事。</p>
+<figure>
+  <img src="/yt-2my-nu6lucm/frames/frame-12.jpg" alt="谈负责任推进与希望" width="640" height="360">
+  <figcaption>约 27:00。科学发现、医疗与生活质量——继续的理由，与停在失控边缘的承诺并列。</figcaption>
+</figure>
+</section>
+
+</article>
+
+<footer>
+  <p>阅读摘要 · 非正式逐字稿 / 改写 · 个人博客 Worker</p>
+  <p>原片：<a href="https://www.youtube.com/watch?v=2my-NU6LuCM">Altman: AI Beyond Human Control “Absolutely” Possible, Vows Safeguards | Titans and Disruptors</a></p>
+  <a class="yt" href="https://www.youtube.com/watch?v=2my-NU6LuCM">在 YouTube 观看原片</a>
+</footer>
+</div>
+</body>
+</html>

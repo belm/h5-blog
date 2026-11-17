@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="/claude-building-always-on-agents/">
+<title>构建常在线智能体：在多次会话里自己决定何时行动｜Claude 摘要</title>
+<meta name="description" content="Anthropic 指南：常在线智能体并非一直开着，而是靠事件收件箱、计时器、记忆、权限与发件箱，在多次会话里主动做事。中文阅读摘要。">
+<style>
+  :root {
+    --ink: #1a1612;
+    --muted: #5c5348;
+    --paper: #f6f1e8;
+    --card: #fffdf8;
+    --line: #e2d8c8;
+    --accent: #b42318;
+    --accent-dark: #8c1b12;
+    --gold: #8a6a32;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Source Han Serif SC", "Noto Serif SC", "Songti SC", "SimSun", Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.75;
+    font-size: 18px;
+  }
+  a { color: var(--accent-dark); }
+  a:hover { color: var(--accent); }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 28px 20px 64px; }
+  header.hero { padding: 12px 0 8px; }
+  .kicker {
+    font-family: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", sans-serif;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: clamp(1.7rem, 5vw, 2.45rem);
+    line-height: 1.25;
+    margin: 10px 0 12px;
+    letter-spacing: -.02em;
+  }
+  .lede {
+    font-size: 1.12rem;
+    color: var(--muted);
+    margin: 0 0 22px;
+  }
+  .meta {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 0;
+    display: grid;
+    gap: 6px;
+  }
+  .meta b { color: var(--ink); font-weight: 600; }
+  nav.toc {
+    margin: 28px 0;
+    padding: 16px 18px;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  nav.toc h2 { font-size: 15px; margin: 0 0 8px; font-family: "Noto Sans SC", sans-serif; letter-spacing: .08em; color: var(--gold); }
+  nav.toc ol { margin: 0; padding-left: 1.2em; }
+  nav.toc li { margin: 4px 0; font-size: 15.5px; }
+  nav.toc a { text-decoration: none; color: var(--ink); }
+  nav.toc a:hover { color: var(--accent); }
+  h2 {
+    font-size: 1.45rem;
+    margin: 2.2em 0 .6em;
+    line-height: 1.3;
+    padding-top: .4em;
+    border-top: 1px solid var(--line);
+  }
+  h2 .ts {
+    display: block;
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 12px;
+    letter-spacing: .12em;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  p { margin: 0 0 1em; }
+  figure {
+    margin: 1.4em 0 1.6em;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  figcaption {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    padding: 10px 12px 12px;
+    line-height: 1.5;
+  }
+  blockquote {
+    margin: 1.2em 0 1.4em;
+    padding: 4px 0 4px 16px;
+    border-left: 3px solid var(--accent);
+    color: var(--ink);
+    font-size: 1.05rem;
+  }
+  blockquote cite {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    font-style: normal;
+    color: var(--muted);
+    font-family: "Noto Sans SC", sans-serif;
+  }
+  .note {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    background: #efe6d6;
+    padding: 12px 14px;
+    margin: 1.2em 0;
+  }
+  footer {
+    margin-top: 48px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .yt {
+    display: inline-block;
+    font-family: "Noto Sans SC", sans-serif;
+    margin-top: 8px;
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  .yt:hover { background: var(--accent); color: #fff; }
+  ul.clean { margin: 0 0 1em; padding-left: 1.3em; }
+  ul.clean li { margin: 0.35em 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <div class="kicker">Claude · Anthropic · 阅读摘要</div>
+  <h1>构建常在线智能体：在多次会话里自己决定何时行动</h1>
+  <p class="lede">所谓 always-on，其实是一种用户体验：智能体大部分时间在休眠，被事件叫醒后做完一件事，再把状态写回去。Anthropic 把这套周围架构拆成五块原语——事件收件箱、计时器、记忆、权限和发件箱——并说明它们如何拼成一个可以无限循环的系统。</p>
+</header>
+
+<div class="meta">
+  <div><b>作者</b> William Hu（Applied AI @ Anthropic）</div>
+  <div><b>原文</b> <a href="https://claude.com/resources/articles/building-always-on-agents">claude.com/resources/articles/building-always-on-agents</a></div>
+  <div><b>发布</b> 2026-11-13</div>
+  <div><b>致谢</b> Rodrigo Olivares、Michael Segner</div>
+  <div><b>主题</b> 常在线智能体、事件收件箱、计时器、记忆、权限、发件箱</div>
+</div>
+
+<div class="note">说明：本稿为个人阅读摘要与中文改写，非正式逐字稿。红条引语为忠实意译。文中基准数字、产品名称与架构限制均来自原文，未另行核实。</div>
+
+<figure>
+  <img src="/claude-building-always-on-agents/frames/cover.jpg" alt="Building always-on agents 封面插画：米色底上的思想气泡" width="2400" height="1260" loading="eager">
+  <figcaption>原文 Open Graph 封面。来源：Claude / Anthropic，《Building always-on agents》。</figcaption>
+</figure>
+
+<nav class="toc">
+  <h2>目录</h2>
+  <ol>
+    <li><a href="#resurgence">为何此时又热起来</a></li>
+    <li><a href="#cycle">所谓常在线，其实是体验</a></li>
+    <li><a href="#inbox">事件收件箱</a></li>
+    <li><a href="#timers">计时器：把主动权做进架构</a></li>
+    <li><a href="#memory">记忆与上下文窗口</a></li>
+    <li><a href="#permissions">权限：风险最大的一块</a></li>
+    <li><a href="#outbox">发件箱：把结果交给用户</a></li>
+    <li><a href="#fit">五块如何咬合</a></li>
+  </ol>
+</nav>
+
+<article>
+
+<section id="resurgence">
+<h2><span class="ts">01 · WHY NOW</span>为何此时又热起来</h2>
+<p>过去几个月，常在线智能体（always-on agents）重新热了起来。它们是有状态、也会主动做事的：能跨多次会话管理上下文，也可以在没有人盯着的时候采取行动。底层循环和普通智能体一样，真正的差别在周围架构——决定它何时醒来、两次运行之间留下什么，以及工作成果如何交到用户手里。</p>
+<p>复苏的原因，文中归为最近的模型进步。一是判断力更好：更可靠地理解用户意图，也更清楚何时该来问一句。二是智能变便宜了，长程任务受益最大。文中举了一个对照数字：在一项长程编程基准上，Opus 5.5 每个已解决任务的成本比 Opus 5 低 78%；而在典型工作负载上，降幅是 40%。已经有客户开始问，怎样把这种体验接到自己的产品里——有的想让现有智能体更主动，有的想从零搭建。</p>
+</section>
+
+<section id="cycle">
+<h2><span class="ts">02 · THE CYCLE</span>所谓常在线，其实是体验</h2>
+<blockquote>「常在线智能体其实并不是一直开着的。这只是对用户体验的描述。」<cite>— 译自原文 “The cycle behind the always-on agent”</cite></blockquote>
+<p>现实里，它大部分时间在睡觉，只是周期性地醒来做事。每一段工作叫一次 run（运行）：智能体收到一个事件，做完任务，再把发生了什么存下来。一次运行发生在 session（会话）里，会话是消息和工具调用的记录。运行结束后，它再次入睡，循环无限重复。</p>
+<figure>
+  <img src="/claude-building-always-on-agents/frames/cycle.jpg" alt="常在线智能体时间线：大部分时间休眠，被事件叫醒后短暂运行并写回状态" width="1200" height="675" loading="lazy">
+  <figcaption>原文示意图（动画首帧）：时间线上大部分是不消耗 token 的休眠，中间被一次 webhook 打断。每次运行分四步：事件到达、会话开始、智能体循环执行、再写回跨运行保留的存储状态。</figcaption>
+</figure>
+</section>
+
+<section id="inbox">
+<h2><span class="ts">03 · EVENT INBOX</span>事件收件箱</h2>
+<p>多数 AI 智能体只有用户发消息才会跑；常在线智能体还可以被 webhook、定时任务、后台作业等许多事件触发。一个诱人的做法是让每个事件源直接去调智能体，但这会有几种失败模式：两个事件同时到达，可能启动互相竞争的运行；进程崩溃，则可能把事件丢掉。</p>
+<p>所以要有事件收件箱（event inbox）：所有来源把事件送到收件箱，再由 worker 取走。最简单的版本有三部分：一份持久的事件列表（通常是数据库表）；一个处理器（通常是 HTTP 端点）负责把事件写入列表；一个 worker（通常是后台服务）负责读取列表。收件箱应跟踪每条事件的状态，并按来源的唯一标识去重。关系型数据库很合适，每条事件追加一行。作者建议先按「每个用户一个收件箱」起步，需要更多并行时再拆。</p>
+<p>新事件到来时，处理器写入收件箱并唤醒 worker；worker 读取待处理项并启动一次运行。若事件是在延续先前工作（例如用户的回复），就恢复已有会话；其他情况则开新会话。随后 worker 把事件交给智能体循环，等运行结束，再把对应事件标为完成。</p>
+<p>文中特别强调几条实践限制：</p>
+<ul class="clean">
+  <li>处理器应尽快确认事件。有些来源（例如 webhook 提供方）会把慢响应当成失败。处理器仍可做轻量检查，但更深入的校验——例如检查 prompt injection（提示注入）——应放到运行期间再做。</li>
+  <li>收件箱才是事实来源。worker 被唤醒后，应先从收件箱拉取最新事件。这样即使 worker 在运行中途挂掉，新的 worker 也能捡起同一条事件重试。</li>
+  <li>一个收件箱同一时间只应有一个活跃 worker，以免两次运行重复劳动或互相覆盖。运行中途又来了新事件时，可以推到下一次运行、折进当前运行，或者中断并重启。</li>
+  <li>worker 应把待处理事件批量合并。例如用户连发几条消息，可以并成一次运行，智能体只需回复一次。</li>
+</ul>
+</section>
+
+<section id="timers">
+<h2><span class="ts">04 · TIMERS</span>计时器：把主动权做进架构</h2>
+<p>收件箱加上计时器，常在线智能体才谈得上「主动」。计时器大体分两类：跟进（follow-up）和日程（schedule）。跟进是智能体给自己设的截止时间，比如去查看一封回复有没有着落；日程则是已知节奏上的重复任务，比如每日通讯。</p>
+<p>计时器住在自己的持久存储里，通常是另一张数据库表，和收件箱分开。收件箱只应存放已经可以开始处理的事件。跟进和日程可以共用相近的结构，但日程还需要记录重复规则。</p>
+<p>计时器本身不会启动一次运行。相反，一个调度器（通常是后台服务）按固定间隔轮询存储，把到期的项发出去。每一轮它会：扫描并找出到期的计时器；按类别更新——跟进标为完成，日程把到期时间改到下一次；然后向收件箱添加事件并唤醒 worker。调度器可以自建，也可以用持久执行引擎。</p>
+</section>
+
+<section id="memory">
+<h2><span class="ts">05 · MEMORY</span>记忆与上下文窗口</h2>
+<p>常在线智能体要跨许多互不连续的运行工作，靠记忆来保持连贯。记忆也应有自己的存储。在 Anthropic 的产品里，例如 Claude Code 的 auto memory，以及 Messages API 的 memory tool，记忆是以文件目录来实现的。对常在线智能体，这些目录应映射到持久存储（通常是数据库或对象存储），这样记忆才能活过 worker 的生命周期。</p>
+<blockquote>「经验法则是：记忆里只该留下智能体无法再查一遍的东西。」<cite>— 译自原文 “Memory”</cite></blockquote>
+<p>如果某件事已经活在别的系统里（比如问题追踪器），应保存一个指针，而不是再抄一份。文中把应存储的记忆分成四类：</p>
+<ul class="clean">
+  <li><b>用户指令</b>：关于智能体该如何行事的说明，单独成文件，每次运行开始时加载。用户不会总在旁边纠正，所以指令必须跨运行沿用。</li>
+  <li><b>用户笔记</b>：智能体学到的用户信息，例如职责、偏好，以及对方给过的纠正。可以先用一个文件，笔记变多后再拆成若干小文件；后者在每次运行开始时只加载索引，需要细节时再把单个文件拉进上下文。</li>
+  <li><b>过往消息</b>：已经对用户说过什么，以免重复。可以放在每次运行开始时加载的单独文件里，也可以由 worker 加载最近几条对用户的消息。</li>
+  <li><b>任务进度</b>：每项进行中的任务保留一份进度文件，写明已完成和还剩什么，新的运行才能接着上次往下做。类似用户笔记，开始时只加载索引，需要时再拉详情。</li>
+</ul>
+<p>以上是运行期间写入的记忆。还可以加上「做梦」（dreaming）：回顾过往会话来整理记忆，替换过时条目，并发现只有跨许多次运行才会出现的模式。更细的讨论见 Anthropic 的 <a href="https://www.anthropic.com/research/components-of-agent-memory">agent memory</a> 一文。</p>
+<p>开始做事之前，智能体会加载系统提示、工具定义和记忆文件。这笔初始的上下文「开销」每次运行都有，所以应保持精简，并用 <a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">提示缓存</a> 降低成本。新会话一开始只有这笔开销和触发本次运行的事件；已有会话则会带回先前运行里的消息和工具调用。会话过长时，可以 <a href="https://platform.claude.com/docs/en/build-with-claude/compaction">压缩（compact）</a> 较旧的消息，或开一个新会话。两种办法都会丢失细节，因此需要持久保留的内容应沿途写入记忆。</p>
+</section>
+
+<section id="permissions">
+<h2><span class="ts">06 · PERMISSIONS</span>权限：风险最大的一块</h2>
+<p>权限是常在线智能体风险最大的地方。一次运行握着用户的访问权限，而且按设计是在无人值守的情况下工作。对每一次工具调用，智能体都需要决定：自行继续、拦截，还是等待批准。所用组件和其他智能体类似，但用法要更谨慎。</p>
+<ul class="clean">
+  <li><b>凭据存储</b>：常在线智能体要真正有用，往往需要密码、访问令牌这类敏感凭据。推荐的模式是在智能体环境之外设一个代理，由它把凭据加到出站请求上。智能体发出的请求本身不带凭据，代理在转发前再注入真实凭据。</li>
+  <li><b>自动模式</b>：常在线智能体应能在不必不断询问用户的情况下工作。<a href="https://www.anthropic.com/research/claude-code-auto-mode">Claude Code 的 auto mode</a> 已处理过类似问题：用分类器审查较高风险的操作，拦截被判定为危险的动作，让 Claude 另寻更安全的做法。但对最重要的决定，仍需要用户审查。</li>
+  <li><b>延迟的工具调用</b>：在 Claude Code 里，hook 可以推迟一次工具调用，等待用户补充输入。同一模式也适用于常在线智能体——某些动作可能需要先澄清或批准。调用被推迟时，本次运行结束，会话在调用中途被保存；请求展示给用户（例如用 MCP Apps 做成的交互卡片），对方的答复作为事件回到收件箱。这个事件启动一次新运行，恢复已保存的会话并带上用户的输入。在等待答复期间，worker 仍可处理其他事件，智能体不会被卡住。</li>
+</ul>
+</section>
+
+<section id="outbox">
+<h2><span class="ts">07 · OUTBOX</span>发件箱：把结果交给用户</h2>
+<p>多数 AI 智能体在生成时就把回复流式推给用户，人可以跟着看推理、工具调用和最终答案。常在线智能体则大部分在后台工作，用户拿到的是结果和少量细节，而不是完整的逐步拆解。</p>
+<p>一次运行可能以三种方式结束：向发件箱发送一条消息；判断没有什么需要发送；或用延迟的工具调用请求权限或补充输入。多数常在线智能体用一个「发送」工具直接把消息交给用户就够了。只有在你想控制发送节奏，或让智能体能从错误中恢复时，才需要一个正式的发件箱。</p>
+<p>发件箱是一张存放待发出消息的独立表，对应于事件收件箱；另外还有一个分发器（dispatcher），通常是后台服务，对应于 worker。分发器读取待发送消息，决定交付哪些，再送给用户。来自延迟工具调用的请求可以走发件箱，也可以直接显示在界面里。</p>
+<p>除了投递，还要调节智能体发消息的数量。发得太多会变吵，发得太少又会漏掉用户需要知道的事。作者建议用评测（evals）来找平衡。</p>
+<blockquote>「实践里，更好的做法是让智能体先保持安静，再逐渐赢得用户更多的注意力。」<cite>— 译自原文 “Outbox”</cite></blockquote>
+</section>
+
+<section id="fit">
+<h2><span class="ts">08 · HOW IT FITS</span>五块如何咬合</h2>
+<figure>
+  <img src="/claude-building-always-on-agents/frames/overview.jpg" alt="五块原语如何拼在一起：计时器与收件箱启动运行，运行读写记忆并检查权限，发件箱把消息交给用户" width="1200" height="675" loading="lazy">
+  <figcaption>原文示意图（动画首帧）：计时器和事件收件箱启动一次运行；运行在会话里读写记忆、检查每一次工具调用；发件箱把消息交给用户，用户的答复再作为事件回到收件箱。</figcaption>
+</figure>
+<p>每次运行都从收件箱里的一个事件开始，无论它是用户消息、webhook，还是计时器。worker 取到事件后启动一次运行，在新会话或已有会话里叫醒智能体。智能体先读记忆建立基线，在权限范围内采取行动，再把学到的东西写回记忆。运行结束后，它向发件箱推入一行，由分发器交给用户。</p>
+<p>它们合在一起形成一个循环：一次运行可以设下计时器，稍后再次叫醒智能体；用户回复一条消息时，答案又作为事件回到收件箱。</p>
+<blockquote>「每一次运行都很短，但这个循环会无限持续下去——正是这一点，让智能体显得像是一直在线。」<cite>— 译自原文 “How everything fits together”</cite></blockquote>
+<p><a class="yt" href="https://claude.com/resources/articles/building-always-on-agents">阅读原文 →</a></p>
+</section>
+
+</article>
+
+<footer>阅读摘要 / 非正式逐字稿或改写 / 个人博客 Worker · 原文：<a href="https://claude.com/resources/articles/building-always-on-agents">Building always-on agents</a>（Claude / Anthropic）</footer>
+</div>
+</body>
+</html>

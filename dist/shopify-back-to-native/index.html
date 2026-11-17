@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="/shopify-back-to-native/">
+<title>原生才是 Shopify 移动端的未来｜Engineering 摘要</title>
+<meta name="description" content="编码智能体改变了「做两遍」的成本。Shopify Engineering：为何从 React Native 回到 Swift 与 Kotlin。中文阅读摘要。">
+<meta property="og:title" content="原生才是 Shopify 移动端的未来">
+<meta property="og:description" content="编码智能体改变了「做两遍」的成本。Shopify 为何从 React Native 回到 Swift 与 Kotlin。">
+<meta property="og:image" content="https://blog.htsgyag6.workers.dev/shopify-back-to-native/frames/og-hero.png">
+<style>
+  :root {
+    --ink: #1a1612;
+    --muted: #5c5348;
+    --paper: #f6f1e8;
+    --card: #fffdf8;
+    --line: #e2d8c8;
+    --accent: #b42318;
+    --accent-dark: #8c1b12;
+    --gold: #8a6a32;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Source Han Serif SC", "Noto Serif SC", "Songti SC", "SimSun", Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.75;
+    font-size: 18px;
+  }
+  a { color: var(--accent-dark); }
+  a:hover { color: var(--accent); }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 28px 20px 64px; }
+  header.hero { padding: 12px 0 8px; }
+  .kicker {
+    font-family: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", sans-serif;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: clamp(1.7rem, 5vw, 2.45rem);
+    line-height: 1.25;
+    margin: 10px 0 12px;
+    letter-spacing: -.02em;
+  }
+  .lede {
+    font-size: 1.12rem;
+    color: var(--muted);
+    margin: 0 0 22px;
+  }
+  .meta {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 0;
+    display: grid;
+    gap: 6px;
+  }
+  .meta b { color: var(--ink); font-weight: 600; }
+  nav.toc {
+    margin: 28px 0;
+    padding: 16px 18px;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  nav.toc h2 { font-size: 15px; margin: 0 0 8px; font-family: "Noto Sans SC", sans-serif; letter-spacing: .08em; color: var(--gold); }
+  nav.toc ol { margin: 0; padding-left: 1.2em; }
+  nav.toc li { margin: 4px 0; font-size: 15.5px; }
+  nav.toc a { text-decoration: none; color: var(--ink); }
+  nav.toc a:hover { color: var(--accent); }
+  h2 {
+    font-size: 1.45rem;
+    margin: 2.2em 0 .6em;
+    line-height: 1.3;
+    padding-top: .4em;
+    border-top: 1px solid var(--line);
+  }
+  h2 .ts {
+    display: block;
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 12px;
+    letter-spacing: .12em;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  p { margin: 0 0 1em; }
+  ul.points {
+    margin: 0 0 1.2em;
+    padding-left: 1.25em;
+  }
+  ul.points li { margin: 0.35em 0; }
+  figure {
+    margin: 1.4em 0 1.6em;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+    vertical-align: middle;
+  }
+  figcaption {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    padding: 10px 12px 12px;
+    line-height: 1.5;
+  }
+  blockquote {
+    margin: 1.2em 0 1.4em;
+    padding: 4px 0 4px 16px;
+    border-left: 3px solid var(--accent);
+    color: var(--ink);
+    font-size: 1.05rem;
+  }
+  blockquote cite {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    font-style: normal;
+    color: var(--muted);
+    font-family: "Noto Sans SC", sans-serif;
+  }
+  .note {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    background: #efe6d6;
+    padding: 12px 14px;
+    margin: 1.2em 0;
+  }
+  footer {
+    margin-top: 48px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .yt {
+    display: inline-block;
+    font-family: "Noto Sans SC", sans-serif;
+    margin-top: 8px;
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  .yt:hover { background: var(--accent); color: #fff; }
+  @media (max-width: 480px) {
+    body { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <div class="kicker">Shopify Engineering · Mobile · 阅读摘要</div>
+  <h1>原生才是 Shopify 移动端的未来</h1>
+  <p class="lede">2020 年押注 React Native 很成功；但编码模型变强之后，「做两遍」不再等于双倍成本——Shopify 重新评估，决定回到 Swift 与 Kotlin。</p>
+</header>
+
+<div class="meta">
+  <div><b>来源</b> Shopify Engineering · <a href="https://shopify.engineering/back-to-native">Native is now the future of mobile at Shopify</a></div>
+  <div><b>作者</b> Mustafa Ali</div>
+  <div><b>发布</b> 2026-09-10 · Mobile</div>
+  <div><b>主题</b> React Native → 原生、编码智能体、Helix、开源交接、Shop 应用迁移</div>
+  <div>本稿据英文原文改写成中文阅读摘要，非正式译文；未在原文出现的细节未予补写。</div>
+</div>
+
+<nav class="toc">
+  <h2>目录</h2>
+  <ol>
+    <li><a href="#shift">假设变了，才回头</a></li>
+    <li><a href="#why-rn">为何当初选 RN</a></li>
+    <li><a href="#agents">智能体改写成本账</a></li>
+    <li><a href="#oss">开源库如何交接</a></li>
+    <li><a href="#migrate">迁移：绿场重建</a></li>
+    <li><a href="#helix">Helix：防「一键烂代码」</a></li>
+    <li><a href="#feedback">无模拟器也能快跑</a></li>
+    <li><a href="#next">下一步与致谢</a></li>
+  </ol>
+</nav>
+
+<article>
+
+<figure>
+  <img src="/shopify-back-to-native/frames/og-hero.png" alt="Shopify 从 React Native 迁回原生移动开发封面" width="1700" height="949">
+  <figcaption>原文封面图：Shopify Engineering 博文 OG。</figcaption>
+</figure>
+
+<section id="shift">
+<h2><span class="ts">Core assumption</span>假设变了，才回头</h2>
+<p>Shopify 在 2020 年全面押注 React Native，成绩显著：一次构建、跨栈贡献、功能对齐。到 2025 年 1 月，他们仍计划继续投入 RN。但编码模型能力跃升之后，用 Swift 与 Kotlin 各做一遍同一功能，不再像过去那样昂贵。2020 年的核心假设被改写——于是重新评估，决定回到原生。</p>
+<blockquote>
+  RN 在 2020 年是对的；对今天的 Shopify 来说，原生才是对的。
+  <cite>—— 改写自原文收尾立场</cite>
+</blockquote>
+</section>
+
+<section id="why-rn">
+<h2><span class="ts">Why React Native in 2020</span>为何当初选 RN</h2>
+<p>当时的目标很清楚：少做两遍、让更多开发者能跨栈贡献、别再被平台间功能差距追着跑。RN 兑现了这些承诺；他们也为性能、基础能力与依赖栈持续投入——在当时，这些成本是可接受的。</p>
+</section>
+
+<section id="agents">
+<h2><span class="ts">LLMs &amp; dual-platform cost</span>智能体改写成本账</h2>
+<p>Shopify 从 2021 年起就在用大模型。到 2025 年末，智能体已强到足以让人质疑：「做两遍 = 双倍工作量」是否还成立。他们用 LLM 在 Swift / Kotlin 里原型化最大几款应用的核心部分：智能体可参照 iOS 实现 Android（反之亦然）、帮人跨栈上手，并靠共享规格、测试与评审压低对齐成本。</p>
+<ul class="points">
+  <li>原生仍是两个平台，但智能体已能承担足够多的实现、翻译、测试与评审。</li>
+  <li>双端成本不再是决定性因素。</li>
+  <li>他们的 RN 应用可以很快；切换不是因为 RN 慢，而是共享实现的优势被削弱，而贴近平台 API、一等工具链、更少框架层等原生优势仍在。</li>
+</ul>
+</section>
+
+<section id="oss">
+<h2><span class="ts">Open source transition</span>开源库如何交接</h2>
+<p>离开 RN 并不等于丢下社区。原文交代了几条关键库的过渡安排：</p>
+<ul class="points">
+  <li><b>React Native Skia</b>：Shopify 赞助至 2026 年底；William Candillon 将继续维护并 fork / 改名；原仓库稍后归档；欢迎用户考虑赞助。</li>
+  <li><b>FlashList</b>（约每周 200 万次下载）：Shopify 会修复关键兼容问题，并寻找长期托管伙伴。</li>
+  <li><b>Restyle</b>：进入归档路径；维持可用至 2026 年底后停止；欢迎 fork。</li>
+</ul>
+<div class="note">过渡原则：尽量无惊吓、有时间窗口、关键路径仍有人看护。</div>
+</section>
+
+<section id="migrate">
+<h2><span class="ts">Greenfield migration</span>迁移：绿场重建</h2>
+<p>涉及应用：Shopify、Shop、POS、Inbox。团队争论过棕地改造 vs 绿场重建——这一次绿场胜出：LLM 擅长以 RN 为参考写出 Swift / Kotlin；干净起点；原型显示重建更快。</p>
+<ul class="points">
+  <li><b>Shop</b>：AI 辅助概念验证 → 完全重建的原生应用上架，仅约 <b>12 周</b>。</li>
+  <li><b>Shopify app</b>（300+ 屏幕，含小组件、Watch、Siri Shortcuts 等）正在推进，预计今年晚些时候出货；其余应用也将跟进。</li>
+</ul>
+</section>
+
+<section id="helix">
+<h2><span class="ts">Helix checkpoints</span>Helix：防「一键烂代码」</h2>
+<p>一次性把 RN 整包翻成原生，很容易得到不可维护的「烂代码」。为此他们做了 <b>Helix</b>：渐进式检查点。</p>
+<ul class="points">
+  <li>开发者指向某个屏幕，Helix 提出有序的切片计划。</li>
+  <li>每个检查点需要：测试、与运行中应用的视觉对齐、两位对抗式代码评审、人类点头后才进入下一步。</li>
+  <li>反馈会被记住，系统随时间更自主。</li>
+</ul>
+</section>
+
+<section id="feedback">
+<h2><span class="ts">Headless &amp; remote</span>无模拟器也能快跑</h2>
+<p>用智能体操控模拟器一度是瓶颈。架构选择：业务逻辑与 UI 彻底解耦，可在桌面通过 CLI 无头运行——毫秒级检查状态、导航、触发动作，不必开模拟器。远程模式还能不依赖无障碍树或截图来驱动 UI，以加快端到端反馈。</p>
+</section>
+
+<section id="next">
+<h2><span class="ts">What&rsquo;s next</span>下一步与致谢</h2>
+<p>计划用 AI 把全部应用迁到 Swift / Kotlin，但不降低质量门槛：性能、稳定性、无障碍与产品体验仍要达标。成功标准 = 速度 + 质量 + 智能体可自主完成的工作量。他们将分享 Helix 与「可被智能体寻址」架构的经验，并在招聘。</p>
+<p>致谢对象包括 Meta 的 React Native 团队、William Candillon、Software Mansion、Shopify 工程师，以及 RN 社区。过去六年积累的工具、经验与关系，会继续塑造他们如何做移动应用。</p>
+</section>
+
+<p class="note">以上根据 Shopify Engineering 原文 <em>Native is now the future of mobile at Shopify</em>（作者 Mustafa Ali，2026-09-10）改写成中文综述。专有名词（React Native、Swift、Kotlin、Helix、FlashList、Restyle、Skia 等）保留通行写法；未在原文出现的事实未予添加。</p>
+
+<a class="yt" href="https://shopify.engineering/back-to-native">阅读 Shopify Engineering 原文 →</a>
+
+</article>
+
+<footer>
+  阅读摘要 / 非正式改写 / 个人博客 Worker；附原链。<br>
+  原文：<a href="https://shopify.engineering/back-to-native">https://shopify.engineering/back-to-native</a> · Mustafa Ali · 2026-09-10
+</footer>
+</div>
+</body>
+</html>

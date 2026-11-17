@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="/deepseek-super-agent/">
+<title>探索 Super-agent 设计：迈向更自主的智能体系统｜DeepSeek Harness 摘要</title>
+<meta name="description" content="DeepSeek Harness 团队论 Super-agent：两层架构、事件驱动、计算-状态-环境分离与 Watchdog——X Article 中文阅读摘要。">
+<style>
+  :root {
+    --ink: #1a1612;
+    --muted: #5c5348;
+    --paper: #f6f1e8;
+    --card: #fffdf8;
+    --line: #e2d8c8;
+    --accent: #b42318;
+    --accent-dark: #8c1b12;
+    --gold: #8a6a32;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Source Han Serif SC", "Noto Serif SC", "Songti SC", "SimSun", Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.75;
+    font-size: 18px;
+  }
+  a { color: var(--accent-dark); }
+  a:hover { color: var(--accent); }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 28px 20px 64px; }
+  header.hero { padding: 12px 0 8px; }
+  .kicker {
+    font-family: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", sans-serif;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: clamp(1.7rem, 5vw, 2.45rem);
+    line-height: 1.25;
+    margin: 10px 0 12px;
+    letter-spacing: -.02em;
+  }
+  .lede {
+    font-size: 1.12rem;
+    color: var(--muted);
+    margin: 0 0 22px;
+  }
+  .meta {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 0;
+    display: grid;
+    gap: 6px;
+  }
+  .meta b { color: var(--ink); font-weight: 600; }
+  nav.toc {
+    margin: 28px 0;
+    padding: 16px 18px;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  nav.toc h2 { font-size: 15px; margin: 0 0 8px; font-family: "Noto Sans SC", sans-serif; letter-spacing: .08em; color: var(--gold); }
+  nav.toc ol { margin: 0; padding-left: 1.2em; }
+  nav.toc li { margin: 4px 0; font-size: 15.5px; }
+  nav.toc a { text-decoration: none; color: var(--ink); }
+  nav.toc a:hover { color: var(--accent); }
+  h2 {
+    font-size: 1.45rem;
+    margin: 2.2em 0 .6em;
+    line-height: 1.3;
+    padding-top: .4em;
+    border-top: 1px solid var(--line);
+  }
+  h2 .ts {
+    display: block;
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 12px;
+    letter-spacing: .12em;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  p { margin: 0 0 1em; }
+  figure {
+    margin: 1.4em 0 1.6em;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  figcaption {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    padding: 10px 12px 12px;
+    line-height: 1.5;
+  }
+  blockquote {
+    margin: 1.2em 0 1.4em;
+    padding: 4px 0 4px 16px;
+    border-left: 3px solid var(--accent);
+    color: var(--ink);
+    font-size: 1.05rem;
+  }
+  blockquote cite {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    font-style: normal;
+    color: var(--muted);
+    font-family: "Noto Sans SC", sans-serif;
+  }
+  .note {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    background: #efe6d6;
+    padding: 12px 14px;
+    margin: 1.2em 0;
+  }
+  footer {
+    margin-top: 48px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .yt {
+    display: inline-block;
+    font-family: "Noto Sans SC", sans-serif;
+    margin-top: 8px;
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  .yt:hover { background: var(--accent); color: #fff; }
+  ul.clean { margin: 0 0 1em; padding-left: 1.3em; }
+  ul.clean li { margin: 0.35em 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <div class="kicker">X Article · DeepSeek Harness · 阅读摘要</div>
+  <h1>探索 Super-agent 设计：迈向更自主的智能体系统</h1>
+  <p class="lede">单会话智能体已能把一件事做完，但并行多任务仍卡在人的注意力上。DeepSeek Harness 团队用经典系统思想，把智能体拆成「常驻协调层 + 隔离执行层」，再配上事件驱动、全双工交互与计算—状态—环境分离，试图让智能体像同事一样常在线、能抢跑、能自愈。</p>
+</header>
+
+<div class="meta">
+  <div><b>作者 / 账号</b> DeepSeek Harness 团队 · 执笔与实现：乔雨佳（Yujia Qiao）· <a href="https://x.com/DeepSeekHarness">@DeepSeekHarness</a></div>
+  <div><b>原文</b> <a href="https://x.com/DeepSeekHarness/status/2116857257245987236">x.com/DeepSeekHarness/status/2116857257245987236</a>（X Article）</div>
+  <div><b>发布</b> 2026-11-01 19:37（Asia/Singapore）</div>
+  <div><b>主题</b> Super-agent、两层架构、事件 Trigger、订阅透传、Chain of Recall、BYOM、Watchdog</div>
+  <div><b>相关</b> 原型插件 <a href="https://github.com/deepseek-ai/dsh-superagent-prototype">dsh-superagent-prototype</a> · 文中对照 Anthropic <a href="https://www.anthropic.com/research/managed-agents">Managed Agents</a></div>
+</div>
+
+<div class="note">说明：原作为中文架构讨论文（X 上附机翻英文）。本稿为个人阅读摘要与中文改写，红条引语为意译；文中实验数字与产品表述均来自原文，非正式逐字稿，也不构成对 DeepSeek 现有产品功能的介绍。</div>
+
+<figure>
+  <img src="/deepseek-super-agent/frames/cover.jpg" alt="Exploring Super-agent Design 封面图" width="2400" height="960" loading="eager">
+  <figcaption>X Article 封面：Exploring Super-agent Design: Towards a More Autonomous Agent System。</figcaption>
+</figure>
+
+<nav class="toc">
+  <h2>目录</h2>
+  <ol>
+    <li><a href="#why">为何需要 Super-agent</a></li>
+    <li><a href="#four">四大特征与五块积木</a></li>
+    <li><a href="#two-level">两层架构：Router 与 Worker</a></li>
+    <li><a href="#triggers">事件驱动：过滤、订阅与回想</a></li>
+    <li><a href="#duplex">全双工与多通道交互</a></li>
+    <li><a href="#separate">计算、状态与环境分离</a></li>
+    <li><a href="#watchdog">外部 Watchdog</a></li>
+    <li><a href="#experiments">初步实验数字</a></li>
+    <li><a href="#open">开放问题与结语</a></li>
+  </ol>
+</nav>
+
+<article>
+
+<section id="why">
+<h2><span class="ts">01 · WHY SUPER-AGENT</span>为何需要 Super-agent</h2>
+<p>过去一年，编码智能体等「单任务」系统证明：模型已能用工具解决复杂问题，对人逐步盯梢的依赖越来越低；多智能体协同也更成熟。与此同时，个人智能体把 IM、日历、邮件和工作台接进来，以事件驱动方式常在线——这种模式不止于个人助手，对软件研发等商业协作同样有价值。</p>
+<p>但主流设计仍把「单个会话」当作工作基本单元，会话彼此隔离。一个人并行跟 3–5 个活跃会话已经吃力：单任务上限是模型能力，多任务上限却是人的注意力。给本地单会话智能体加 CLI、MCP 或外部连接器，能收消息，却改不掉本质问题——同步阻塞、上下文串味、本机离线即停。</p>
+<blockquote>「要越过这些限制，就要把智能体从『人手驱动的单个会话』解耦出来：它应是一个跨会话保持上下文、能同时推进多项复杂任务且互不干扰的连续实体。我们称这类智能体及其系统架构为 Super-agent。」<cite>— 译自 DeepSeek Harness 原文</cite></blockquote>
+<p>文中举例：内部基于 DeepSeek Harness 的 Super-agent 实例，能在 IM 与 GitHub 之间续写同一开发任务；也能在公开群聊里监听反馈——哪怕没人 @ 它——自行定位根因并开 PR 修复。</p>
+</section>
+
+<section id="four">
+<h2><span class="ts">02 · FOUR TRAITS</span>四大特征与五块积木</h2>
+<p>作者归纳 Super-agent 的四个基本特征：</p>
+<ul class="clean">
+  <li><b>连续（Continuous）</b>：人在已有工作入口（IM、GitHub 评论等）直接交互，始终像同一个智能体；不必猜「会话 X 里有没有信息 Y」。</li>
+  <li><b>高产（Productive）</b>：响应快，多项复杂任务并行且质量够用；前一任务未完也能接下一条指令。</li>
+  <li><b>主动（Proactive）</b>：不等逐步指令；监视环境事件，该出手就出手，否则保持安静。</li>
+  <li><b>常在线（Persistent）</b>：直连真实工作环境，长跑中异常可自动恢复。</li>
+</ul>
+<p>单个 ReAct 环路撑不起这四点，必须靠外围系统架构。作者认为五块模块构成基本框架：两层架构（§2）同时提供连续交互与并发产能；事件驱动（§3）带来主动性；全双工多通道（§4）让每次交互既连续又高产；计算 / 状态 / 环境分离（§5）加上 Watchdog（§6）支撑跨设备常在线与自愈。</p>
+<figure>
+  <img src="/deepseek-super-agent/frames/arch-overview.jpg" alt="Super-agent 总体架构概览图" width="1856" height="756" loading="lazy">
+  <figcaption>总体架构概览：模块标注 [2]–[6] 对应文中第 2–6 节。</figcaption>
+</figure>
+</section>
+
+<section id="two-level">
+<h2><span class="ts">03 · TWO-LEVEL</span>两层架构：Router 与 Worker</h2>
+<p>核心张力是「连续性 vs 吞吐」：所有事件进一个会话，上下文最连续，但单环逐步执行吞吐低、多任务细节还会挤在同一上下文里；每个事件新建会话则吞吐最大，却失去全局共享上下文，多会话各自回用户也令人困惑。</p>
+<blockquote>「要同时拿到连续性与吞吐，可以把工作拆成两层：长驻的 Router 层负责全部人机交互与全局协调；上下文隔离的 Worker 层以高并发执行任务。」<cite>— 译自原文 §2</cite></blockquote>
+<figure>
+  <img src="/deepseek-super-agent/frames/two-level.jpg" alt="Router 与 Worker 两层架构示意" width="1616" height="656" loading="lazy">
+  <figcaption>两层架构：Router 管路由与对外交互；多个隔离 Worker Session 并发执行任务。</figcaption>
+</figure>
+<p><b>Router 层</b>是长驻的全局路由：所有入口的人机交互汇入此处，成为全局时序点、协调点与记忆。为避免成为瓶颈，Router <b>不亲自执行任务</b>，甚至可以不带 Bash——只交互与派发。它看起来像 Agent Team 的 Lead，但侧重不同：Team Lead 常要拆解强耦合子任务并高频协调；Super-agent 的 Router 只派发并在高层次跟踪任务关系，不深入拆单任务。作者经验是 Router 工作往往比想象中轻，可用更轻的模型换速度与质量。</p>
+<p>突发 Trigger 会在上一轮推理期间排队，下一轮合并注入——形成隐式 batching；Router 多为「长输入短输出」，Prefill 阶段可并行，摊销到每个决策的推理时间反而可能随积压增大而下降（§7.2 有量化）。</p>
+<p><b>Worker 层</b>每任务一个隔离上下文与完整执行工具集，通常需要最强模型。Worker <b>不直接对人</b>：推理与工具调用留在内部，状态汇报给 Router，由 Router 统一回复，避免多会话抢着说话。同行 Worker 一般不必点对点通信；共享环境（如同一 PR）上通过订阅同一 Thread 获知彼此动态。复杂任务里，Worker 内部仍可再开 subagent 或变成 Agent Team，对上层 Router 透明。</p>
+<blockquote>「让用户亲手管理会话，很大程度上是低层 LLM API 遗留下来的设计习惯。会话应是系统实现细节，而不是用户的心智负担。」<cite>— 译自原文 §2</cite></blockquote>
+</section>
+
+<section id="triggers">
+<h2><span class="ts">04 · EVENT-DRIVEN</span>事件驱动：过滤、订阅与回想</h2>
+<p>主动性首先改「什么驱动系统」：主输入不再是人一条条打进会话的 prompt，而是环境里的半结构化事件——群消息、邮件、日历、代码评审、CI 结果等，统称 <b>Trigger</b>。</p>
+<p><b>两级过滤（Fast / Slow Path）</b>：确定性代码策略先按来源、群组、白名单等做准入，丢掉绝大多数噪声；只有需要语义判断的候选才进大模型。语义策略既是慢路径，也是可用自然语言随时增删的策略扩展点。</p>
+<p><b>订阅与透传（Pass-through）</b>：同一 PR / IM 话题 / 邮件链上的连续事件构成 <b>Thread</b>。Router 为 Thread 首事件创建 Worker 后，该 Worker 直接订阅 Thread——后续事件由代码快路径透传给订阅者，不必再经 Router 工具转发；无订阅的新事件才走慢路径由 Router 评估派发。Thread 与 Worker 是多对多；重叠环境上的新事件可同时透传给所有订阅者，便于自行发现冲突。</p>
+<figure>
+  <img src="/deepseek-super-agent/frames/pass-through.jpg" alt="订阅与透传机制示意" width="1696" height="656" loading="lazy">
+  <figcaption>订阅与透传：首事件经 Router 创建已订阅 Worker；同 Thread 后续事件直达该 Worker。</figcaption>
+</figure>
+<p><b>Inline &amp; Spill 与 Chain of Recall</b>：把有限上下文当缓存——很可能马上用到的信息 Inline 进窗口，超预算或少用的 Spill 到窗外只留引用。按局部性逐步内联相关对象 ID 与邻近内容；对象（Trigger、Thread、Worker Session）带唯一 ID，形成引用图。模型可从当前事件 hop-by-hop 召回，这就是 Chain of Recall——减轻长跑中 Router「记不住旧任务」的问题。</p>
+<p><b>抢跑（Speculative execution）</b>：根据环境信号在后台先干起来，有用则交付、无用则丢弃。例如群聊里「静默复现并修复」策略：确认问题且有简单修复才抛结果，否则全程安静。</p>
+</section>
+
+<section id="duplex">
+<h2><span class="ts">05 · FULL-DUPLEX</span>全双工与多通道交互</h2>
+<p>经典 ReAct 里同步 <code>run()</code> 会阻塞整环，用户新消息只好干等。作者用异步 <code>start()</code> / <code>stop()</code> 改造成全双工：<code>start()</code> 立刻返回「Started」，工具在后台跑完再以新事件注入；也可 <code>stop()</code> 掐掉拖太久的后台命令。前台对话与后台任务解耦后，当前推理步一结束就能处理新输入。文称 DeepSeek Harness 已实现该异步任务机制，但尚未默认开启。</p>
+<p>多通道上，Router 对外、Worker 对内已解决一部分「刷屏」问题；再按通道调规范——IM 宜轻量、少打断（文中验证过一条硬规则：每条回复不超过约 100 词）；GitHub / 邮件 / 文档则输出结构化、信息密度高的变更说明与验证结果。</p>
+</section>
+
+<section id="separate">
+<h2><span class="ts">06 · SEPARATION</span>计算、状态与环境分离</h2>
+<p>本地智能体常把三件事绑在同一台设备上：跑 Agent Loop 的算力、必须持久的会话状态、以及仓库与工具链等执行环境——设备休眠或离线，智能体就停。作者借用存算分离，分两步解耦。</p>
+<p><b>算力与状态分离</b>：Loop 算力放进无状态、可弹性伸缩的云容器；会话等持久状态进数据库。单机生命周期不再绑死智能体。</p>
+<p><b>算力与执行环境分离</b>：不必把真实环境整包搬上云（未提交改动、私密凭据、内网依赖、特定硬件很难完整同步）。云端只跑 Agent Loop；端点装轻量 daemon——不持会话状态，只执行命令并回传结果。文中对照 Anthropic「Decoupling the brain from the hands」：方向相近，但 DeepSeek 侧优先对接「人每天用、可能间歇在线」的个人开发机，提出 <b>BYOM（Bring Your Own Machine）</b>，也支持按需云主机。</p>
+<figure>
+  <img src="/deepseek-super-agent/frames/compute-sep.jpg" alt="计算、持久状态与执行环境解耦示意" width="1736" height="616" loading="lazy">
+  <figcaption>计算—状态—执行环境两级解耦：云端 Agent Loop 与持久状态分离，经端点 daemon 按需触达不同执行环境。</figcaption>
+</figure>
+</section>
+
+<section id="watchdog">
+<h2><span class="ts">07 · WATCHDOG</span>外部 Watchdog</h2>
+<p>常在线还不够：长跑分布式系统若只靠内部逻辑，很难长期可靠，需要主系统之外的独立 Control Loop。智能体异常往往不是进程崩了，而是模型卡在无产出环路或目标漂移——既要看基础设施存活，也要看任务是否实质推进。</p>
+<p>外部 <b>Watchdog Session</b> 由定时消息驱动：处理 API 错误、状态恢复失败，并用模型判断各 Worker 是否在实质推进；及时修复并反复复查瞬时外部故障。Watchdog 本身也是带全套工具的智能体会话，维护者可用自然语言问「为什么挂了」，甚至在线增删 prompt、调整触发规则。</p>
+</section>
+
+<section id="experiments">
+<h2><span class="ts">08 · EXPERIMENTS</span>初步实验数字</h2>
+<p>作者强调实验用合成负载与简化环境，结果仅作示意。端到端约 300 条消息（约 20 条工作请求），编码用「耗时工具」模拟，测的是调度与协调而非单任务执行力；每设计跑 5 次。</p>
+<figure>
+  <img src="/deepseek-super-agent/frames/ablation.jpg" alt="四种设计任务完成曲线对比" width="1009" height="819" loading="lazy">
+  <figcaption>四种设计下工作请求到达与完成的累积曲线（5 次均值；消息间隔与工作时长按 1/4 缩放，模型调用时间未缩放）。</figcaption>
+</figure>
+<p>文中给出的任务完成时间（p50 / p95，分钟）与每轮全会话 cache-read token 大致为：</p>
+<ul class="clean">
+  <li><b>Super-agent</b>：12.4 / 15.7 · 23.2M</li>
+  <li>Super-agent 去掉 Pass-through：12.6 / 15.5 · 31.8M（Router 决策约多 30%，token 约多 37%）</li>
+  <li>单会话 + Subagent（中性 prompt）：20.4 / 29.5 · 6.1M（5 次均未调 subagent）</li>
+  <li>单会话 + Subagent（强制委派 prompt）：13.8 / 29.0 · 10.8M（仍有长尾）</li>
+</ul>
+<blockquote>「透传未必让任务更快或更好，但能显著砍掉 Router Session 的 token 与推理开销。」<cite>— 译自原文 §7.1</cite></blockquote>
+<p>Router 单独压测：需决策的 Trigger 到达率从约 1/分钟升到约 40/分钟时，平均 batch 从 1.0 到 2.8，单次请求时延仅从 2.5s 到 3.9s，摊销到每个决策的推理时间从 6.4s 降到 1.6s。作者结论：当前团队规模下不必过早为吞吐牺牲全局上下文连续性而去分片 Router。</p>
+</section>
+
+<section id="open">
+<h2><span class="ts">09 · OPEN &amp; CLOSE</span>开放问题与结语</h2>
+<p>开放问题覆盖四块：两层架构如何随任务耦合度扩展（何时分片 Router、Worker 间何时直连、Router 专用训练）；无会话产品形态下如何呈现任务与中途介入；组织内多 Super-agent 实例的上下文边界与 A2A；以及事件面扩大后的安全与隐私——尤其云端 Loop 被注入或入侵时端点可被接管，以及凭据进入模型上下文的泄露风险（需要「用不看凭据」的机制）。</p>
+<blockquote>「与其提出新理论，不如把计算机系统里的经典工程思想应用到智能体系统。具体实现会变，但背后的系统设计思想有望更耐用。」<cite>— 译自原文结语</cite></blockquote>
+<p>文末强调：个体任务上模型已越来越少需要人盯，进一步提效的瓶颈转向人的注意力。两层架构、事件驱动、异步多通道、存算分离与外部 Watchdog，合在一起接管「管会话、同步上下文」的琐事，人得以上移到决策与签核。部分设计已落在开源原型 <a href="https://github.com/deepseek-ai/dsh-superagent-prototype">dsh-superagent-prototype</a>——仅用于验证技术路线，非官方 DeepSeek 产品。</p>
+<p><a class="yt" href="https://x.com/DeepSeekHarness/status/2116857257245987236">阅读 X 原文 →</a></p>
+</section>
+
+</article>
+
+<footer>阅读摘要 / 非正式逐字稿或改写 / 个人博客 Worker · 原文：<a href="https://x.com/DeepSeekHarness/status/2116857257245987236">@DeepSeekHarness on X</a></footer>
+</div>
+</body>
+</html>

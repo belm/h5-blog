@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="/anthropic-econ-scenarios/">
+<title>经济前景三种情景｜Anthropic Institute 摘要</title>
+<meta name="description" content="Anthropic 经济团队情景探索器中文阅读摘要：任务层面模型、温和/显著/极端三种情景，以及 2030 年 GDP、就业再配置、工资与劳资份额的关键数字。">
+<meta property="og:title" content="经济前景三种情景｜Anthropic Institute 摘要">
+<meta property="og:description" content="展望约 2030：AI 如何影响美国就业、增长与失业。三种情景下 GDP 从 +1.6% 到 +32.4%，劳资份额与知识岗工资分化。">
+<meta property="og:image" content="https://blog.htsgyag6.workers.dev/anthropic-econ-scenarios/frames/og-hero.jpg">
+<meta property="og:type" content="article">
+<style>
+  :root {
+    --ink: #1a1612;
+    --muted: #5c5348;
+    --paper: #f6f1e8;
+    --card: #fffdf8;
+    --line: #e2d8c8;
+    --accent: #b42318;
+    --accent-dark: #8c1b12;
+    --gold: #8a6a32;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Source Han Serif SC", "Noto Serif SC", "Songti SC", "SimSun", Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.75;
+    font-size: 18px;
+  }
+  a { color: var(--accent-dark); }
+  a:hover { color: var(--accent); }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 28px 20px 64px; }
+  header.hero { padding: 12px 0 8px; }
+  .kicker {
+    font-family: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", sans-serif;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: clamp(1.7rem, 5vw, 2.45rem);
+    line-height: 1.25;
+    margin: 10px 0 12px;
+    letter-spacing: -.02em;
+  }
+  .lede {
+    font-size: 1.12rem;
+    color: var(--muted);
+    margin: 0 0 22px;
+  }
+  .meta {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 0;
+    display: grid;
+    gap: 6px;
+  }
+  .meta b { color: var(--ink); font-weight: 600; }
+  nav.toc {
+    margin: 28px 0;
+    padding: 16px 18px;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  nav.toc h2 { font-size: 15px; margin: 0 0 8px; font-family: "Noto Sans SC", sans-serif; letter-spacing: .08em; color: var(--gold); }
+  nav.toc ol { margin: 0; padding-left: 1.2em; }
+  nav.toc li { margin: 4px 0; font-size: 15.5px; }
+  nav.toc a { text-decoration: none; color: var(--ink); }
+  nav.toc a:hover { color: var(--accent); }
+  h2 {
+    font-size: 1.45rem;
+    margin: 2.2em 0 .6em;
+    line-height: 1.3;
+    padding-top: .4em;
+    border-top: 1px solid var(--line);
+  }
+  h2 .ts {
+    display: block;
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 12px;
+    letter-spacing: .12em;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  p { margin: 0 0 1em; }
+  ul.points {
+    margin: 0 0 1.2em;
+    padding-left: 1.25em;
+  }
+  ul.points li { margin: 0.35em 0; }
+  figure {
+    margin: 1.4em 0 1.6em;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+    vertical-align: middle;
+  }
+  figcaption {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    padding: 10px 12px 12px;
+    line-height: 1.5;
+  }
+  blockquote {
+    margin: 1.2em 0 1.4em;
+    padding: 4px 0 4px 16px;
+    border-left: 3px solid var(--accent);
+    color: var(--ink);
+    font-size: 1.05rem;
+  }
+  blockquote cite {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    font-style: normal;
+    color: var(--muted);
+    font-family: "Noto Sans SC", sans-serif;
+  }
+  .note {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    background: #efe6d6;
+    padding: 12px 14px;
+    margin: 1.2em 0;
+  }
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 1.2em 0 1.6em;
+  }
+  .stat {
+    background: var(--card);
+    border: 1px solid var(--line);
+    padding: 14px 14px 16px;
+  }
+  .stat .label {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 12px;
+    letter-spacing: .1em;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .stat .pct {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1.2;
+  }
+  .stat .gdp {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  footer {
+    margin-top: 48px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .yt {
+    display: inline-block;
+    font-family: "Noto Sans SC", sans-serif;
+    margin-top: 8px;
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  .yt:hover { background: var(--accent); color: #fff; }
+  @media (max-width: 560px) {
+    body { font-size: 16px; }
+    .stat-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <div class="kicker">Anthropic Institute · Economics · 阅读摘要</div>
+  <h1>经济前景三种情景</h1>
+  <p class="lede">我们还不知道 AI 会怎样重塑经济：史无前例的增长？大规模失业？还是别的什么？Anthropic 经济团队用任务层面模型，把对能力与采纳的预期，映射成约 2030 年美国的增长、就业与劳资份额——这是情景探索器，不是预言。</p>
+</header>
+
+<div class="meta">
+  <div><b>来源</b> Anthropic Institute · <a href="https://www.anthropic.com/institute/econ-scenarios">Scenarios for our Economic Future</a></div>
+  <div><b>组织</b> Anthropic Institute / Economics team</div>
+  <div><b>技术报告</b> Economic Scenarios for Transformative AI（Korinek et al., 2026）</div>
+  <div><b>主题</b> 任务经济、三种情景、2030 GDP、就业再配置、工资、劳资份额</div>
+  <div>本稿据英文页面改写成中文阅读摘要，非正式译文；数字均来自原文，未另行推算。</div>
+</div>
+
+<nav class="toc">
+  <h2>目录</h2>
+  <ol>
+    <li><a href="#purpose">目的：向前看，而不是量现状</a></li>
+    <li><a href="#tasks">经济由任务组成</a></li>
+    <li><a href="#three">三种高亮情景</a></li>
+    <li><a href="#survey">公众预期与五个杠杆</a></li>
+    <li><a href="#gdp">发现一：GDP 都涨，幅度差很大</a></li>
+    <li><a href="#jobs">发现二：职业切换与失业</a></li>
+    <li><a href="#wages">发现三：工资涨在知识岗之外</a></li>
+    <li><a href="#share">发现四：劳动份额下滑、资本抬头</a></li>
+    <li><a href="#limits">模型边界与开放批评</a></li>
+    <li><a href="#credits">致谢与用途</a></li>
+  </ol>
+</nav>
+
+<article>
+
+<figure>
+  <img src="/anthropic-econ-scenarios/frames/og-hero.jpg" alt="经济前景三种情景封面：温和、显著、极端 2030 GDP" width="1200" height="630">
+  <figcaption>封面示意：三种情景下 2030 年美国 GDP（2025 年价格水平）——温和 $34.1T、显著 $36.3T、极端 $44.4T。</figcaption>
+</figure>
+
+<section id="purpose">
+<h2><span class="ts">Purpose · Looking ahead</span>目的：向前看，而不是量现状</h2>
+<p>Anthropic 经济团队研究 AI 如何重塑经济，是因为他们承诺让这场转型对社会——包括劳动者——真正有益。更好的可见性，才谈得上确保收益被广泛分享。</p>
+<p>与衡量「当下 AI 用在哪里」的 Economic Index 不同，这个情景探索器面向未来：基于技术报告 <i>Economic Scenarios for Transformative AI</i>（Korinek et al., 2026），你可以代入自己对 AI 能力与采纳的判断，看模型暗示的 2030 年经济长什么样，并与他人预期对比。</p>
+<blockquote>
+  在「照常」到「增速约翻倍」的情景里，失业仍多落在历史区间，工资视行业持平或上升；一旦增长快到经济史上未见，知识劳动者的工资与就业前景就会承压——社会更富，挑战变成如何把好处摊开。
+  <cite>—— 改写自原文导语</cite>
+</blockquote>
+</section>
+
+<section id="tasks">
+<h2><span class="ts">Core model · Tasks</span>经济由任务组成</h2>
+<p>模型把人做的工作看成「任务包」（基于美国劳工部 O*NET 职业任务分类）。对某一任务，AI 可以：增强人、自动化、几乎不影响，或催生新任务。</p>
+<p>以护士为例：给病人洗澡仍只能人做；起草出院说明、远程监护、排班护理计划可被增强；记录生命体征、订病房物资或可自动化；还会出现新任务——检查 AI 分诊质量、审阅 AI 提出的护理计划。任务进出职业包，工作本身在变；护士能照看更多、有更多时间与病人沟通，生产率上升。</p>
+<p>每个任务每天在全国发生数百万次。把美国一年里人与机器软件完成的全部任务实例加总，就是今日逾 <b>$30T+</b> 的美国经济。未来取决于：增强还是自动化更多？生产率抬多高？采纳多快？这些直接牵动 GDP、劳动力市场，以及劳动者从蛋糕里拿走的份额。</p>
+</section>
+
+<section id="three">
+<h2><span class="ts">Three scenarios</span>三种高亮情景</h2>
+<p>未来取决于能力推进与产业、工人的采纳速度。文章标出三类影响：</p>
+<ul class="points">
+  <li><b>温和（Modest）</b>：冲击大致像互联网——有真实增益，但落在新技术的历史常态内、渐进到来；宏观数据里不易看清 AI。</li>
+  <li><b>显著（Substantial）</b>：冲击大于互联网或铁路。到 2030 年，AI 能做一半知识工作（多数可自主），但并未被全部采纳，多数知识任务仍无 AI。经济以约 <b>2×</b> 正常速率增长；知识岗工资不涨，其他劳动者有收获。</li>
+  <li><b>极端（Extreme）</b>：AI 在绝大多数知识任务上比人更有生产力，几乎全部自主完成，且几乎不为人类创造新的知识任务。很可能需要递归自我改进（RSI）与知识工作的快速采纳。年 GDP 增速可达约 <b>15%</b>，经济约每 <b>4.5</b> 年翻一番。社会远比以往富裕，但知识岗大幅减少，失业超出典型衰退水平。</li>
+</ul>
+</section>
+
+<section id="survey">
+<h2><span class="ts">Survey · Five levers</span>公众预期与五个杠杆</h2>
+<p>八月份，团队调查了超过 <b>1 万</b>名美国人（另有大量站点访客）关于当下与未来 AI 能力、采纳，以及换职业找新工作难易的看法。</p>
+<p>典型回答贴近「显著」情景：相对无 AI 基线，2030 年 GDP 约高 <b>10%</b>，总体失业率约 <b>5%</b>。约 <b>10%</b> 的受访者观点与极端情景一致。</p>
+<p>五个可调杠杆：</p>
+<ul class="points">
+  <li><b>能力</b>：AI 能做哪些任务（0%–100%）</li>
+  <li><b>采纳</b>：人们实际用多少（0%–100%）</li>
+  <li><b>自主性</b>：AI 独自完成多少（几乎没有 → 几乎全部）</li>
+  <li><b>生产率</b>：让人高效多少（1× 到 10×+）</li>
+  <li><b>调整时间</b>：找到新工作要多久（1–2 个月到 3 年+ 或永远）</li>
+</ul>
+<div class="note">调查样本：普通公众 n = 10,980；站点访客 n = 27,756（原文标注）。</div>
+</section>
+
+<section id="gdp">
+<h2><span class="ts">Finding 1 · GDP</span>发现一：GDP 都涨，幅度差很大</h2>
+<p>三种情景里 AI 都推高 GDP，但量级差巨大。数字按 <b>2025 年价格水平</b>计，展望 2030：</p>
+<div class="stat-grid">
+  <div class="stat">
+    <div class="label">温和 Modest</div>
+    <div class="pct">+1.6%</div>
+    <div class="gdp">GDP $34.1T</div>
+  </div>
+  <div class="stat">
+    <div class="label">显著 Substantial</div>
+    <div class="pct">+8.3%</div>
+    <div class="gdp">GDP $36.3T</div>
+  </div>
+  <div class="stat">
+    <div class="label">极端 Extreme</div>
+    <div class="pct">+32.4%</div>
+    <div class="gdp">GDP $44.4T</div>
+  </div>
+</div>
+<p>增长之外，更大一块繁荣可能流向创造财富的资源与技术（资本），而非劳动者——即便社会整体更富。多数情景下，岗位再配置与失业仍落在历史可见区间；<b>例外是极端</b>：若出现 RSI 与快速采纳，失业可能飙到历史高位。</p>
+</section>
+
+<section id="jobs">
+<h2><span class="ts">Finding 2 · Reallocation</span>发现二：职业切换与失业</h2>
+<p>劳动力市场本就有 churn。正常时期宏观上尚可运转，多数求职者较快找到新工作。在显著与极端情景中，知识岗可能大量被自动化与挤出：程序员、呼叫中心坐席或需转向电工、护士等受 AI 暴露较低的职业。</p>
+<p>彻底换职业很难——不愿换、要学新技能、即便学会也不易入职。需要切换越多，夹在两份工作之间的人越多。从 2026 走到 2030，受 AI 影响的知识岗岗位数下降，不受影响的职业岗位上升。极端情景下，大片知识工作被更快自动化，受影响者可能长期失业。</p>
+<blockquote>
+  知识工作失业率上升；其他职业失业率下降。
+  <cite>—— 改写自原文 Finding 2 小标题</cite>
+</blockquote>
+</section>
+
+<section id="wages">
+<h2><span class="ts">Finding 3 · Wages</span>发现三：工资涨在知识岗之外</h2>
+<p>三种情景下平均工资都上升，但增幅集中在知识工作以外的职业。人转到需求上升的职业需要时间：对人做知识工作的需求下降，压低那边工资；同时 AI 抬高知识工作生产率，会拉动受益于该生产率的体力/现场工作需求——例如设计与审批更快，基建项目增多，建筑工需求与工资上升。</p>
+<ul class="points">
+  <li><b>显著</b>：知识岗工资基本持平。</li>
+  <li><b>极端</b>：到 2030 年，知识岗工资下降超过 <b>10%</b>。</li>
+</ul>
+</section>
+
+<section id="share">
+<h2><span class="ts">Finding 4 · Labor vs capital</span>发现四：劳动份额下滑、资本抬头</h2>
+<p>今日经济每产出一美元，大约 <b>60¢</b> 归劳动、<b>40¢</b> 归资本。经济变大且 AI 自动化更多任务时，即便全体工资实质上升，资本若更有用、需求更高，价格会涨，增长中更大份额流向资本所有者。</p>
+<ul class="points">
+  <li><b>温和 · $34.1T</b>：劳动 59.4% / 资本 40.6%（资本 +0.6 个百分点）</li>
+  <li><b>显著 · $36.3T</b>：劳动 56.1% / 资本 43.9%（资本 +3.9 个百分点）</li>
+  <li><b>极端 · $44.4T</b>：劳动 45.2% / 资本 54.8%（资本 +14.8 个百分点）</li>
+</ul>
+<p>极端情景下，快速扩张的收益分配很不均：多数知识劳动者面临更低工资或失业，劳动者整体只拿到更大蛋糕里更小的一块；到 2030 年，劳动总收入几乎没怎么变。此时主挑战不是把增长做出来，而是让好处被广泛分享、代价不被不均分摊。</p>
+</section>
+
+<section id="limits">
+<h2><span class="ts">Limits · Version 1.0</span>模型边界与开放批评</h2>
+<p>未来并非注定。2030 的样子取决于 AI 能做什么、公司与工人如何采纳，以及技术财务收益如何分享。像任何经济模型一样，它有边界：例如未纳入超强机器人情景；也省略政策应对、商业周期、总需求或金融市场扰动、灾难性风险等。当前为 <b>Version 1.0</b>，刻意简化现实、隔离少数关键力量。</p>
+<p>外部审稿人（含 Acemoglu、Autor 等）已改进模型：例如 AI 可能提高资本回报、受 AI 冲击职业与几乎不受冲击职业的工资可能分化——两条渠道现已进入情景。审稿人未受邀背书结论；仍有开放批评（未跟踪个体劳动者、暴露职业是否真会萎缩、极端更像思想实验、未含数据中心建设带来的需求效应、可能低估 AI 加速技术进步本身等）。</p>
+<div class="note">探索器应视为思考工具：不同技术路径对经济意味着什么——实际结果可能显著不同。非正式改写，请以原文为准。</div>
+</section>
+
+<section id="credits">
+<h2><span class="ts">Credits</span>致谢与用途</h2>
+<p>经济模型与配套技术报告由 Anton Korinek、Chad Jones、Szymon Sacher、Tess Cotter、Peter McCrory 等开发；Santi Ruiz 执笔本篇。模型与研究组合将告知 Anthropic 资助的劳动力市场干预研究，以及旨在确保 AI 经济收益被广泛分享的政策构想（美国与全球）。</p>
+<p><a class="yt" href="https://www.anthropic.com/institute/econ-scenarios">阅读原文 · anthropic.com</a></p>
+</section>
+
+</article>
+
+<footer>
+  <p>阅读摘要 · 非正式改写 · 个人博客 Worker</p>
+  <p>托管于 Cloudflare Worker · <a href="/">返回合集</a> · 原文 <a href="https://www.anthropic.com/institute/econ-scenarios">Scenarios for our Economic Future</a></p>
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="/cursor-pstack-skills/">
+<title>Cursor pstack 全解：58 条指令和原则各自做什么</title>
+<meta name="description" content="按官方仓库逐条说明 Cursor 插件 pstack 的安装入口、/poteto-mode 的 23 个 playbook，以及全部 58 条 skill 与 principle 各自做什么、何时使用。">
+<style>
+  :root {
+    --ink: #1a1612;
+    --muted: #5c5348;
+    --paper: #f6f1e8;
+    --card: #fffdf8;
+    --line: #e2d8c8;
+    --accent: #b42318;
+    --accent-dark: #8c1b12;
+    --gold: #8a6a32;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Source Han Serif SC", "Noto Serif SC", "Songti SC", "SimSun", Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.75;
+    font-size: 18px;
+  }
+  a { color: var(--accent-dark); }
+  a:hover { color: var(--accent); }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 28px 20px 64px; }
+  header.hero { padding: 12px 0 8px; }
+  .kicker {
+    font-family: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", sans-serif;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: clamp(1.7rem, 5vw, 2.45rem);
+    line-height: 1.25;
+    margin: 10px 0 12px;
+    letter-spacing: -.02em;
+  }
+  .lede {
+    font-size: 1.12rem;
+    color: var(--muted);
+    margin: 0 0 22px;
+  }
+  .meta {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 0;
+    display: grid;
+    gap: 6px;
+  }
+  .meta b { color: var(--ink); font-weight: 600; }
+  section, .skill, .index-anchor { scroll-margin-top: 16px; }
+
+  nav.side-index {
+    margin: 28px 0;
+    padding: 12px 14px 14px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    scrollbar-width: thin;
+    scrollbar-color: #d4c8b4 transparent;
+  }
+  nav.side-index .index-toggle { position: absolute; opacity: 0; pointer-events: none; }
+  nav.side-index .index-label {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 15px;
+    letter-spacing: .08em;
+    color: var(--gold);
+    font-weight: 600;
+    cursor: pointer;
+  }
+  nav.side-index .index-label::after {
+    content: "展开";
+    font-size: 12px;
+    letter-spacing: 0;
+    color: var(--muted);
+    font-weight: 400;
+  }
+  nav.side-index .index-toggle:checked + .index-label::after { content: "收起"; }
+  nav.side-index .index-toggle:focus-visible + .index-label { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .index-body { display: none; margin-top: 10px; }
+  nav.side-index .index-toggle:checked ~ .index-body { display: block; }
+  .index-body a { text-decoration: none; color: var(--ink); }
+  .index-body a:hover { color: var(--accent); }
+  .index-sec { margin: 0 0 10px; }
+  .index-sec > a.sec {
+    display: block;
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 12px;
+    letter-spacing: .04em;
+    color: var(--gold);
+    font-weight: 600;
+    margin: 8px 0 4px;
+    line-height: 1.4;
+  }
+  .index-sec > a.sec.is-active { color: var(--accent); }
+  .index-sec ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .index-sec li { margin: 0; }
+  .index-sec li a {
+    display: block;
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 12px;
+    line-height: 1.4;
+    padding: 3px 6px 3px 8px;
+    border-left: 2px solid transparent;
+    overflow-wrap: anywhere;
+  }
+  .index-sec li a.is-active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    background: #efe6d6;
+  }
+  .index-sub {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 11px;
+    color: var(--muted);
+    margin: 6px 0 2px 8px;
+  }
+
+  @media (min-width: 1180px) {
+    .wrap {
+      max-width: 1100px;
+      display: grid;
+      grid-template-columns: 252px minmax(0, 760px);
+      column-gap: 36px;
+      justify-content: center;
+    }
+    header.hero,
+    figure.logo,
+    .meta,
+    article,
+    footer {
+      grid-column: 2;
+    }
+    nav.side-index {
+      grid-column: 1;
+      grid-row: 1 / -1;
+      position: sticky;
+      top: 16px;
+      align-self: start;
+      max-height: calc(100vh - 32px);
+      overflow: auto;
+      margin: 0;
+      padding: 14px 10px 18px 12px;
+    }
+    nav.side-index .index-label { cursor: default; pointer-events: none; }
+    nav.side-index .index-label::after { content: none; }
+    nav.side-index .index-body { display: block; margin-top: 8px; }
+  }
+  h2 {
+    font-size: 1.45rem;
+    margin: 2.2em 0 .6em;
+    line-height: 1.3;
+    padding-top: .4em;
+    border-top: 1px solid var(--line);
+  }
+  h2 .ts {
+    display: block;
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 12px;
+    letter-spacing: .12em;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  h3 {
+    font-size: 1.12rem;
+    margin: 1.55em 0 .4em;
+    line-height: 1.4;
+  }
+  p { margin: 0 0 1em; }
+  ul, ol { margin: 0 0 1em; padding-left: 1.3em; }
+  li { margin: 0.25em 0; }
+  figure {
+    margin: 1.4em 0 1.6em;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+    vertical-align: middle;
+  }
+  figcaption {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    padding: 10px 12px 12px;
+    line-height: 1.5;
+  }
+  figure.logo {
+    max-width: 220px;
+    margin: 0 0 1.4em;
+  }
+  blockquote {
+    margin: 1.2em 0 1.4em;
+    padding: 4px 0 4px 16px;
+    border-left: 3px solid var(--accent);
+    color: var(--ink);
+    font-size: 1.05rem;
+  }
+  blockquote cite {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    font-style: normal;
+    color: var(--muted);
+    font-family: "Noto Sans SC", sans-serif;
+  }
+  .note {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    background: #efe6d6;
+    padding: 12px 14px;
+    margin: 1.2em 0;
+  }
+  code {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.84em;
+    background: #efe6d6;
+    padding: 0.08em 0.32em;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--card);
+    border: 1px solid var(--line);
+    padding: 14px 16px;
+    overflow-x: auto;
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 14px;
+    line-height: 1.55;
+    margin: 0 0 1.2em;
+  }
+  pre code { background: none; padding: 0; font-size: inherit; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15.5px;
+    margin: 0.6em 0 1.4em;
+  }
+  th, td {
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    padding: 9px 12px 9px 0;
+    vertical-align: top;
+  }
+  th {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 13px;
+    color: var(--gold);
+    font-weight: 600;
+    letter-spacing: .04em;
+  }
+  td:first-child { white-space: nowrap; }
+  .skill {
+    margin: 0 0 1.25em;
+  }
+  .skill h3 {
+    margin: 1.25em 0 .28em;
+  }
+  .when {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 13.5px;
+    color: var(--muted);
+    margin: 0 0 .45em;
+  }
+  footer {
+    margin-top: 48px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .yt {
+    display: inline-block;
+    font-family: "Noto Sans SC", sans-serif;
+    margin-top: 8px;
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  .yt:hover { background: var(--accent); color: #fff; }
+  @media (max-width: 480px) {
+    body { font-size: 16px; }
+    td:first-child { white-space: normal; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <div class="kicker">Cursor 插件指南 · 阅读摘要</div>
+  <h1>Cursor pstack 全解：58 条指令和原则各自做什么</h1>
+  <p class="lede">pstack 不是再堆一层会写代码的助手，而是一套把「少写、写好、能验证」变成可并行工作流的技能包。本页按官方仓库，把主入口 <code>/poteto-mode</code>、23 个 playbook，以及全部 skill 与原则逐条说清楚。</p>
+</header>
+
+<figure class="logo">
+  <img src="frames/logo.jpg" alt="pstack 官方标志：戴眼镜的女孩在吃烤红薯" width="512" height="512">
+  <figcaption>pstack 官方标志。作者 poteto（Lauren Tan）把自己的插画形象放进了插件资源里。</figcaption>
+</figure>
+
+<div class="meta">
+  <div><b>来源</b> GitHub 仓库 <a href="https://github.com/cursor/plugins/tree/main/pstack">cursor/plugins · pstack</a></div>
+  <div><b>市场页</b> <a href="https://cursor.com/marketplace/cursor/pstack">cursor.com/marketplace/cursor/pstack</a></div>
+  <div><b>作者</b> poteto（Lauren Tan）；插件版本 0.15.42；许可证 MIT</div>
+  <div><b>覆盖</b> 库内 58 个 skill（含 24 条 <code>principle-*</code>）以及 README 列出的 23 个 playbook</div>
+  <div>本稿根据官方 README、<code>docs/guide</code> 与各 <code>SKILL.md</code> 改写成中文说明，不是逐字翻译。</div>
+</div>
+
+<nav class="side-index" id="page-index" aria-label="指令索引">
+  <input type="checkbox" class="index-toggle" id="index-toggle">
+  <label class="index-label" for="index-toggle">指令索引</label>
+  <div class="index-body">
+    <div class="index-sec"><a class="sec" href="#what">pstack 是什么</a></div>
+    <div class="index-sec"><a class="sec" href="#install">安装与开始</a></div>
+    <div class="index-sec">
+      <a class="sec" href="#mode">主入口 /poteto-mode</a>
+    <ul>
+      <li><a href="#poteto-mode" title="严谨工程的主快捷方式">/poteto-mode</a></li>
+    </ul>
+    </div>
+    <div class="index-sec">
+      <a class="sec" href="#setup">设置与规划</a>
+    <ul>
+      <li><a href="#setup-pstack" title="按角色配置模型">/setup-pstack</a></li>
+      <li><a href="#poteto-help" title="使用向导">/poteto-help</a></li>
+      <li><a href="#sharpen" title="把提示写深，而不是写大">/sharpen</a></li>
+      <li><a href="#in-your-own-words" title="用自己的话复述目标">/in-your-own-words</a></li>
+      <li><a href="#automate-me" title="根据你的工作方式生成自己的 mode">/automate-me</a></li>
+      <li><a href="#figure-it-out" title="没有现成剧本时，先设计可审计的工作流">/figure-it-out</a></li>
+      <li><a href="#show-me-your-work" title="留下可审查的决策轨迹">/show-me-your-work</a></li>
+      <li><a href="#reflect" title="把这次学到的写回 skill">/reflect</a></li>
+      <li><a href="#correct" title="让反复出现的错误变得不可能">/correct</a></li>
+    </ul>
+    </div>
+    <div class="index-sec">
+      <a class="sec" href="#understand">理解代码</a>
+    <ul>
+      <li><a href="#how" title="这套代码怎么工作">/how</a></li>
+      <li><a href="#why" title="为什么要建成这样">/why</a></li>
+      <li><a href="#teach" title="讲到人真正懂">/teach</a></li>
+      <li><a href="#recall" title="重建近期工作上下文">/recall</a></li>
+      <li><a href="#blast-radius" title="爆炸半径：它还会弄坏什么">/blast-radius</a></li>
+    </ul>
+    </div>
+    <div class="index-sec">
+      <a class="sec" href="#design">设计与实现</a>
+    <ul>
+      <li><a href="#architect" title="先草拟类型、签名和模块结构">/architect</a></li>
+      <li><a href="#tdd" title="先写会失败的回归测试">/tdd</a></li>
+      <li><a href="#typescript-best-practices" title="TypeScript 实践">/typescript-best-practices</a></li>
+    </ul>
+    </div>
+    <div class="index-sec">
+      <a class="sec" href="#parallel">并行与审查</a>
+    <ul>
+      <li><a href="#arena" title="同一任务派出多个候选，再嫁接长处">/arena</a></li>
+      <li><a href="#swarm" title="按切片并行，收回一份报告">/swarm</a></li>
+      <li><a href="#interrogate" title="多模型对抗审查，只保留跑出来的发现">/interrogate</a></li>
+    </ul>
+    </div>
+    <div class="index-sec">
+      <a class="sec" href="#verify">验证</a>
+    <ul>
+      <li><a href="#benchmark-checklist" title="先核对这个数字配不配被相信">/benchmark-checklist</a></li>
+      <li><a href="#create-verification-skill" title="生成「像用户那样开应用」的验证技能">/create-verification-skill</a></li>
+      <li><a href="#maintain-verification-skill" title="让验证技能和功能地图跟代码对齐">/maintain-verification-skill</a></li>
+      <li><a href="#create-formal-verification-skill" title="为测试够不着的性质生成形式化验证">/create-formal-verification-skill</a></li>
+      <li><a href="#maintain-formal-verification-skill" title="代码变了之后，把形式化验证拉回来">/maintain-formal-verification-skill</a></li>
+      <li><a href="#statechart" title="用 TLA+ 检查，再画成能给负责人看的状态图">/statechart</a></li>
+      <li><a href="#no-comments" title="审查前提清注释">/no-comments</a></li>
+    </ul>
+    </div>
+    <div class="index-sec">
+      <a class="sec" href="#comms">沟通与提示打磨</a>
+    <ul>
+      <li><a href="#ketchup" title="用白话补上你错过的进度">/ketchup</a></li>
+      <li><a href="#ketchup-video" title="用带字幕的短视频补课">/ketchup-video</a></li>
+      <li><a href="#unslop" title="去掉写作里的 AI 腔">/unslop</a></li>
+      <li><a href="#bro" title="把上一条消息说成人话">/bro</a></li>
+      <li><a href="#technical-writing" title="分层的技术写作标准">/technical-writing</a></li>
+    </ul>
+    </div>
+    <div class="index-sec">
+      <a class="sec" href="#principles">二十四条原则 principle-*</a>
+      <div class="index-sub">核心</div>
+    <ul>
+      <li><a href="#principle-laziness-protocol" title="懒惰协议">/principle-laziness-protocol</a></li>
+      <li><a href="#principle-foundational-thinking" title="先把基础想对">/principle-foundational-thinking</a></li>
+      <li><a href="#principle-redesign-from-first-principles" title="从第一性原理重新设计">/principle-redesign-from-first-principles</a></li>
+      <li><a href="#principle-attack-the-premise" title="攻击前提">/principle-attack-the-premise</a></li>
+      <li><a href="#principle-subtract-before-you-add" title="先做减法再做加法">/principle-subtract-before-you-add</a></li>
+      <li><a href="#principle-minimize-reader-load" title="降低读者负担">/principle-minimize-reader-load</a></li>
+      <li><a href="#principle-outcome-oriented-execution" title="面向结果执行">/principle-outcome-oriented-execution</a></li>
+      <li><a href="#principle-experience-first" title="体验优先">/principle-experience-first</a></li>
+      <li><a href="#principle-exhaust-the-design-space" title="穷尽设计空间">/principle-exhaust-the-design-space</a></li>
+      <li><a href="#principle-build-the-lever" title="先做杠杆">/principle-build-the-lever</a></li>
+    </ul>
+      <div class="index-sub">架构</div>
+    <ul>
+      <li><a href="#principle-model-the-domain" title="为领域建模">/principle-model-the-domain</a></li>
+      <li><a href="#principle-boundary-discipline" title="边界纪律">/principle-boundary-discipline</a></li>
+      <li><a href="#principle-type-system-discipline" title="类型系统纪律">/principle-type-system-discipline</a></li>
+      <li><a href="#principle-make-operations-idempotent" title="让操作幂等">/principle-make-operations-idempotent</a></li>
+      <li><a href="#principle-migrate-callers-then-delete-legacy-apis" title="迁完调用方，再删旧 API">/principle-migrate-callers-then-delete-legacy-apis</a></li>
+      <li><a href="#principle-separate-before-serializing-shared-state" title="先分开，再考虑串行化共享状态">/principle-separate-before-serializing-shared-state</a></li>
+    </ul>
+      <div class="index-sub">验证</div>
+    <ul>
+      <li><a href="#principle-prove-it-works" title="证明它真的可用">/principle-prove-it-works</a></li>
+      <li><a href="#principle-fix-root-causes" title="修根因">/principle-fix-root-causes</a></li>
+      <li><a href="#principle-sequence-verifiable-units" title="按可验证单元排序">/principle-sequence-verifiable-units</a></li>
+      <li><a href="#principle-test-behavior-not-implementation" title="测行为，而不是测实现">/principle-test-behavior-not-implementation</a></li>
+      <li><a href="#principle-explain-the-number" title="先解释这个数字">/principle-explain-the-number</a></li>
+    </ul>
+      <div class="index-sub">委派</div>
+    <ul>
+      <li><a href="#principle-guard-the-context-window" title="守住上下文窗口">/principle-guard-the-context-window</a></li>
+      <li><a href="#principle-never-block-on-the-human" title="不要卡在人身上">/principle-never-block-on-the-human</a></li>
+    </ul>
+      <div class="index-sub">元层次</div>
+    <ul>
+      <li><a href="#principle-encode-lessons-in-structure" title="把教训写进结构">/principle-encode-lessons-in-structure</a></li>
+    </ul>
+    </div>
+    <div class="index-sec">
+      <a class="sec" href="#other">其他</a>
+    <ul>
+      <li><a href="#make-bot-ui" title="做一页能唤醒 Bot 的界面">/make-bot-ui</a></li>
+    </ul>
+    </div>
+    <div class="index-sec"><a class="sec" href="#notes">边界说明</a></div>
+    <div class="index-sec"><a class="sec" href="#source">来源说明</a></div>
+  </div>
+</nav>
+
+<article>
+
+<section id="what">
+<h2><span class="ts">少写，但写好</span>pstack 是什么</h2>
+<p>作者 poteto（Lauren Tan）在 README 开头写得很直白：自己不是总裁，但在 Meta、Netflix 和 Cursor 经手过数百万行代码，也是 React 核心团队成员，参与维护 React Compiler。他同意眼下一个普遍的感觉——人工智能写了太多稀松代码（slop）。他不想按「二十个稀松写手组成的团队」那样出货。吞吐量如果没有质量，并不是他追求的目标。</p>
+<blockquote>
+  If you want to go fast, go deep first.
+  <cite>pstack README，也是插件自己的描述</cite>
+</blockquote>
+<p>pstack 是他的回答：把每天在 Cursor 里用来交出高质量代码的同一套 skill 打包出来，让编辑器更像一支真正的工程团队。目标不是最大化代码行数，恰恰相反——帮你写得更少，但质量更高。</p>
+<p>第二块承诺是「无畏并行」（fearless parallelism）。当你能对单个智能体走深，并信任它写出可验证的好代码，才谈得上放心地并行。用 <code>poteto-mode</code> 同时拉起多个智能体，并指望它们把严谨的工程原则用到工作里。</p>
+<p>第三块是多模型。每家前沿模型都有长短，pstack 不绑死一家。许多 skill 会按角色把任务分给不同模型。以当前仓库默认配置为例：功能、重构、修 bug、性能和 hillclimb 这类代码委派，以及散文和判断，默认走 Opus 5.5；最难的改动走 Fable 5.2；默认评审面板是 Fable 5.2 / Opus 5.5 / Gemini 4 Carbon。这些都可以用 <code>/setup-pstack</code> 改掉。</p>
+<p>作者欢迎 fork、改进，也欢迎提交 PR。许可证是 MIT。</p>
+</section>
+
+<section id="install">
+<h2><span class="ts">两步就能开工</span>安装与开始</h2>
+<p>在 Cursor 里安装：</p>
+<pre><code>/add-plugin pstack</code></pre>
+<p>若在 Claude Code 里安装，先加入市场再装插件：</p>
+<pre><code>/plugin marketplace add cursor/plugins
+/plugin install pstack@cursor-plugins</code></pre>
+<p>Claude Code 对第三方市场默认关闭自动更新，插件会停在你安装时的版本。若要打开自动更新，运行 <code>/plugin</code>，到 marketplaces 标签里选 <code>cursor-plugins</code>，再启用 auto-update。只更新一次，可运行 <code>claude plugin update pstack@cursor-plugins</code>。</p>
+<p>Claude Code 会给插件命令和代理加上前缀，所以 Cursor 里的 <code>/poteto-mode</code>，在那里要写成 <code>/pstack:poteto-mode</code>。其他名称的对应关系见仓库里的 Claude Code 适配说明。在 Claude Code 中，<code>/pstack:setup-pstack</code> 会把模型选择写到 <code>~/.claude/rules/pstack-models.md</code>；若某一步需要 Cursor 独有的能力（例如 Bugbot 或 automations），会被跳过，并留下一行说明。</p>
+<p>装好之后，官方建议只做两件事：</p>
+<ol>
+  <li>运行 <code>/setup-pstack</code>，选择推理预算，并指定各角色要用的模型。</li>
+  <li>凡是需要严谨工程的工作，都使用 <code>/poteto-mode</code>。</li>
+</ol>
+<p>新手可以先读仓库里的 <a href="https://github.com/cursor/plugins/blob/main/pstack/docs/guide/README.md">pstack guide</a>。卡住了，或不确定该用哪条 skill，就问 <code>/poteto-help</code>。</p>
+<p>其余 skill 都是情景性的。<code>/poteto-mode</code> 会在步骤需要时替你调用它们。你也可以从 <code>/</code> 菜单直接点某一条。官方特别提醒：要先从 <code>/</code> 菜单选中 <code>/poteto-mode</code>，再输入任务，这样 Cursor 才会把该 skill 附到这条消息上。</p>
+</section>
+
+<section id="mode">
+<h2><span class="ts">默认入口</span>主入口 /poteto-mode 与 23 个 playbook</h2>
+<div class="skill" id="poteto-mode">
+  <h3><code>/poteto-mode</code> · 严谨工程的主快捷方式</h3>
+  <p class="when">何时使用：任何需要严谨工程的非平凡任务，作为默认入口。</p>
+  <p>它会读你的请求，从一套 playbook 里选出一本，再按步骤需要去跑其他 skill。官方说这是作者自己一旦需要严谨工作就会用的主快捷方式，并且附带二十三个 playbook。</p>
+  <p>skill 正文还写了一批「不可谈判」的触发规则，例如：接到任务后先用自己的话复述目标和问题，不必等确认；能用实验观察的选择，不要拿去问人，而是走 Prototype playbook；跨越函数边界的代码先走 <code>/architect</code>；并行分发走 <code>/swarm</code> 或 <code>/arena</code>；有争议的设计在出货前走 <code>/interrogate</code>；散文要走 <code>/unslop</code>；文档和提交说明走 <code>/technical-writing</code>；提交前可走 <code>cursor-team-kit</code> 里的 <code>/deslop</code>（pstack 本身不打包这条）；审查前走 <code>/no-comments</code>；报性能数字前走 <code>/benchmark-checklist</code>；被问到 PR 进度时走 Babysit playbook，而不是 Cursor 内置的同名能力。</p>
+</div>
+<p>README 里的两个示例，很能说明它怎么被触发——你不必点名 playbook，只要给出目标和可检验的结果：</p>
+<pre><code>/poteto-mode this pr has a subtle bug where the scroll drifts every 750ms even when idle. repro
+first, then fix and verify.
+
+/poteto-mode i'm going to bed. land the stack even if ci flakes. i want everything merged by
+morning.</code></pre>
+<p>下面 23 个 playbook 的名称和用途，均按 README 正文列出，不另行编造。</p>
+<table>
+  <thead>
+    <tr><th>Playbook</th><th>用来做什么</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>investigation</td><td>只读问题：某东西怎么工作、为什么这样建、我们是否确定。</td></tr>
+    <tr><td>bug fix</td><td>复现缺陷，找到根因，并用运行时证据修好。</td></tr>
+    <tr><td>perf</td><td>追踪已测到的缓慢，对照基线改进。</td></tr>
+    <tr><td>hillclimb</td><td>针对单一指标做持续、科学的改进：假设循环、前后测量，每次接受的提升单独提交一次。</td></tr>
+    <tr><td>runtime forensics</td><td>根据仪器数据诊断现场症状（泄漏、空闲 CPU 空转、毛刺）。</td></tr>
+    <tr><td>trace forensics</td><td>诊断已捕获的性能分析产物（cpuprofile、trace、spindump、heap snapshot）。</td></tr>
+    <tr><td>feature</td><td>从命名好的数据形态出发，做新的或改过的行为。</td></tr>
+    <tr><td>refactoring</td><td>在保持行为不变的前提下改结构或形态。</td></tr>
+    <tr><td>prototype</td><td>用可丢弃的草图，廉价地做设计或行为决策，或靠观察来了结一个经验性分叉。</td></tr>
+    <tr><td>visual parity</td><td>让两种实现在像素层面的界面完全等价。</td></tr>
+    <tr><td>authoring a skill</td><td>编写或编辑一份 <code>SKILL.md</code>。</td></tr>
+    <tr><td>eval</td><td>用盲测检验 skill 或提示词改动如何影响智能体行为。</td></tr>
+    <tr><td>babysit</td><td>把一个 PR 或一组堆叠 PR 推到可合并：处理冲突、评审线程和 CI。</td></tr>
+    <tr><td>shipping</td><td>独立验证一组已变绿的堆叠，再自底向上合并连续已验证的那段；默认走 GitHub，若可用也可走 Origin。</td></tr>
+    <tr><td>autonomous run</td><td>把一项长任务不停地推进到完成。</td></tr>
+    <tr><td>orchestrate</td><td>把一个会跨多日、有许多堆叠 PR、有大批子代理的常设项目，交给一个协调者对话。</td></tr>
+    <tr><td>autopilot-full</td><td>把相互独立的 PR 一路跑到合并，每个 PR 一个负责人；代码就绪的头会经过 swarm 验证，之后对补丁的每次改动都再检查一次。</td></tr>
+    <tr><td>autopilot-stack</td><td>相当于不执行合并的 autopilot-full：构建并验证 PR，留给操作者审查和落地，且只把 PR 叠在它所依赖的 PR 上。</td></tr>
+    <tr><td>session pickup</td><td>恢复或接手先前智能体尚未完成的工作。</td></tr>
+    <tr><td>pause safely</td><td>干净地挂起进行中的工作，以便稍后恢复。</td></tr>
+    <tr><td>multi-phase plan</td><td>跨越多个阶段或堆叠 PR 的工作。</td></tr>
+    <tr><td>worktree cleanup</td><td>在有安全闸门的前提下回收磁盘：清理已合并或已放弃的 worktree，以及过期的 iOS 模拟器。</td></tr>
+    <tr><td>opening a pr</td><td>用小而有序的提交打开一个就绪的 PR，标题遵循 Conventional Commits，正文是简报风格。它会在其他每本 playbook 结束时被调用。</td></tr>
+  </tbody>
+</table>
+<p><code>/poteto-mode</code> 跑在接收它的那条对话里。这轮对话拥有 playbook、待办列表，以及每一次子代理的派生。pstack 另外提供 <code>subagent_type: "poteto-agent"</code>，作为运行过程中派出的委派包装器——它会先完整阅读 <code>poteto-mode</code>（包括内联的原则索引）再动手。不要用 <code>poteto-agent</code> 来跑 playbook 本身；也不要用普通的 <code>generalPurpose</code> 代替它，否则会跳过那次阅读并走偏。</p>
+</section>
+
+<section id="setup">
+<h2><span class="ts">配置、问路、加深提示</span>设置与规划</h2>
+<p>这一组决定模型怎么分、任务怎么表述、没有现成剧本时怎么办。其中有几条官方写得很死：它们只改写或指路，不替你开工，而且只有你亲手输入时才运行。</p>
+
+<div class="skill" id="setup-pstack">
+  <h3><code>/setup-pstack</code> · 按角色配置模型</h3>
+  <p class="when">何时使用：要为每个角色挑选模型，或调整推理预算。</p>
+  <p>它会检测你当前用得上的模型，并写入一条始终生效的规则 <code>~/.cursor/rules/pstack-models.mdc</code>，覆盖各 skill 的默认值。步骤包括：枚举可传给子代理的模型 slug（没探测到就请你粘贴，绝不写未确认的真实 slug）；读取已有规则；询问预算（<code>unlimited</code> / <code>large</code> / <code>medium</code> / <code>small</code>）；把各角色的模型展示出来让你确认，再写入规则。</p>
+  <p>所有 skill 都会读这条规则；规则不存在时回退到合理默认，所以你只需覆盖想改的部分。默认值日后若有变更，旧规则仍会钉住旧默认，直到你再次运行 <code>/setup-pstack</code>。那一次会替换它认得的旧默认，并保留你改过的角色。要丢掉它不认识的钉死项，先删掉那一行或整个文件。别名 <code>inherit-parent</code> 和 <code>auto</code> 始终有效，表示该角色跟父对话用同一个模型。</p>
+</div>
+
+<div class="skill" id="poteto-help">
+  <h3><code>/poteto-help</code> · 使用向导</h3>
+  <p class="when">何时使用：刚接触 pstack，或不确定该用哪条 skill、哪本 playbook、哪条原则。官方写明：只在你键入 <code>/poteto-help</code> 时运行。</p>
+  <p>它先弄清你想做什么，回答那一部分，再递给你一条可以发送的提示，并链到答案所出的 skill 或指南页（会给出 GitHub 上的公开副本路径）。它不开始干活——因为一次 pstack 运行会消耗真实的 token，要等你准备好再把提示发出去。</p>
+  <p>若你的消息其实是在请它干活，例如「用 pstack 修这个 bug」，那就不再被当成帮助问题：它会去读 <code>poteto-mode</code> 并在其下工作。需要澄清时，它最多问一道选择题，选项包括：完成设置、用 <code>/poteto-mode</code> 开始任务、为某个情景选 skill、修复跑偏的一次运行、把 pstack 改成自己的。</p>
+</div>
+
+<div class="skill" id="sharpen">
+  <h3><code>/sharpen</code> · 把提示写深，而不是写大</h3>
+  <p class="when">何时使用：发送任务前，想先把提示加深。官方写明：不替你做任务；只在你键入 <code>/sharpen</code> 时运行。</p>
+  <p>它会先做四件事，再改写你的提示：说出这个领域的顶尖专业人士会做、而你没要求的事；指出他们会从哪些最原始的材料起步，而不是已经替你消化过的东西；点名他们会用的方法和工具；说出除了你和智能体之外，还有什么能证明结果是对的。然后把提示改写成恰好在要这些。</p>
+  <p>改写后的提示会要求智能体：凡是实验能裁定的选择，先做原型，再根据观察给出推荐；把实验裁定不了的产品和偏好选择留给你。你读过改写稿，觉得对了，再把它发出去——例如配合 <code>/poteto-mode</code>。</p>
+</div>
+
+<div class="skill" id="in-your-own-words">
+  <h3><code>/in-your-own-words</code> · 用自己的话复述目标</h3>
+  <p class="when">何时使用：希望智能体在动手前，先回放你的目标和要解决的问题。官方写明：只在你键入 <code>/in-your-own-words</code> 时运行。</p>
+  <p>它要做的事很短，也很硬：用自己的话重述它认为你的目标是什么、你在解决什么问题。这不是开始实现。</p>
+</div>
+
+<div class="skill" id="automate-me">
+  <h3><code>/automate-me</code> · 根据你的工作方式生成自己的 mode</h3>
+  <p class="when">何时使用：想把个人偏好或工作方式收成一条 <code>&lt;your-name&gt;-mode</code> skill，或更新已有的这条 skill。</p>
+  <p><code>poteto-mode</code> 是作者的风格，未必是你要的。这条指令会挖掘你近期的对话记录，按你实际怎么工作起草一条 <code>&lt;your-name&gt;-mode</code> skill，并在底层继续路由到 pstack。pstack 仍是底座，你额外得到一条与 <code>poteto-mode</code> 并列的、属于自己的路由 skill。它会编排挖掘、Cursor 内置的 <code>create-skill</code>，以及 <code>/unslop</code>；它是在编排它们，而不是取代它们。新 skill 默认也带 <code>disable-model-invocation: true</code>，只有你明确希望它每轮都生效时才关掉。</p>
+</div>
+
+<div class="skill" id="figure-it-out">
+  <h3><code>/figure-it-out</code> · 没有现成剧本时，先设计可审计的工作流</h3>
+  <p class="when">何时使用：捆绑的 playbook 都不合适，例如大型迁移、雄心勃勃的多段改动，或你会走开、回来再审查的工作。</p>
+  <p>交付物在写代码之前，首先是工作流本身：一套把严谨程度按任务放大、走科学方法、并留下人稍后能审计的决策轨迹的阶段序列。它会先框定可证伪的完成标准、范围和严谨级别，再把工作拆成可独立落地的单元，先搭验证再做功能。可逆的事可以继续推进，但长达数小时的运行会有一个检查点。</p>
+</div>
+
+<div class="skill" id="show-me-your-work">
+  <h3><code>/show-me-your-work</code> · 留下可审查的决策轨迹</h3>
+  <p class="when">何时使用：长时间运行或无人值守的工作，需要一份回来能审的记录。</p>
+  <p>它维护一份 TSV 日志，每个决策一行（做了什么、为什么、证据、结果）。默认只留在本地工作目录（例如 <code>decisions.tsv</code> 或 <code>.audit/&lt;task-slug&gt;.tsv</code>），不提交；只有当工作足够大、审查者需要这条轨迹才能信任结果时，才把它提交进仓库。日志只追加，写错了就再写一行覆盖，不改历史。运行结束时还会对照本轮对话记录核对日志是否属实。</p>
+</div>
+
+<div class="skill" id="reflect">
+  <h3><code>/reflect</code> · 把这次学到的写回 skill</h3>
+  <p class="when">何时使用：你说 reflect，或一项长任务落地后，希望把配方沉淀成对现有 skill 的修改。</p>
+  <p>它会派生三个并行的审查子代理，扫过当前对话记录，把学到的东西摊开，并分别路由成对已有 skill 的具体编辑。目标是让下一轮不再重复这次的弯路，而不是再写一份空泛的复盘。</p>
+</div>
+
+<div class="skill" id="correct">
+  <h3><code>/correct</code> · 让反复出现的错误变得不可能</h3>
+  <p class="when">何时使用：你总在为同一类错误纠正智能体。</p>
+  <p>它会挖掘历史，找出智能体在这个仓库里反复犯的错，并在尽可能高的层级把每一类变成「不可能再发生」：先试架构，再试类型，再试一条错误信息会告诉你怎么改的 lint，然后是测试，文档放在最后。它还会维护一张表，把每条规则和真正执行它的机制配对起来。</p>
+</div>
+</section>
+
+<section id="understand">
+<h2><span class="ts">先读懂，再动手</span>理解代码</h2>
+<p>官方指南把只读调查放在改代码之前。<code>/how</code>、<code>/why</code>、<code>/teach</code>、<code>/recall</code> 和 <code>/blast-radius</code> 解决的是不同问题：分别是怎么工作、为何这样、讲给人听、把上下文找回来，以及它还会在别处弄坏什么。</p>
+
+<div class="skill" id="how">
+  <h3><code>/how</code> · 这套代码怎么工作</h3>
+  <p class="when">何时使用：「X 是怎么工作的」、改之前的代码走读，以及放置、归属、分层问题（「这该放在哪」「哪个包拥有它」）。</p>
+  <p>它给出子系统的走读，帮助你在改动前建立心智模型。官方示例是：<code>/how do we cancel runs? do we have an n+1 when we look up every run to cancel?</code></p>
+</div>
+
+<div class="skill" id="why">
+  <h3><code>/why</code> · 为什么要建成这样</h3>
+  <p class="when">何时使用：「为什么 X 这样工作」「为什么我们选了 Y」、设计理据、回归、事后复盘，或有数据支撑的阈值。</p>
+  <p>答案来自记录，而不是从代码里猜：去读引入它以及此后每次改动的提交和 PR 讨论；记录不够时再看其他来源。它引用作者当时写下来的话，把自己的推断标成推断，并说明记录没有回答的部分。</p>
+</div>
+
+<div class="skill" id="teach">
+  <h3><code>/teach</code> · 讲到人真正懂</h3>
+  <p class="when">何时使用：「教我这个」，或你想真正理解一次改动、一个子系统，而不只是看摘要。</p>
+  <p>它会运行 <code>/how</code> 和 <code>/why</code>，把两者找到的东西织成一份清楚的解释，并且一张图一张图地往上搭，而不是丢给你一份压缩过的总结。</p>
+</div>
+
+<div class="skill" id="recall">
+  <h3><code>/recall</code> · 重建近期工作上下文</h3>
+  <p class="when">何时使用：开始或恢复一项工作，希望把某主题上的近期上下文重新拼起来。</p>
+  <p>它从你自己的聊天历史、现场状态，以及共享记录（用户报告、既有修复、事故）重建上下文，交回一份紧凑的现状简报。只要主题点名了功能、文件、子系统、区域或缺陷，它默认还要去扫共享记录，不会因为「只是我自己的工作」就跳过；纯活动回忆（「我这周做了什么」）才可以只看自己的历史和现场状态。</p>
+</div>
+
+<div class="skill" id="blast-radius">
+  <h3><code>/blast-radius</code> · 爆炸半径：它还会弄坏什么</h3>
+  <p class="when">何时使用：改动看起来很小，但你想知道它还会在别处破坏什么；或不太信任的小 diff。</p>
+  <p>它是 <code>/how</code> 和 <code>/why</code> 的同伴：前两者分别讲代码做什么、为何是这个形状，这条讲它在别处会弄坏什么。列出调用方不是它的工作——智能体一秒就能 grep 到；它要找的是 grep 看不到的破坏。</p>
+  <p>一份听起来对的爆炸半径报告本身没有价值。所以它不会把写好的报告交回去了事，而是找出整件事所依赖的那一两个事实，用跑代码来证明。确信度从「我这么说」到「指向具体行」、到「走一遍说明坏情况走不到」、到「跑脚本或测试，错了就响亮地失败」、再到「在正在运行的应用里复现」。通常第四步就够：写一个小脚本，导入应用真正交付的同一个库，调用你担心的那个函数。</p>
+</div>
+</section>
+
+<section id="design">
+<h2><span class="ts">先定形状，再填代码</span>设计与实现</h2>
+<figure>
+  <img src="frames/design.jpg" alt="官方指南插画：/architect、/arena、/interrogate 三个工位上的机器人在做桥的设计方案" width="1200" height="800">
+  <figcaption>pstack 指南官方插画。屏幕上写着 <code>/architect</code>、<code>/arena</code>、<code>/interrogate</code>：先并行探索形状，再对抗式找破绽。</figcaption>
+</figure>
+
+<div class="skill" id="architect">
+  <h3><code>/architect</code> · 先草拟类型、签名和模块结构</h3>
+  <p class="when">何时使用：即将写下跨越函数边界的代码，希望先把调用方用法、类型和模块形态谈定。</p>
+  <p>它用 <code>not implemented</code> 的函数体和伪代码，先画出类型、函数签名、类形态和模块边界；综合多个模型的视角，再按选定的草图填代码。流程分成 Ground、Sketch、Agree、Implement、Scrap 几段。Sketch 阶段会跑 <code>/arena</code>，并且要求至少两套结构上不同的候选，即使第一套看起来已经够用。默认可直接带着综合后的设计进入实现，不必等人点头；只有你明确要求检查点（例如「先给我看再实现」）时，才会停下来展示设计。</p>
+</div>
+
+<div class="skill" id="tdd">
+  <h3><code>/tdd</code> · 先写会失败的回归测试</h3>
+  <p class="when">何时使用：仅当你明确要求 TDD、失败测试或回归测试，或这个缺陷有明显、廉价的局部测试目标。测试路径不清楚时跳过。</p>
+  <p>目标是一条聚焦的回归测试：修之前失败，修之后通过。若现成测试需要大而脆的 harness、脆弱的 mock、很慢的端到端基础设施、只有生产环境才有的状态、含糊的复现步骤，或大量不相干的夹具改动，就不要为了走流程而硬造测试，改用最接近、仍有用的验证方式。宁可没有新测试，也不要一条主要在测 mock、锁死实现细节、依赖时序或全局状态、为小修复搭昂贵基础设施、或证明完就会被删掉的坏测试。</p>
+</div>
+
+<div class="skill" id="typescript-best-practices">
+  <h3><code>/typescript-best-practices</code> · TypeScript 实践</h3>
+  <p class="when">何时使用：阅读或编辑任何 <code>.ts</code> 或 <code>.tsx</code> 文件。</p>
+  <p>它把「类型系统纪律」这条原则落到 TypeScript 的具体语法上，例如给语义化的原始类型做 brand、在边界把外部数据从 <code>unknown</code> 解析进来、让非法状态无法被构造。它是原则的语法对照，而不是另一套独立的设计哲学。</p>
+</div>
+</section>
+
+<section id="parallel">
+<h2><span class="ts">无畏并行的具体工具</span>并行与审查</h2>
+<p><code>/arena</code>、<code>/swarm</code> 和 <code>/interrogate</code> 经常被一起提起，但分工不同：竞技场是同一任务的多种方案再嫁接；蜂群是不同切片或赛道的覆盖；审讯是对抗式找破绽，并且只保留跑出来的发现。</p>
+
+<div class="skill" id="arena">
+  <h3><code>/arena</code> · 同一任务派出多个候选，再嫁接长处</h3>
+  <p class="when">何时使用：<code>/arena</code>、「把这个丢进竞技场」，或一次尝试不够、想比较多种方案时。</p>
+  <p>它按 Frame、Fan out、Cross-judge、Pick、Graft、Verify 分段进行：先为所有候选准备同一份提示和一份只有评选者能看见的评分标准；再并行派出 N 个选手（默认模型来自规则里的 <code>arena runners</code> 一行，缺失时是 Fable 5.2、Opus 5.5 和 Gemini 4 Carbon）；交叉评判后选出一个底座，再把落选方案里最强的部分嫁接进去，并验证结果。每个候选有自己的输出位置（能用 git worktree 就用）。官方示例：把你的提示原样送进竞技场，比较它们的提案和当前对话里的方案。</p>
+</div>
+
+<div class="skill" id="swarm">
+  <h3><code>/swarm</code> · 按切片并行，收回一份报告</h3>
+  <p class="when">何时使用：<code>/swarm</code>、「swarm this」，或需要并行覆盖、赛跑、 gauntlet 和探索时。</p>
+  <p>它派出 N 个并行工人，覆盖不同切片或赛道，等它们结束后汇总成一份报告。和 <code>/arena</code> 不同：这里不是多个候选抢同一个产物再嫁接，而是分头覆盖、一起汇报。官方示例：检查 <code>packages/</code> 下每个包的 <code>check.sh</code>，一包一个工人，最后一份报告。工人的默认模型来自规则里的 <code>swarm workers</code>。</p>
+</div>
+
+<div class="skill" id="interrogate">
+  <h3><code>/interrogate</code> · 多模型对抗审查，只保留跑出来的发现</h3>
+  <p class="when">何时使用：「审讯」「对抗审查」「多模型审查」「挑战这个」「压力测试这段代码」「找盲点」「拆开看」；或你手头有一份 diff，想让不同模型试着把它打穿。</p>
+  <p>对手会尝试打破一次改动或一套设计。一条发现只有在针对真实代码跑出来之后才能留下——失败测试、复现脚本，或显示出错误行为的命令输出。设计或方案则通过原型或探测当前树来证明。它报告这些发现，但不安上修复。范围是你点名的内容；否则是相对基础分支的分支 diff，加上工作区。输出包括意图复述、每条通过验证的发现（命令、输出、如何违背意图、是谁找到的），以及被丢弃的发现计数和原因。没有通过验证的发现，也是有效结果。</p>
+</div>
+</section>
+
+<section id="verify">
+<h2><span class="ts">对着真实产物证明</span>验证</h2>
+<figure>
+  <img src="frames/verification.jpg" alt="官方指南插画：机坪上验证一架飞机，屏幕写着 verify: pass，牌子写着 PROVE IT 和 REAL THING ONLY" width="1200" height="800">
+  <figcaption>pstack 指南官方插画。牌子上写着「PROVE IT」和「REAL THING ONLY」：验证对着真实产物，而不是「它编译过了」。</figcaption>
+</figure>
+
+<div class="skill" id="benchmark-checklist">
+  <h3><code>/benchmark-checklist</code> · 先核对这个数字配不配被相信</h3>
+  <p class="when">何时使用：你跑了基准，或测到了加速、回退，准备汇报或依据这个数字行动之前。</p>
+  <p>它在你开口之前，用一次真实运行的证据回答一组问题：是什么在限制它、两侧是否按生产环境那样调过参、有没有计入错误和不正确的输出、是否可重复、是否测到了端到端真正相关的工作，以及这项工作是否真的发生了。若只是你要的粗略量级，跑一次并检查错误与「工作是否发生」即可，同时声明这只是一次运行；在选项之间做选择，则不能当成粗略量级。原则 <code>explain-the-number</code> 是它背后的那句话：先搞清这个数字在量什么，再决定信不信。</p>
+</div>
+
+<div class="skill" id="create-verification-skill">
+  <h3><code>/create-verification-skill</code> · 生成「像用户那样开应用」的验证技能</h3>
+  <p class="when">何时使用：项目还没有脚本化的方法来证明应用行为；任何语言、框架或平台都可以。</p>
+  <p>它会生成一份项目本地的验证 skill（<code>.cursor/skills/verify-&lt;app&gt;/</code>），供下一个智能体在任务中途冷启动阅读，而不是写给人看的说明书。它先采访仓库（用户真正碰到的界面、如何本地启动、如何程序化驱动、能捕获什么证据、实例能否并排跑），只在观察不到时才问你；然后写出启动、Doctor 检查、驱动配方、证据标准和清理步骤。证明标准是：走真实用户路径，而不是内部 setter 或仅测试用的端点。</p>
+</div>
+
+<div class="skill" id="maintain-verification-skill">
+  <h3><code>/maintain-verification-skill</code> · 让验证技能和功能地图跟代码对齐</h3>
+  <p class="when">何时使用：验证 skill 的功能地图已经和应用程序脱节，需要一次定期校对。</p>
+  <p>它用并行的源码阅读（按功能）加上一次现场驱动所有功能的实况会话，把地图和 skill 校正回诚实状态，并且最多只开一个「已证明修正」的 PR，避免借机大改。</p>
+</div>
+
+<div class="skill" id="create-formal-verification-skill">
+  <h3><code>/create-formal-verification-skill</code> · 为测试够不着的性质生成形式化验证</h3>
+  <p class="when">何时使用：缺陷代价最高、测试却最够不着的地方——竞态、重试、状态机、解析器或不安全代码。</p>
+  <p>它针对一条性质，选用合适的验证工具，并生成一份项目本地 skill，好在每次改动时复检。生成之后必须先在一份会破坏该性质的临时改动上跑一遍：要能抓住这次破坏，再撤掉临时改动，确认检查回到原状。一份从未跑过的验证 skill 只是草稿。它会告诉你验证了什么、用了什么工具、边界是什么、检查用白话发现了什么、怎么运行，以及它覆盖不到什么。</p>
+</div>
+
+<div class="skill" id="maintain-formal-verification-skill">
+  <h3><code>/maintain-formal-verification-skill</code> · 代码变了之后，把形式化验证拉回来</h3>
+  <p class="when">何时使用：被形式化验证覆盖的代码，自上次检查以来已经改过。</p>
+  <p>它找出动过已验证代码的提交，更新模型、harness 或性质以匹配代码，重新运行，并说明每次失败到底是验证漂移，还是代码里的缺陷。</p>
+</div>
+
+<div class="skill" id="statechart">
+  <h3><code>/statechart</code> · 用 TLA+ 检查，再画成能给负责人看的状态图</h3>
+  <p class="when">何时使用：拥有这项行为的人需要看见它，而不是去读一份规格——例如产品流程、协议或服务。</p>
+  <p>它在仓库外的临时目录写 TLA+ 模型和配置，用 TLC 检查，再把用户能看见的行为画成 Mermaid 状态图。报告会标出每个打破规则的状态，并给出到达那里的最短路径。规则写成不变式，不能为了让它通过而把规则改弱。首次运行会用 mise 安装 TLC 和 Java，需要网络。</p>
+</div>
+
+<div class="skill" id="no-comments">
+  <h3><code>/no-comments</code> · 审查前提清注释</h3>
+  <p class="when">何时使用：审查前去掉注释；或需要把「声称的约束」改写成真正能执行的机制。</p>
+  <p>它派出只读的 Comment Sicko 子代理（<code>subagent_type: "comment-sicko"</code>），审过报告后落实被接受的发现，并为「不要删」「不要改措辞」这类约束注释提供可编码的替代（类型、运行时、测试或 CI lint），等你批准后再编码并删除注释。通常通过这条指令调用 Comment Sicko，而不是直接派它。范围是调用方指定的文件或 diff；否则是相对基础分支的当前 diff（默认 <code>main</code>），包含工作区。</p>
+</div>
+</section>
+
+<section id="comms">
+<h2><span class="ts">把话说清楚</span>沟通与提示打磨</h2>
+
+<div class="skill" id="ketchup">
+  <h3><code>/ketchup</code> · 用白话补上你错过的进度</h3>
+  <p class="when">何时使用：想知道自你上一条消息以来，这轮对话里发生了什么，以及有哪些事还在等你。</p>
+  <p>它假定你只记得自己上一条消息，之后的都不记得。通知和子代理结果都不算你的消息。它用接近 <code>/bro</code> 的口吻（白话、短句、没有行话）说明对你而言发生了什么，并列出每一项仍须由你做的决定，让你只看这条回复就能拍板——哪怕因此写得很长。这一轮保持只读：不改代码、不启动应用或任务、不对外发布。行动项只包括只有你能做的事（产品选择、批准、不可逆操作，或它没有的权限）；它自己还能做的，不算行动项；也绝不编造一项来把回复填满。</p>
+</div>
+
+<div class="skill" id="ketchup-video">
+  <h3><code>/ketchup-video</code> · 用带字幕的短视频补课</h3>
+  <p class="when">何时使用：想要和 <code>/ketchup</code> 一样的补课，但加上一段幻灯片短视频。</p>
+  <p>内容与 <code>/ketchup</code> 相同，另外做一段带字幕的幻灯片视频，说明发生了什么；等你拍板的事项仍以文字写在视频下面。画幻灯片时用工作产生的截图、录像、diff 和数据，而不是对话里关于它们的表述。最多 10 页，更少更好；不能改变你已知信息的页面会被丢掉。</p>
+</div>
+
+<div class="skill" id="unslop">
+  <h3><code>/unslop</code> · 去掉写作里的 AI 腔</h3>
+  <p class="when">何时使用：在清理文字，去掉那些一眼能看出来是模型写的痕迹。</p>
+  <p>它按一份编号稳定的模式清单扫描并改写，同时保留原意、贴合预定语气。清单包括空泛的 -ing 短语、不具名的「专家认为」、一套典型的 AI 词汇、把简单的「是」说得很华丽、「不只是 X，而是 Y」、强行的三叠句、过滥的破折号和冒号、装饰性表情，以及「希望这对你有帮助」这类聊天机器人套话。其他 skill 会引用这些编号规则。</p>
+</div>
+
+<div class="skill" id="bro">
+  <h3><code>/bro</code> · 把上一条消息说成人话</h3>
+  <p class="when">何时使用：希望把刚看到的那条消息，用普通人能懂的语言重说一遍，不要行话。</p>
+  <p>任务很单一：复述上一条消息，用明白的人话，去掉行话。它不展开成新的分析，也不开始干活。</p>
+</div>
+
+<div class="skill" id="technical-writing">
+  <h3><code>/technical-writing</code> · 分层的技术写作标准</h3>
+  <p class="when">何时使用：写文档、RFC、README、PR 说明或提交信息时。</p>
+  <p>它把几套现成标准叠在一起执行：Diátaxis 的文档结构、Google 开发者风格的句子、STE 的步骤规则，以及 Global English 的句法。这是写作标准，不是另一条会替你选型或写代码的工作流。</p>
+</div>
+</section>
+
+<section id="principles">
+<h2><span class="ts">二十四条可点名的原则</span>二十四条原则 principle-*</h2>
+<p>pstack 把二十四条原则做成短 skill，一条原则一份文件。<code>poteto-mode</code> 会在任务开始时阅读内联索引；独立文件的作用，是让其他 skill 能按名字引用一条原则，也让索引能链到完整规则。指南把它们称作可以在任务中途纠正智能体方向的二十四个名字。</p>
+<p>斜杠指令名与仓库目录一致，例如 <code>/principle-laziness-protocol</code>。下面按 README 的分组来写：核心、架构、验证、委派、元层次。每条都保留原文里的适用时机。</p>
+
+<h3>核心</h3>
+<div class="skill" id="principle-laziness-protocol">
+  <h3><code>/principle-laziness-protocol</code> · 懒惰协议</h3>
+  <p class="when">何时使用：重构、评估 diff 大小，或忍不住想加抽象、加分层、加信号穿线时。</p>
+  <p>偏向删除，以及能解决问题的最小改动。</p>
+</div>
+<div class="skill" id="principle-foundational-thinking">
+  <h3><code>/principle-foundational-thinking</code> · 先把基础想对</h3>
+  <p class="when">何时使用：写逻辑之前——选择核心类型和数据结构、安排脚手架与功能的先后、问清并发角色共享什么。</p>
+  <p>把数据结构做对，后面的代码才会变得显而易见。</p>
+</div>
+<div class="skill" id="principle-redesign-from-first-principles">
+  <h3><code>/principle-redesign-from-first-principles</code> · 从第一性原理重新设计</h3>
+  <p class="when">何时使用：把一项新需求整合进已有设计时。</p>
+  <p>把它当成从第一天起就是基础假设来重新设计，而不是往上焊接。</p>
+</div>
+<div class="skill" id="principle-attack-the-premise">
+  <h3><code>/principle-attack-the-premise</code> · 攻击前提</h3>
+  <p class="when">何时使用：两个或更多共享同一前提的修复，已经在同一道关卡上失败。</p>
+  <p>先把前提写下来，并直接检验它，再写下一个仍假定它成立的修复。失败的修复本身就是不利于该信念的证据。</p>
+</div>
+<div class="skill" id="principle-subtract-before-you-add">
+  <h3><code>/principle-subtract-before-you-add</code> · 先做减法再做加法</h3>
+  <p class="when">何时使用：安排一次添加、重构或重写的顺序时。</p>
+  <p>先去掉死代码、多余的校验和桩引用，再在更简单的基底上往下建。</p>
+</div>
+<div class="skill" id="principle-minimize-reader-load">
+  <h3><code>/principle-minimize-reader-load</code> · 降低读者负担</h3>
+  <p class="when">何时使用：审查或整理一段很难追踪的代码时。</p>
+  <p>数一数从问题到答案要穿过几层，以及读者脑子里要记多少隐含状态；折掉只有一个调用方的包装，缩小可变作用域。</p>
+</div>
+<div class="skill" id="principle-outcome-oriented-execution">
+  <h3><code>/principle-outcome-oriented-execution</code> · 面向结果执行</h3>
+  <p class="when">何时使用：有明确阶段边界的计划中重写或迁移。</p>
+  <p>向目标架构收敛；不要用用完即弃的兼容代码，去维持平滑的中间状态。</p>
+</div>
+<div class="skill" id="principle-experience-first">
+  <h3><code>/principle-experience-first</code> · 体验优先</h3>
+  <p class="when">何时使用：产品、交互或功能范围出现取舍时。</p>
+  <p>用户愉悦优先于实现便利；宁可少而打磨过的功能，不要多而粗糙的功能。</p>
+</div>
+<div class="skill" id="principle-exhaust-the-design-space">
+  <h3><code>/principle-exhaust-the-design-space</code> · 穷尽设计空间</h3>
+  <p class="when">何时使用：面对代码库里没有先例的新界面交互或架构决策时。</p>
+  <p>先做两到三个相互竞争的原型，并排放在一起比较，再做决定。这也适用于体验取决于「手感」而不是逻辑的产品设计。</p>
+</div>
+<div class="skill" id="principle-build-the-lever">
+  <h3><code>/principle-build-the-lever</code> · 先做杠杆</h3>
+  <p class="when">何时使用：任何非平凡工作，不只是批量工作——编辑、迁移、分析、检查都算。</p>
+  <p>做出能完成或证明这件事的工具（codemod、脚本、生成器，或子代理会遵循的 skill），而不是用手做。工具才是审查者可以重跑的产物。只有一眼能看完的两三处明显修改，才可以跳过。</p>
+</div>
+
+<h3>架构</h3>
+<div class="skill" id="principle-model-the-domain">
+  <h3><code>/principle-model-the-domain</code> · 为领域建模</h3>
+  <p class="when">何时使用：写有状态的逻辑，或代码分支很多、同一种形态假设在多个文件里重复出现时。</p>
+  <p>把领域编码进一个结构，而不是散落的条件句。</p>
+</div>
+<div class="skill" id="principle-boundary-discipline">
+  <h3><code>/principle-boundary-discipline</code> · 边界纪律</h3>
+  <p class="when">何时使用：接线校验、错误处理或框架适配时。</p>
+  <p>把守卫集中在系统边界（命令行、配置、网络、外部 API）；信任内部类型，把业务逻辑放在纯函数里。外壳要薄，而且只做机械性的事。</p>
+</div>
+<div class="skill" id="principle-type-system-discipline">
+  <h3><code>/principle-type-system-discipline</code> · 类型系统纪律</h3>
+  <p class="when">何时使用：设计类型、审查函数签名，或在任何静态类型语言里写代码时。</p>
+  <p>让非法状态无法被表示，给语义化的原始类型做 brand，在边界解析外部数据，穷尽变体，并从权威模式推导。TypeScript 的具体语法见 <code>/typescript-best-practices</code>。</p>
+</div>
+<div class="skill" id="principle-make-operations-idempotent">
+  <h3><code>/principle-make-operations-idempotent</code> · 让操作幂等</h3>
+  <p class="when">何时使用：设计会在崩溃、重启和重试中运行的命令、生命周期步骤或处理循环时。</p>
+  <p>无论先前跑到一半成什么样，都要收敛到同一个终态。</p>
+</div>
+<div class="skill" id="principle-migrate-callers-then-delete-legacy-apis">
+  <h3><code>/principle-migrate-callers-then-delete-legacy-apis</code> · 迁完调用方，再删旧 API</h3>
+  <p class="when">何时使用：引入新的内部 API，而旧调用方还在时。</p>
+  <p>在同一波里迁移调用方并删除旧 API，而不是留下兼容层。</p>
+</div>
+<div class="skill" id="principle-separate-before-serializing-shared-state">
+  <h3><code>/principle-separate-before-serializing-shared-state</code> · 先分开，再考虑串行化共享状态</h3>
+  <p class="when">何时使用：并发角色可能写入同一文件、分支、键或状态对象时。</p>
+  <p>先消除共享；只有当「只有一个共享写者」本身是真正的不变量时，才做结构性的串行化。</p>
+</div>
+
+<h3>验证</h3>
+<div class="skill" id="principle-prove-it-works">
+  <h3><code>/principle-prove-it-works</code> · 证明它真的可用</h3>
+  <p class="when">何时使用：完成一项任务之后、宣布做完之前。</p>
+  <p>对着真实产物验证（跑这个功能、读实际的值、检查 diff），而不是代理指标、自我汇报，或「它编译过了」。</p>
+</div>
+<div class="skill" id="principle-fix-root-causes">
+  <h3><code>/principle-fix-root-causes</code> · 修根因</h3>
+  <p class="when">何时使用：调试时。</p>
+  <p>把每个症状追溯到系统第一次走错的地方，并在那里修复。一道守卫只有在它所处理的状态本身合法时，才算修复。</p>
+</div>
+<div class="skill" id="principle-sequence-verifiable-units">
+  <h3><code>/principle-sequence-verifiable-units</code> · 按可验证单元排序</h3>
+  <p class="when">何时使用：多步骤工作（清扫、迁移、一串相似的编辑），以及你如何堆叠提交和 PR。</p>
+  <p>把工作拆成小单元，每一段都以可验证的状态结束，先检查这一段再做下一段，并安排交付顺序，让这串结果自己能向审查者证明。</p>
+</div>
+<div class="skill" id="principle-test-behavior-not-implementation">
+  <h3><code>/principle-test-behavior-not-implementation</code> · 测行为，而不是测实现</h3>
+  <p class="when">何时使用：你编写、修改或保留一条测试时。</p>
+  <p>断言代码的用户能观察到的东西，从而在行为坏掉时测试失败，而在只改内部实现时测试仍然通过。</p>
+</div>
+<div class="skill" id="principle-explain-the-number">
+  <h3><code>/principle-explain-the-number</code> · 先解释这个数字</h3>
+  <p class="when">何时使用：在你测量之前，以及在你相信、汇报或依据一个测到的数字行动之前——加速、回退、吞吐、延迟或评测结果都算。</p>
+  <p>找出限制它的因素，并排除它其实测到了别的东西、而不是你以为的那项工作。</p>
+</div>
+
+<h3>委派</h3>
+<div class="skill" id="principle-guard-the-context-window">
+  <h3><code>/principle-guard-the-context-window</code> · 守住上下文窗口</h3>
+  <p class="when">何时使用：上下文快满了：大段输出、长文件、反复阅读、扇出式规划。</p>
+  <p>把批量工作交给子代理；主对话里只留摘要，不要留原始载荷。</p>
+</div>
+<div class="skill" id="principle-never-block-on-the-human">
+  <h3><code>/principle-never-block-on-the-human</code> · 不要卡在人身上</h3>
+  <p class="when">何时使用：忍不住想就一件可逆的工作问「我该不该做 X」时。</p>
+  <p>先做，再把结果摆出来，让人事后纠偏；把确认留给不可逆的操作。</p>
+</div>
+
+<h3>元层次</h3>
+<div class="skill" id="principle-encode-lessons-in-structure">
+  <h3><code>/principle-encode-lessons-in-structure</code> · 把教训写进结构</h3>
+  <p class="when">何时使用：发现自己把同一条指示写了第二遍，或注意到反复出现的纠正。</p>
+  <p>把规则编码成 lint、元数据标记、运行时检查或脚本，而不是再写更多文字。若修复已经是结构性的，就只保留结构性修复——那条指示本身就是症状。</p>
+</div>
+</section>
+
+<section id="other">
+<h2><span class="ts">仓库里还有一条</span>其他：/make-bot-ui 与子代理</h2>
+<p>README 的 skill 表里还有一条不落入上面几组的指令，目录里也能找到对应的 <code>SKILL.md</code>，所以一并写在这里，而不是略过。</p>
+
+<div class="skill" id="make-bot-ui">
+  <h3><code>/make-bot-ui</code> · 做一页能唤醒 Bot 的界面</h3>
+  <p class="when">何时使用：要做一页或一个仪表盘，按钮通过 webhook 唤醒 Grok Bot；包括 sender key 的交接和 Tailscale。</p>
+  <p>它会做一页由你点击的页面：这台电脑上的服务器把 JSON POST 到一条 webhook 例行任务，Bot 被这份 JSON 唤醒。sender key 只留在服务器上，不能放进浏览器、不能放进聊天，也不能写进这条 skill。创建例行任务后，它会请你从例行任务面板复制 webhook URL（可以贴到聊天里）和 sender key（不得贴到聊天里），再用保密请求来接收密钥。skill 正文还写了密钥交接的具体步骤；这里只保留这条限制，不把密钥处理流程展开成教程。</p>
+</div>
+
+<p>除了斜杠指令，pstack 还附带两个子代理：前面已经提过的 <code>poteto-agent</code>，以及 Comment Sicko。后者是只读的注释审查者，通常通过 <code>/no-comments</code> 调用，而不是直接派它。</p>
+</section>
+
+<section id="notes">
+<h2><span class="ts">边界</span>未打包的能力、Benny，以及为什么没有规划技能</h2>
+<p><code>poteto-mode</code> 会引用几样并不打在 pstack 包里的东西：</p>
+<ul>
+  <li><code>/deslop</code> 和 <code>deslop</code> skill 在 <code>cursor-team-kit</code> 插件里。</li>
+  <li><code>control-cli</code>（用于命令行和 TUI）和 <code>control-ui</code>（用于浏览器、Electron、Web）也在 <code>cursor-team-kit</code> 里。</li>
+  <li><code>/create-skill</code> 是 Cursor 内置能力。Cursor 还内置一个会盯着 PR 的 <code>/autopilot</code>。在 <code>poteto-mode</code> 内部，询问 PR 状态会走 Babysit playbook，而不是那条内置指令。</li>
+</ul>
+<p>若要齐套，官方建议把 <code>cursor-team-kit</code> 和 pstack 一起安装。这些名称出现在 pstack 的交叉引用里，但它们不是本插件 skills 目录里的指令，因此不计入上面的 58 条。</p>
+
+<h3>Benny automation pack 不是斜杠指令</h3>
+<p>pstack 还附带一份休眠的 Benny automation pack。Benny 负责分诊 Slack 里的问题报告，再对已确认的缺陷做复现，并可能准备一份带真实界面证据的小修复。它的文件没有注册成斜杠 skill。</p>
+<p>要启用它，需要让 Cursor 去看 <code>automations/benny/FOR_AGENTS.md</code>。安装过程会把这包文件复制到目标仓库的 <code>.cursor/automations/benny/</code>，在那里启用 pstack 以共享 skill，并把用户配置留在被复制的包之外。Benny 跑在 Cursor Automations 上，因此只在 Cursor 里可用。</p>
+
+<h3>为什么没有独立的规划 skill</h3>
+<blockquote>
+  Cursor already has a great plan mode which works great with pstack. But personally, I don't believe in planning. The best spec is code. If you do want to make a plan, <code>/poteto-mode</code> covers it, but it's not a default.
+  <cite>pstack README，「Why are there no planning skills?」一节，标点按中文阅读习惯做了大小写处理，用词未改</cite>
+</blockquote>
+<p>也就是说：不是功能缺失，而是作者的取舍。Cursor 已有很好的 Plan 模式，可以和 pstack 一起用；若你确实要做计划，<code>/poteto-mode</code> 也能覆盖（例如 multi-phase plan），只是那不是默认路径。作者认为最好的规格就是代码。</p>
+</section>
+
+<section id="source">
+<h2><span class="ts">依据</span>来源说明</h2>
+<p>本页依据的是 GitHub 仓库 <a href="https://github.com/cursor/plugins/tree/main/pstack">cursor/plugins</a> 里的 pstack 目录：完整 README、<code>docs/guide</code>、<code>plugin.json</code>（版本 0.15.42，作者 Lauren Tan），以及 <code>skills/</code> 下全部 58 个 <code>SKILL.md</code> 的 frontmatter 与正文要点。市场页见 <a href="https://cursor.com/marketplace/cursor/pstack">cursor.com/marketplace/cursor/pstack</a>。配图来自该仓库的官方资源：<code>assets/logo.png</code>，以及指南里的 <code>design.jpg</code>、<code>verification.jpg</code>。</p>
+<p>清单与 README 的 skill 表、原则表一致，没有增添源里不存在的指令，也没有漏掉表中的 skill。Playbook 的名称和用途按 README 列出的二十三本对照表撰写。</p>
+</section>
+
+<p class="note">本页以 2026 年 11 月 16 日从 GitHub 仓库 <code>cursor/plugins</code> 拉取的 pstack 文档（插件版本 0.15.42，提交 <code>bf0c7cd</code>）为准。指令清单以库内 <code>skills</code> 目录的 skill 为准，之后可能变更。</p>
+
+<a class="yt" href="https://github.com/cursor/plugins/tree/main/pstack">打开 GitHub 上的 pstack →</a>
+<a class="yt" href="https://cursor.com/marketplace/cursor/pstack" style="margin-left:8px;">打开 Cursor 市场页 →</a>
+
+</article>
+
+<footer>
+  这是阅读摘要，非正式逐字稿或改写；本文托管于个人博客 Worker。<br>
+  原文：<a href="https://github.com/cursor/plugins/tree/main/pstack">github.com/cursor/plugins · pstack</a> · 市场页 <a href="https://cursor.com/marketplace/cursor/pstack">cursor.com/marketplace/cursor/pstack</a> · 版本 0.15.42
+</footer>
+</div>
+
+<script>
+(() => {
+  const nav = document.querySelector("nav.side-index");
+  if (!nav) return;
+  const toggle = nav.querySelector(".index-toggle");
+  const links = [...nav.querySelectorAll(".index-body a[href^='#']")];
+  const targets = links
+    .map((a) => {
+      const id = decodeURIComponent(a.getAttribute("href").slice(1));
+      const el = document.getElementById(id);
+      return el ? { a, el } : null;
+    })
+    .filter(Boolean)
+    .sort((x, y) => x.el.getBoundingClientRect().top - y.el.getBoundingClientRect().top);
+
+  const setActive = (active) => {
+    links.forEach((a) => a.classList.toggle("is-active", a === active));
+    if (active && window.matchMedia("(min-width: 1180px)").matches) {
+      const top = active.offsetTop;
+      const bottom = top + active.offsetHeight;
+      if (top < nav.scrollTop + 24 || bottom > nav.scrollTop + nav.clientHeight - 24) {
+        active.scrollIntoView({ block: "nearest" });
+      }
+    }
+  };
+
+  let ticking = false;
+  const sync = () => {
+    ticking = false;
+    const line = 96;
+    let current = targets[0];
+    for (const t of targets) {
+      if (t.el.getBoundingClientRect().top <= line) current = t;
+    }
+    if (current) setActive(current.a);
+  };
+  const onScroll = () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(sync);
+    }
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  sync();
+
+  links.forEach((a) => {
+    a.addEventListener("click", () => {
+      setActive(a);
+      if (toggle && window.matchMedia("(max-width: 1179px)").matches) toggle.checked = false;
+    });
+  });
+})();
+</script>
+</body>
+</html>

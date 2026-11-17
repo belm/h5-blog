@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="/cisa-aa26-251a/">
+<title>中国相关 AI 公司工业级蒸馏行动｜CISA AA26-251A 摘要</title>
+<meta name="description" content="NSA/CISA/FBI 联合通告 AA26-251A 中文阅读摘要：DeepSeek、Moonshot、阿里、MiniMax、StepFun、Z.AI 对 Claude/GPT/Gemini/Grok 的工业级知识蒸馏、ATLAS TTPs 与缓解建议。">
+<meta property="og:title" content="中国相关 AI 公司工业级蒸馏行动｜CISA AA26-251A 摘要">
+<meta property="og:description" content="联合网络安全通告：工业级知识蒸馏、中转站规避、CoT 抽取与三条缓解建议。">
+<meta property="og:image" content="/cisa-aa26-251a/frames/og-hero.jpg">
+<style>
+  :root {
+    --ink: #1a1612;
+    --muted: #5c5348;
+    --paper: #f6f1e8;
+    --card: #fffdf8;
+    --line: #e2d8c8;
+    --accent: #b42318;
+    --accent-dark: #8c1b12;
+    --gold: #8a6a32;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Source Han Serif SC", "Noto Serif SC", "Songti SC", "SimSun", Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.75;
+    font-size: 18px;
+  }
+  a { color: var(--accent-dark); }
+  a:hover { color: var(--accent); }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 28px 20px 64px; }
+  header.hero { padding: 12px 0 8px; }
+  .kicker {
+    font-family: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", sans-serif;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: clamp(1.7rem, 5vw, 2.45rem);
+    line-height: 1.25;
+    margin: 10px 0 12px;
+    letter-spacing: -.02em;
+  }
+  .lede {
+    font-size: 1.12rem;
+    color: var(--muted);
+    margin: 0 0 22px;
+  }
+  .meta {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 0;
+    display: grid;
+    gap: 6px;
+  }
+  .meta b { color: var(--ink); font-weight: 600; }
+  nav.toc {
+    margin: 28px 0;
+    padding: 16px 18px;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  nav.toc h2 { font-size: 15px; margin: 0 0 8px; font-family: "Noto Sans SC", sans-serif; letter-spacing: .08em; color: var(--gold); }
+  nav.toc ol { margin: 0; padding-left: 1.2em; }
+  nav.toc li { margin: 4px 0; font-size: 15.5px; }
+  nav.toc a { text-decoration: none; color: var(--ink); }
+  nav.toc a:hover { color: var(--accent); }
+  h2 {
+    font-size: 1.45rem;
+    margin: 2.2em 0 .6em;
+    line-height: 1.3;
+    padding-top: .4em;
+    border-top: 1px solid var(--line);
+  }
+  h2 .ts {
+    display: block;
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 12px;
+    letter-spacing: .12em;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  h3 {
+    font-size: 1.12rem;
+    margin: 1.4em 0 .5em;
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    color: var(--ink);
+  }
+  p { margin: 0 0 1em; }
+  ul { margin: 0 0 1em; padding-left: 1.35em; }
+  li { margin: 0.35em 0; }
+  figure {
+    margin: 1.4em 0 1.6em;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  figcaption {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    padding: 10px 12px 12px;
+    line-height: 1.5;
+  }
+  blockquote {
+    margin: 1.2em 0 1.4em;
+    padding: 4px 0 4px 16px;
+    border-left: 3px solid var(--accent);
+    color: var(--ink);
+    font-size: 1.05rem;
+  }
+  blockquote cite {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    font-style: normal;
+    color: var(--muted);
+    font-family: "Noto Sans SC", sans-serif;
+  }
+  .note {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    background: #efe6d6;
+    padding: 12px 14px;
+    margin: 1.2em 0;
+  }
+  .tag {
+    display: inline-block;
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 12px;
+    letter-spacing: .04em;
+    color: var(--gold);
+    border: 1px solid var(--line);
+    background: var(--card);
+    padding: 2px 8px;
+    margin-right: 6px;
+    margin-bottom: 4px;
+  }
+  footer {
+    margin-top: 48px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .yt {
+    display: inline-block;
+    font-family: "Noto Sans SC", sans-serif;
+    margin-top: 8px;
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  .yt:hover { background: var(--accent); color: #fff; }
+  @media (max-width: 480px) {
+    body { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <div class="kicker">NSA · CISA · FBI · Cybersecurity Advisory</div>
+  <h1>中国相关 AI 公司对美方模型的工业级知识蒸馏</h1>
+  <p class="lede">联合通告 AA26-251A 指出：知识蒸馏已不只是研发补充，而是若干中国相关 AI 公司缩短周期、压低成本的核心策略——自至少 2024 年末起，对 Claude、GPT、Gemini、Grok 等大规模抽取专有能力。</p>
+</header>
+
+<figure>
+  <img src="frames/og-hero.jpg" alt="CISA AA26-251A 阅读摘要封面" width="1200" height="630">
+  <figcaption>通告编号 AA26-251A · 发布 2026-09-08。本稿为个人阅读摘要，完整表格与细节请回 CISA 原文。</figcaption>
+</figure>
+
+<div class="meta">
+  <div><b>来源</b> NSA、CISA、FBI 联合 Cybersecurity Advisory</div>
+  <div><b>原文</b> <a href="https://www.cisa.gov/news-events/cybersecurity-advisories/aa26-251a">cisa.gov · AA26-251A</a></div>
+  <div><b>发布</b> 2026 年 9 月 8 日</div>
+  <div><b>题名</b> China-Based Artificial Intelligence Companies Conducting Industrial-Scale Distillation Campaigns Against U.S. AI Companies</div>
+  <div><b>点名公司</b> DeepSeek、Moonshot AI、阿里巴巴、MiniMax、StepFun、Z.AI</div>
+  <div>本稿为简体中文阅读摘要，非正式译本；MITRE ATLAS 编号、检测指标与完整对照表以原文为准。</div>
+</div>
+
+<nav class="toc">
+  <h2>目录</h2>
+  <ol>
+    <li><a href="#exec">执行摘要：蒸馏成了主业</a></li>
+    <li><a href="#deepseek">归属与 DeepSeek</a></li>
+    <li><a href="#moonshot">Moonshot：Kimi-K2 / K3</a></li>
+    <li><a href="#others">阿里、MiniMax、StepFun、Z.AI</a></li>
+    <li><a href="#atlas">TTPs：MITRE ATLAS 映射</a></li>
+    <li><a href="#novel">新型手法与检测信号</a></li>
+    <li><a href="#mitigate">缓解：监测、降级、共享</a></li>
+    <li><a href="#purpose">使命与联系</a></li>
+  </ol>
+</nav>
+
+<article>
+
+<section id="exec">
+<h2><span class="ts">EXECUTIVE SUMMARY</span>执行摘要：蒸馏成了主业</h2>
+<p>通告强调：合法研究中的蒸馏技术，与「工业级、恶意、定向」抽取美方前沿模型专有功能与能力，不是同一回事。作者机构认为，若干中国相关 AI 公司把大规模知识蒸馏当作<strong>核心战略</strong>，而非补充手段。</p>
+<ul>
+  <li>点名：DeepSeek、Moonshot AI、阿里巴巴、MiniMax、StepFun、Z.AI；目标包括 Claude、GPT、Gemini、Grok 等变体。</li>
+  <li>时间尺度：至少自 <b>2024 年末</b>；请求量达<strong>数十亿 token</strong>、数百万次交互。</li>
+  <li>路径：原生 API、远程云、第三方聚合器，以及灰市「中转站（transfer stations）」以绕过地域限制、削弱可追溯性并违反服务条款。</li>
+  <li>成本手段：批量采购并共享高级订阅；抽取思维链（CoT）；自动故障转移与质量评估，以侦测防御方降级。</li>
+  <li>效果：显著缩短研发周期、压低训练前沿模型的财务支出。</li>
+</ul>
+<blockquote>「Addressing industrial-scale distillation merits a coordinated response across the AI ecosystem…」<cite>原通告执行摘要</cite></blockquote>
+<p>作者机构建议美方 AI 公司立刻做三件事：全面检测与监测（含订阅—用量比）、对疑似恶意蒸馏<strong>悄然</strong>改写/降级响应、跨组织情报共享。</p>
+</section>
+
+<section id="deepseek">
+<h2><span class="ts">ATTRIBUTION · DEEPSEEK</span>归属与 DeepSeek</h2>
+<p><span class="tag">R1 / V3</span><span class="tag">自 ≥2024 末</span><span class="tag">$5.6M 误导</span></p>
+<p>通告称：至少自 2024 年末，上述公司对多家美方 AI 厂商开展高流量蒸馏；规模与复杂度表明蒸馏是其模型研发的<strong>关键核心</strong>。访问常经灰市 API 代理（中转站）绕过地域限制与护栏。</p>
+<p><b>DeepSeek</b> 自至少 2024 年末组织化抽取合成训练数据，用于包括 2025 年初发布的 <b>R1</b> 以及 <b>V3</b>。公开宣称约 <b>560 万美元</b>训练成本被指误导——未计入通过恶意蒸馏获取数据的真实代价。</p>
+<p>2024 末至 2025 中，通告列明其蒸馏过的美方模型包括 Claude 3.7 / Sonnet 4 / 4.5、Claude Opus 4.1、Gemini 2.5 Pro/Flash Preview、GPT-4 / 4o / Mini / Nano、GPT-5、Grok 4 等。领域侧重点：法律专项、API 规则任务、用 CoT 草稿写作、智能体功能、问答优化、教练/助手、功能创建、SFT 优化、创意与职业写作等。</p>
+</section>
+
+<section id="moonshot">
+<h2><span class="ts">MOONSHOT AI</span>Moonshot：Kimi-K2 / K3</h2>
+<p><span class="tag">Kimi-K2 / K3</span><span class="tag">自 ≥2025 中</span><span class="tag">SFT · RL · SWE · 数学</span></p>
+<p>Moonshot 自至少 2025 年中开展广泛蒸馏。通告特别指出：大量 <b>Claude Fable 5</b> 数据用于训练 <b>Kimi-K3</b>；<b>GPT-4o</b> 数据用于 <b>Kimi-K2</b>。还列举 Claude Opus/Sonnet 系列（含 Thinking）、GPT-5 / Codex / Pro、Gemini 2.5 系列、Nano Banana、Grok Code Fast-1 等，能力侧重 SFT、强化学习（RL）、软件工程与数学。</p>
+</section>
+
+<section id="others">
+<h2><span class="ts">OTHER ACTORS</span>阿里、MiniMax、StepFun、Z.AI</h2>
+<ul>
+  <li><b>阿里巴巴 · Qwen</b>（约 2025 末）：蒸馏 Claude-4 / Opus / Sonnet、GPT-5 等，强化软件工程、客服对话、形象/角色创作，以及 RL、SFT 与蒸馏能力整合。</li>
+  <li><b>MiniMax · M2</b>（约 2025 末）：从 Claude Code、Claude Sonnet 4、Claude Opus、Gemini 1 / 2.5 Pro / 3 Pro 等抽取 CoT、RL、SFT 与软件工程能力；将 Claude Code 用于内部代码生成与分析，并使用<strong>提示注入</strong>试图让 Claude Code「以为自己是 MiniMax 产品」。</li>
+  <li><b>StepFun · Step 4</b>（约 2025 末–2026 初）：蒸馏 Claude Opus 4.1/4.5、Sonnet/Haiku 4.5、GPT-5 Mini/Pro、GPT-5.1 / Codex、GPT-5.2 等，强化编码与智能体功能。</li>
+  <li><b>Z.AI</b>（至约 2026 中）：蒸馏数十亿 token 量级的 <b>GPT-5.5</b> 与 <b>Claude Opus 4.8</b> 数据，发展 CoT 推理能力。</li>
+</ul>
+<p class="note">原文 Table 1 给出各公司—模型—功能域对照；本稿不完整复述全部行列，请回原文核对。</p>
+</section>
+
+<section id="atlas">
+<h2><span class="ts">MITRE ATLAS</span>TTPs：从接入到外泄</h2>
+<p>通告将手法映射到 MITRE ATLAS，覆盖资源准备到影响各阶段：</p>
+<ul>
+  <li><b>AML.T0008</b> 获取基础设施：分级预算、多样供应商；经中转站绕过中美两侧访问控制。</li>
+  <li><b>AML.T0040</b> 滥用推理 API：虚假/批量账号、相似支付方式、频繁换模型、经聚合器；同主题请求可达数千至数百万次。</li>
+  <li><b>AML.T0051 / AML.T0054</b> 提示注入与越狱：迫使模型写出本应隐藏的 CoT；DeepSeek 等用「想象并逐步写出内部推理」类指令，把推理方法教给学生模型。</li>
+  <li><b>AML.TA0008</b> 发现：激进、自适应选型；例：MiniMax 在新 Claude 模型发布 <b>24 小时内</b>转向，显示实时监控与预置基础设施。</li>
+  <li><b>AML.T0042</b> 验证攻击：生产级多模态质检管线，区分服务故障与防御性数据降级。</li>
+  <li><b>AML.TA0009 / AML.T0024.002</b> 采集与经推理 API 外泄：按领域持续查询生成合成训练集，使己方模型模仿前沿 LLM 行为。</li>
+  <li><b>AML.T0048</b> 外部损害：系统性抽取价值数十亿研发成本的能力，削弱竞争与技术领先。</li>
+</ul>
+</section>
+
+<section id="novel">
+<h2><span class="ts">NOVEL TTPs</span>新型手法与检测信号</h2>
+<p>通告另列四类尚未完全落入 ATLAS 的「新型」手法，体现组织化投入与运营成熟度：</p>
+<ol>
+  <li><b>地域限制规避 + 共享高级订阅</b>：混淆来源地后批量采购会员；账户池并发、按日预算扩容。检测：多 IP/UA 共享账号、7×24 无人类闲歇、异常订阅—API 用量比、新订立即打满额度。</li>
+  <li><b>集中式请求路由</b>：统一抽象模型/厂商、健康监测、配额与自动清洗；经原生 API、云、聚合器、中继与供应商账户池多路径。检测：跨账户池的一致操作模式、跨路径时间/行为相关。</li>
+  <li><b>自动化元数据消毒</b>：在基础设施层批量剥离组织标识（有别于手工改写提示）。检测：披露后元数据突然消失、高流量活动却无机构痕迹、一致标识被泛化/随机化取代。</li>
+  <li><b>配额与成本优化</b>：选最便宜路径、集中配额、按用途切账户。检测：新账户立刻异常高命中率、偏向缓存最大化而非任务多样性、随价格/限速协同换路。</li>
+</ol>
+</section>
+
+<section id="mitigate">
+<h2><span class="ts">MITIGATIONS</span>缓解：监测、悄然降级、共享</h2>
+<p>通告主张生态级协同，并吸收 ATLAS 与 NIST AI 框架建议。对美方厂商的三条「立刻行动」可概括为：</p>
+<ol>
+  <li><b>行为检测与监测</b>：强化身份核验；盯住企业级吞吐的个人订户、偏离合法模式的账户、新号立刻打满或持续榨干配额。</li>
+  <li><b>对疑似蒸馏悄然改写响应</b>：差分隐私、换用更弱模型回复等，降低蒸馏收益；跨请求变化推理深度/风格，增加质检难度。<strong>不要</strong>告知疑似恶意蒸馏方「已切换降级模型」，以免其改进规避并回滚训练；对安全研究者与第三方评测者则应告知变更并仍施加强缓解。</li>
+  <li><b>跨组织情报共享</b>：共享基础设施与行为指标（IP、域名、第三方、时序与体量相关），把分散在 API、云与聚合器上的活动拼成协同战役，从而更有把握地降级响应。</li>
+</ol>
+<p>另列 ATLAS 缓解（如 AML.M0015 对抗输入检测、M0004 限速、M0019 生产访问控制、M0024 遥测、M0002 输出混淆、M0035 红队等）以及 NIST AI 100-2e2025 中的差分隐私、训前/训后干预、提示指令与格式化分隔等——细节与权衡见原文。</p>
+</section>
+
+<section id="purpose">
+<h2><span class="ts">PURPOSE · CONTACT</span>使命与联系</h2>
+<p>通告声明：文件服务于作者机构网络安全使命——识别并传播威胁、制定与发布规范与缓解措施；信息可广泛共享至适当利益相关方。</p>
+<ul>
+  <li>NSA：CybersecurityReports@nsa.gov 等（见原文）</li>
+  <li>CISA：contact@cisa.dhs.gov · 1-844-Say-CISA</li>
+  <li>FBI：经 IC3 举报受害情况</li>
+</ul>
+<p class="note">以上根据 CISA 公开英文通告 AA26-251A 改写成简体中文综述；公司名、模型名与 ATLAS 编号保留通行写法。未在原文出现的细节未予补写。完整 Table 1/2、检测指标清单与 NIST/ATLAS 缓解条目请阅读原文。</p>
+<a class="yt" href="https://www.cisa.gov/news-events/cybersecurity-advisories/aa26-251a">阅读 CISA 原文 AA26-251A →</a>
+</section>
+
+</article>
+
+<footer>
+  阅读摘要；非正式译本；本文托管于个人博客 Worker。<br>
+  原链：<a href="https://www.cisa.gov/news-events/cybersecurity-advisories/aa26-251a">AA26-251A</a> · NSA / CISA / FBI · 发布 2026-09-08
+</footer>
+</div>
+</body>
+</html>

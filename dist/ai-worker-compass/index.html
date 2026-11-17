@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 打工指南 · 写代码的人的学习与方向罗盘</title>
+<meta name="description" content="给写代码的 AI 打工人：从一手信源、Personal Agent、Context 到作品集与能力选择——综合自 X @xiaogaifun 公开推文主题。">
+<meta name="lastUpdated" content="2026-11-14">
+<meta property="og:title" content="AI 打工指南 · 学习与方向罗盘">
+<meta property="og:description" content="Coding Agent 不是终点。一手信源、Context、Builder 习惯与能力选择——写代码的人怎么学、怎么做。">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0B1220;
+    --bg-elev: rgba(18, 26, 46, 0.72);
+    --ink: #F1F5F9;
+    --muted: #94A3B8;
+    --dim: #64748B;
+    --line: rgba(148, 163, 184, 0.18);
+    --violet: #7C5CFF;
+    --coral: #FF5C7A;
+    --teal: #2DD4BF;
+    --glass: rgba(255, 255, 255, 0.04);
+    --glass-border: rgba(255, 255, 255, 0.10);
+    --radius: 20px;
+    --nav-h: 64px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 16px); }
+  body {
+    font-family: "Noto Sans SC", system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.7;
+    font-size: 17px;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  /* Ambient orbs */
+  .orbs {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.55;
+  }
+  .orb-v {
+    width: 520px; height: 520px;
+    background: var(--violet);
+    top: -120px; left: -80px;
+    opacity: 0.35;
+  }
+  .orb-c {
+    width: 420px; height: 420px;
+    background: var(--coral);
+    top: 8%; right: -100px;
+    opacity: 0.28;
+  }
+  .orb-t {
+    width: 480px; height: 480px;
+    background: var(--teal);
+    bottom: 10%; left: 30%;
+    opacity: 0.18;
+  }
+  .orb-v2 {
+    width: 360px; height: 360px;
+    background: var(--violet);
+    bottom: -80px; right: 10%;
+    opacity: 0.22;
+  }
+
+  .page { position: relative; z-index: 1; }
+
+  /* Sticky nav */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    height: var(--nav-h);
+    display: flex;
+    align-items: center;
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    background: rgba(11, 18, 32, 0.78);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    width: min(1120px, 100%);
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .brand {
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .brand span { color: var(--violet); }
+  .nav-links {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 999px;
+    transition: color .15s, background .15s;
+  }
+  .nav-links a:hover {
+    color: var(--ink);
+    background: var(--glass);
+  }
+
+  .wrap {
+    width: min(1120px, 100%);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 72px 0 56px;
+    position: relative;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 20px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--coral);
+    box-shadow: 0 0 12px var(--coral);
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 7vw, 4.2rem);
+    font-weight: 900;
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+    max-width: 16ch;
+  }
+  .hero h1 .grad {
+    background: linear-gradient(135deg, var(--violet) 0%, var(--coral) 55%, var(--teal) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .lede {
+    font-size: clamp(1.05rem, 2.4vw, 1.25rem);
+    color: var(--muted);
+    max-width: 42rem;
+    margin-bottom: 28px;
+    font-weight: 400;
+  }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    align-items: center;
+    font-size: 14px;
+    color: var(--dim);
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .pill strong { color: var(--ink); font-weight: 600; }
+
+  /* Sections */
+  section { padding: 56px 0; }
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .sec-head h2 {
+    font-size: clamp(1.5rem, 3.5vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .sec-head p {
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 36rem;
+  }
+  .sec-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--violet);
+    margin-bottom: 8px;
+  }
+
+  /* Principle cards */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  @media (min-width: 900px) {
+    .grid { grid-template-columns: repeat(4, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+  .card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 24px 22px 26px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: border-color .2s, transform .2s, box-shadow .2s;
+    position: relative;
+    overflow: hidden;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+  }
+  .card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(145deg, rgba(124,92,255,0.08), transparent 40%, rgba(45,212,191,0.05));
+    opacity: 0;
+    transition: opacity .2s;
+  }
+  .card:hover {
+    border-color: rgba(124, 92, 255, 0.45);
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  }
+  .card:hover::after { opacity: 1; }
+  .card-num {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--coral);
+    margin-bottom: 14px;
+  }
+  .card h3 {
+    font-size: 1.12rem;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+  .card p {
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.65;
+    flex: 1;
+  }
+  .card.span-2 { grid-column: span 2; }
+  @media (max-width: 640px) {
+    .card.span-2 { grid-column: span 1; }
+  }
+  .card.accent-v { border-top: 3px solid var(--violet); }
+  .card.accent-c { border-top: 3px solid var(--coral); }
+  .card.accent-t { border-top: 3px solid var(--teal); }
+
+  /* Checklist / habits */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 760px) {
+    .two-col { grid-template-columns: 1fr; }
+  }
+  .panel {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 28px 26px;
+    backdrop-filter: blur(12px);
+  }
+  .panel h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot-v { background: var(--violet); box-shadow: 0 0 10px var(--violet); }
+  .dot-c { background: var(--coral); box-shadow: 0 0 10px var(--coral); }
+  .dot-t { background: var(--teal); box-shadow: 0 0 10px var(--teal); }
+
+  .check-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .check-list li {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 12px;
+    align-items: start;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .check-list li strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .mark {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    font-weight: 800;
+    background: rgba(124, 92, 255, 0.15);
+    color: var(--violet);
+    border: 1px solid rgba(124, 92, 255, 0.3);
+  }
+  .mark.t {
+    background: rgba(45, 212, 191, 0.12);
+    color: var(--teal);
+    border-color: rgba(45, 212, 191, 0.3);
+  }
+  .mark.c {
+    background: rgba(255, 92, 122, 0.12);
+    color: var(--coral);
+    border-color: rgba(255, 92, 122, 0.3);
+  }
+
+  /* Reading links */
+  .links {
+    display: grid;
+    gap: 12px;
+  }
+  .link-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color .15s, background .15s, transform .15s;
+  }
+  .link-card:hover {
+    border-color: rgba(124, 92, 255, 0.5);
+    background: rgba(124, 92, 255, 0.08);
+    transform: translateX(4px);
+  }
+  .link-idx {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--coral);
+    min-width: 28px;
+  }
+  .link-body { flex: 1; min-width: 0; }
+  .link-body h4 {
+    font-size: 1rem;
+    font-weight: 650;
+    margin-bottom: 2px;
+  }
+  .link-body p {
+    font-size: 13px;
+    color: var(--dim);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .link-arrow {
+    color: var(--violet);
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  /* Quote strip */
+  .quote {
+    margin: 8px 0 0;
+    padding: 32px 28px;
+    border-radius: var(--radius);
+    border: 1px solid var(--glass-border);
+    background: linear-gradient(135deg, rgba(124,92,255,0.12), rgba(255,92,122,0.08), rgba(45,212,191,0.08));
+    text-align: center;
+  }
+  .quote p {
+    font-size: clamp(1.15rem, 2.8vw, 1.45rem);
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    max-width: 36rem;
+    margin: 0 auto 12px;
+  }
+  .quote cite {
+    font-style: normal;
+    font-size: 13px;
+    color: var(--dim);
+  }
+
+  /* Footer */
+  footer {
+    padding: 48px 0 64px;
+    border-top: 1px solid var(--line);
+    margin-top: 24px;
+  }
+  footer p {
+    font-size: 13px;
+    color: var(--dim);
+    line-height: 1.7;
+    max-width: 40rem;
+  }
+  footer a { color: var(--teal); }
+  footer a:hover { color: var(--ink); }
+  .back {
+    display: inline-block;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .back:hover { color: var(--violet); }
+
+  @media (max-width: 640px) {
+    .nav-links a { padding: 6px 8px; font-size: 12px; }
+    .hero { padding: 48px 0 40px; }
+    section { padding: 40px 0; }
+    .card { min-height: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="orbs" aria-hidden="true">
+  <div class="orb orb-v"></div>
+  <div class="orb orb-c"></div>
+  <div class="orb orb-t"></div>
+  <div class="orb orb-v2"></div>
+</div>
+
+<div class="page">
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="/ai-worker-compass/">AI<span>·</span>打工指南</a>
+      <div class="nav-links">
+        <a href="#principles">核心原则</a>
+        <a href="#portfolio">作品与判断力</a>
+        <a href="#taste">取消刷题面试</a>
+        <a href="#context-hub">Context 中枢</a>
+        <a href="#spu">找准因素</a>
+        <a href="#hardware">AI 硬件</a>
+        <a href="#vibe">Vibe 出手</a>
+        <a href="#ledger">冷静账本</a>
+        <a href="#stance">见势</a>
+        <a href="#judgment">永远清醒</a>
+        <a href="#enough">未失而能止</a>
+        <a href="#os">人生 OS</a>
+        <a href="#learn">怎么学</a>
+        <a href="#work">怎么做</a>
+        <a href="#reading">延伸阅读</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero wrap">
+    <div class="eyebrow">For AI Workers · 写代码的人</div>
+    <h1>AI 打工指南<br><span class="grad">学习与方向罗盘</span></h1>
+    <p class="lede">Coding Agent 会写代码，不等于你有了方向。下一层是 Personal Agent、Context 与主动性——一手信源喂脑子，小作品练肌肉，能力·认知·运气一起选。</p>
+    <div class="meta-row">
+      <span class="pill">更新于 <strong>2026-11-14</strong>（新加坡时间）</span>
+      <span class="pill">主题综合自 <strong>@xiaogaifun</strong></span>
+      <span class="pill" style="border-color: rgba(124,92,255,0.45); color: var(--violet);">本版新增：<strong style="color: var(--violet);">找准因素，比加算力更重要</strong></span>
+      <span class="pill">面向：写代码 / 做 AI 的打工人</span>
+    </div>
+  </header>
+
+  <section id="principles" class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="sec-label">Principles</div>
+        <h2>核心原则</h2>
+      </div>
+      <p>八条可执行的方向感——不是口号，是每周可以对照的 checklist。</p>
+    </div>
+    <div class="grid">
+      <article class="card accent-v">
+        <div class="card-num">01</div>
+        <h3>Coding Agent ≠ 终点</h3>
+        <p>会调用编程智能体只是起点。下一层是 Personal Agent：长期 Context、主动性、替你盯任务与决策辅助——人机协作从「代写代码」升级到「代管上下文」。个人档案与持续记录，是这层 Agent 真正能起飞的燃料。</p>
+      </article>
+      <article class="card accent-c">
+        <div class="card-num">02</div>
+        <h3>一手信源，少吃二手情绪</h3>
+        <p>优先 X 原帖、YouTube / 播客长谈、论文与 Tech Report。二手情绪文容易制造 FOMO；精读一手材料，才压得住焦虑。</p>
+      </article>
+      <article class="card accent-t">
+        <div class="card-num">03</div>
+        <h3>Harness 趋同后拼 Context</h3>
+        <p>各家 coding harness 会越来越像。真正拉开差距的是 Context：内部工具、数据与权限是否打通——先把能喂给 Agent 的信息管道修好。</p>
+      </article>
+      <article class="card accent-v">
+        <div class="card-num">04</div>
+        <h3>用 AI 创造，不只问答</h3>
+        <p>价值集中在 Builder。把生活/工作流程接入 AI，而不是偶尔问答；刻意练习「派活」与「验收」。体验大于结论——多创造、少消费，AI 扩信息面，现实负责验收。</p>
+      </article>
+      <article class="card accent-c">
+        <div class="card-num">05</div>
+        <h3>坚持自己写 + 作品集</h3>
+        <p>写作是消化，不是表演。个人博客 / 作品集证明好奇心与判断力。不能被机器读取的经验≈不存在——结构化你的流程、案例与公开可验证成果，别只堆在脑子里。</p>
+      </article>
+      <article class="card accent-t">
+        <div class="card-num">06</div>
+        <h3>Build 小工具当肌肉记忆</h3>
+        <p>Skill、插件、个人站、脚本——不为用户量，为手感。小作品是最好的肌肉记忆：把抽象能力变成可复用的动作。</p>
+      </article>
+      <article class="card accent-v">
+        <div class="card-num">07</div>
+        <h3>模型评测要亲自上手</h3>
+        <p>榜单与二手评价不够。自己跑任务拿体感，再读一手 Tech Report / 访谈——结论才站得住。</p>
+      </article>
+      <article class="card accent-c">
+        <div class="card-num">08</div>
+        <h3>能力 · 认知 · 运气</h3>
+        <p>选喜欢且擅长的方向；年轻人常见坑是太早定死方向——先「探图」再决定。Timing 可以学习：用 AI 降低侦察成本，别用十年努力补十天信息不足；窗口打开时手里已有作品。</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-top:0">
+    <div class="quote">
+      <p>「下一层不是更好的补全，而是更好的 Context 与主动性。」</p>
+      <cite>综合自 @xiaogaifun 关于 Personal Agent / Coding Agent 的讨论</cite>
+    </div>
+  </section>
+
+
+
+  <section id="portfolio" class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="sec-label">Hiring has changed · 本版新增</div>
+        <h2>作品与判断力：企业要的人变了</h2>
+      </div>
+      <p>综合 @xiaogaifun 解读 Anthropic《How employment is changing at Anthropic》与参加飞书×豆包「AI 先锋未来人才大赛」的观察：会用工具不稀缺，能自己找问题、做出作品才稀缺。</p>
+    </div>
+    <div class="grid">
+      <article class="card accent-c">
+        <div class="card-num">数据</div>
+        <h3>初级岗位在收缩</h3>
+        <p>Anthropic 自家数据：2025 年初至今，技术部门初级员工占比从 21% 降到 14%；新招技术员工中初级岗位占比从 27% 跌到 9%。技术团队仍在扩张，但招聘更偏向有经验的人——简单开发、测试、修 Bug 正在大量交给 AI。</p>
+      </article>
+      <article class="card accent-v">
+        <div class="card-num">标准</div>
+        <h3>自主性与判断力上升最快</h3>
+        <p>自 2024 年以来数千份录用面试评价中，技术岗增长最明显的两个维度是 Autonomy 与 Judgment，对特定领域专业知识的关注占比反而下降。面试评价里提到候选人 AI 使用经历的比例：技术岗约为原来的 3 倍，非技术岗约 4 倍。</p>
+      </article>
+      <article class="card accent-t">
+        <div class="card-num">作品</div>
+        <h3>作品集 &gt; 证书</h3>
+        <p>大赛上一百多家企业开放真实业务问题，超过 60% 选手来自非计算机专业；有非 985/211 的学生同时拿到多个 Offer。黑客松能绕过学历筛选，让企业先看到作品；把过程发到 GitHub、X 等平台，增加自己的「运气表面积」。</p>
+      </article>
+      <article class="card accent-c">
+        <div class="card-num">行动</div>
+        <h3>写代码的人怎么用</h3>
+        <p>① 人负责发现问题、定计划，再同时驱动几个 Agent 把事做完；② 面试别只说「我会用 Claude / Codex」——拿出用 AI 解决过的具体问题、工作流或小工具；③ 讲项目时讲清自己主动推进了什么，而不只是「领导安排什么做什么」；④ 用 Coding Agent 把身边真实痛点做成作品，公开迭代。</p>
+      </article>
+    </div>
+    <p style="margin-top:14px">原帖：<a href="https://x.com/xiaogaifun/status/2111667469630984572" target="_blank" rel="noopener noreferrer">Anthropic 就业报告解读</a> · <a href="https://x.com/xiaogaifun/status/2112749172915102155" target="_blank" rel="noopener noreferrer">飞书活动后聊应届生找工作</a></p>
+  </section>
+
+
+  <section id="taste" class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="sec-label">Taste over LeetCode · 本版新增</div>
+        <h2>取消 Coding Interview：品味 · 同理心 · 原则思维</h2>
+      </div>
+      <p>综合 @xiaogaifun 转述 Anthropic 一位 Engineering Manager（Felix）的分享：团队已取消现场编程题；真正创造巨大价值的工程师，未必在传统编程测试里表现最好。</p>
+    </div>
+    <div class="grid">
+      <article class="card accent-v">
+        <div class="card-num">01</div>
+        <h3>刷题筛人，越来越没意义</h3>
+        <p>AI 编程已经很强，现场让候选人写 React 或考具体编程知识点，很难再筛出「能创造业务价值」的人。软件工程本身就是不断提高抽象层：汇编 → C → OOP / 框架 → 现在 AI Coding 再抬一层——过去亲手写与调的代码，很大一部分可以交给 AI。</p>
+      </article>
+      <article class="card accent-c">
+        <div class="card-num">02</div>
+        <h3>简历看作品：品味 · 同理心 · 原则思维</h3>
+        <p>筛简历时特别看候选人做过的产品，哪怕只是很小的原型——直接暴露品味（Taste）、同理心与 Principled Thinking。品味靠多看好东西 + 动手反馈；同理心是站在真实用户角度找自己习以为常的别扭；原则思维是每个功能 / 技术方案背后有清晰判断依据，而不是 AI 给什么就照抄什么。</p>
+      </article>
+      <article class="card accent-t">
+        <div class="card-num">03</div>
+        <h3>进取心胜过资历</h3>
+        <p>AI 能补一部分技术经验，年轻工程师有机会用野心与激情快速把想法做成产品，甚至超越资更深、刷题更强的人。劣势是话语权与经验不足、容易绕弯——但没必要妄自菲薄：AI 对所有人都是机会，没有厚此薄彼。</p>
+      </article>
+      <article class="card accent-v">
+        <div class="card-num">行动</div>
+        <h3>写代码的人怎么用</h3>
+        <p>① 别只盯分配任务——搞清公司 / 部门真正要的留存、体验或收入；② 提出足够大胆的想法，别只做小修小补；③ 用一个周末靠 AI 做出可跑原型，拿原型去沟通，而不是先写长 PRD；④ 一个原型只表达一个核心想法，别塞二十个功能；⑤ 利用新人视角——Claude Code 图形界面就是两位年轻工程师一个周末做出原型、约八天后公开的。</p>
+      </article>
+    </div>
+    <p style="margin-top:14px">原帖：<a href="https://x.com/xiaogaifun/status/2116129274491208097" target="_blank" rel="noopener noreferrer">Anthropic EM：取消 Coding Interview</a></p>
+  </section>
+
+
+  <section id="context-hub" class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="sec-label">Context hub · 本版新增</div>
+        <h2>企业知识库不是文件柜，是 Agent 的 Context 中枢</h2>
+      </div>
+      <p>综合 @xiaogaifun 对腾讯乐享 AI 知识库的上手与拆解：模型往往已经够用，真正卡住 Agent 工作质量的，是它能不能拿到准确、完整、适用的 Context。</p>
+    </div>
+    <div class="grid">
+      <article class="card accent-v">
+        <div class="card-num">01</div>
+        <h3>别只接 MCP，先问知识散不散</h3>
+        <p>公司小、文档清晰时，Codex / Claude Code 直接走 MCP、CLI 拉内部资料就够。规模一大，知识会散在企微/飞书、研发系统、CRM、财务、OA 里，同一产品对不同客户/地区还可能有多版报价——接得越多，Agent 越容易拿到互相打架的资料。</p>
+      </article>
+      <article class="card accent-c">
+        <div class="card-num">02</div>
+        <h3>基础 RAG 像盲人摸象</h3>
+        <p>切片段 + 向量相似度能解决不少问答，但会丢掉结构与条件：价格在一段、适用条件在另一段，检索只命中半截。工作里真正要问的往往是「最新？哪部门？过没过审批？适不适用于这个客户」——最相似的那份，未必是该用的那份。</p>
+      </article>
+      <article class="card accent-t">
+        <div class="card-num">03</div>
+        <h3>本体 · 图谱 · Wiki · 持续治理</h3>
+        <p>乐享在 RAG 之上加知识加工：本体统一业务概念（CVM 与云主机是同一对象），图谱串起产品/型号/客户/价格关系，LLM Wiki 整理成人和 Agent 都能读的知识卡片；再用 AI 巡检冲突/过期/敏感，并把一线「查不到、不准」的反馈回流——最近改的草稿 ≠ 当前有效报价。</p>
+      </article>
+      <article class="card accent-v">
+        <div class="card-num">行动</div>
+        <h3>写代码的人怎么用</h3>
+        <p>① 给团队 Agent 之前，先盘清 Context 从哪来、谁有权威版本；② 别默认「再聪明一点的模型」能猜出你们公司的报价规则——缺 Context 就是缺米；③ 自己搭 RAG 时优先保留文档结构与适用条件，不要只追召回率；④ 建冲突与过期巡检，比堆更多连接器更值钱；⑤ 把经验写成可验证的 Markdown / API / 知识卡片，才能被 Agent 放大。</p>
+      </article>
+    </div>
+    <p style="margin-top:14px">原帖：<a href="https://x.com/xiaogaifun/status/2117183597362987304" target="_blank" rel="noopener noreferrer">腾讯乐享 AI 知识库：Context 中枢</a></p>
+  </section>
+
+
+  <section id="spu" class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="sec-label">Find the factor · 本版新增</div>
+        <h2>找准因素，比加算力更重要</h2>
+      </div>
+      <p>综合 @xiaogaifun 对 UniPat AI 推出的 Science Prediction Universe（SPU）评测的解读：实验室会把某一个亮点放大；要看模型能不能根据已有知识和实验条件，预测不同方案可能得到什么结果。</p>
+    </div>
+    <div class="grid">
+      <article class="card accent-v">
+        <div class="card-num">01</div>
+        <h3>亮点案例 ≠ 可靠能力</h3>
+        <p>OpenAI、Anthropic 近年常宣传 AI for Science 的突破，但会挑某一个点上的优势放大。几个成功案例（例如困扰数学家几十年的难题进展、发现一种新酶系统）当然有价值，还不足以说明模型已经能可靠地参与科学发现。科学研究很大一部分工作，是在大量可能的方向里判断哪些更值得试；SPU 检验的正是这种「先缩小探索范围」的能力。</p>
+      </article>
+      <article class="card accent-c">
+        <div class="card-num">02</div>
+        <h3>加推理、加成本，成绩没上去</h3>
+        <p>从这次测试看，即使是 GPT-6 Astra、Claude Fable 5.1 这些顶尖模型，表现最好的配置也大约只有一半已评分任务好于瞎猜。研究团队把 GPT-6 Astra 的推理强度从中等提到最高：运行时间增加 4.8 倍，API 成本增加 5.3 倍，预测成绩却没有明显改善——不是推理强度不够的问题。</p>
+      </article>
+      <article class="card accent-t">
+        <div class="card-num">03</div>
+        <h3>真正拉开差距的，是找准关键因素</h3>
+        <p>模型之间仍有明显差距，关键不在会不会调用专业计算工具，而在能不能找准影响结果的因素。帖中举例：预测 12 种溶剂哪一种能分离出更多聚合物，66 对比较里 Claude Opus 5.5 对了 56 对，Qwen3.8 只对了 30 对——后者主要看乙烯溶解量，前者判断溶解量差别不大，真正起作用的是溶剂与原料、催化剂的混溶性。一开始就判断错了，后面再多算力也未必更准。</p>
+      </article>
+      <article class="card accent-v">
+        <div class="card-num">行动</div>
+        <h3>写代码的人怎么用</h3>
+        <p>① 别被官方亮点演示带跑——用系统评测和自己的真实任务验收；② Agent 卡住时，先问它有没有找对根因、约束和关键变量，再决定要不要加推理轮次或工具；③ 假设错了就改假设，加 token 往往只是更贵地错；④ 先缩小搜索空间再穷举：排障或实验计划写清再让模型猛跑；⑤ 这和原则 07「评测要亲自上手」是一件事：榜单与二手情绪不够，要看模型是不是真的理解了问题结构。</p>
+      </article>
+    </div>
+    <p style="margin-top:14px">原帖：<a href="https://x.com/xiaogaifun/status/2121431190213407118" target="_blank" rel="noopener noreferrer">GPT-6 和 Fable 5 的短板：SPU 科学预测</a></p>
+  </section>
+
+  <section class="wrap" style="padding-top:0">
+    <div class="quote">
+      <p>「如果一开始就判断错了，后面投入再多算力，也未必能得到更准确的预测。」</p>
+      <cite>综合自 @xiaogaifun</cite>
+    </div>
+  </section>
+
+
+  <section id="hardware" class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="sec-label">Small &amp; concrete · 本版新增</div>
+        <h2>小而具体：AI 硬件的窗口</h2>
+      </div>
+      <p>@xiaogaifun 参加 AI 硬件创业者闭门交流会的收获：一线创业者的判断，AI 搜不到。</p>
+    </div>
+    <div class="grid">
+      <article class="card accent-v">
+        <div class="card-num">01</div>
+        <h3>商业化已经出现</h3>
+        <p>以 Plaud 这类 AI 录音卡片为例，帖中称其今年销售额可能超过 5 亿美元、软件订阅 ARR 约 1 亿美元——用户买了硬件还愿意持续为 AI 服务付费。</p>
+      </article>
+      <article class="card accent-c">
+        <div class="card-num">02</div>
+        <h3>第一天就面向全球</h3>
+        <p>国内同质化来得太快，新形态刚出现就有一批跟进、再拼价格；海外很多新品类还没形成品牌格局，出海也有时间窗口。帖中提到速卖通今年上半年 AI 硬件品类销售额同比增长 100%。</p>
+      </article>
+      <article class="card accent-t">
+        <div class="card-num">03</div>
+        <h3>没有共识，就是机会</h3>
+        <p>桌面机器人是玩具、开发者工具还是陪伴设备？AI 眼镜该做娱乐、办公还是翻译？大多还在边走边看。形态清楚了大厂就进来；不确定性正是小团队的窗口。</p>
+      </article>
+      <article class="card accent-v">
+        <div class="card-num">行动</div>
+        <h3>写代码的人怎么用</h3>
+        <p>① 多和一线做事的人交流，判断力比信息值钱；② 他把一块 300 多块钱的墨水屏接上 Codex，显示日历与重要信息——小而具体的体验改善就有人愿意付费；③ 别把功能做复杂，在一个具体场景里把体验改善一点；④ 趁形态未定，小团队快速试。</p>
+      </article>
+    </div>
+    <p style="margin-top:14px">原帖：<a href="https://x.com/xiaogaifun/status/2112107188059816366" target="_blank" rel="noopener noreferrer">AI 硬件创业者闭门交流会收获</a></p>
+  </section>
+
+
+  <section id="vibe" class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="sec-label">Vibe ship · 本版新增</div>
+        <h2>Vibe 出手：两天做出一个梦</h2>
+      </div>
+      <p>综合 @xiaogaifun 在火车上用 MiniMax M3.1 Flash vibe coding 做出动画视频与诗网页「山外山」的实践：快模型 + 个人题目 + 马上开干。</p>
+    </div>
+    <div class="grid">
+      <article class="card accent-v">
+        <div class="card-num">01</div>
+        <h3>题目：山外山，云那边</h3>
+        <p>火车窗外雨后山云 → 歌词「山外山，云那边」→ 一边做网页一边写诗，再做成约 1 分钟动画。作品页 <a href="https://xiaogai.fun/shanwaishan/" target="_blank" rel="noopener noreferrer">xiaogai.fun/shanwaishan</a>。</p>
+      </article>
+      <article class="card accent-c">
+        <div class="card-num">02</div>
+        <h3>工具：够快就够好</h3>
+        <p>用 MiniMax M3.1 Flash，两天多做出动画视频；不追求最贵模型，追求能把感觉做出来。</p>
+      </article>
+      <article class="card accent-t">
+        <div class="card-num">03</div>
+        <h3>成就感：做给自己</h3>
+        <p>不是又一个 demo，是童年意象落地——对写代码的人，这种「做给自己」的作品最练手感。</p>
+      </article>
+      <article class="card accent-v">
+        <div class="card-num">行动</div>
+        <h3>写代码的人怎么用</h3>
+        <p>① 旅行/通勤碎片也可以开干；② 选一个自己真正在意的小题目，48 小时内用当前最快模型交一版；③ 网页 + 媒体一起交，公开链接；④ 验收标准是「有没有感觉」，不是星标数。</p>
+      </article>
+    </div>
+    <p style="margin-top:14px">原帖：<a href="https://x.com/xiaogaifun/status/2113199029781922182" target="_blank" rel="noopener noreferrer">Vibe Coding 山外山</a> · <a href="https://x.com/xiaogaifun/status/2113199412713525436" target="_blank" rel="noopener noreferrer">续诗帖</a></p>
+  </section>
+
+  <section id="ledger" class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="sec-label">Sober Ledger</div>
+        <h2>冷静账本</h2>
+      </div>
+      <p>李录在哥大的分享（@xiaogaifun 转述），给硅谷 AI 叙事泼了一盆冷水：先算账，再谈信仰。</p>
+    </div>
+    <div class="grid">
+      <article class="card accent-c">
+        <div class="card-num">观点</div>
+        <h3>他说了什么</h3>
+        <p>硅谷的 AGI/ASI 叙事像一场「造神 IPO」；即便技术真走到 ASI，社会也可能联手阻止其失控。AI 难复制互联网的高利润——Agent 持续烧 Token，边际成本并不低。经济价值 ≠ 公司能赚多少钱；生成式 AI 现阶段主要冲击的是上层知识 / 专业服务。</p>
+      </article>
+      <article class="card accent-t">
+        <div class="card-num">行动</div>
+        <h3>写代码的人怎么用</h3>
+        <p>① 别只追模型能力故事；② 算清推理成本和产品利润；③ Agent 任务越长，算力账单越明显；④ 把公司估值逻辑和岗位价值分开看。决策不计沉没成本（@CaptainLufei999）——账算不过来就及时换方向。</p>
+      </article>
+    </div>
+  </section>
+
+
+  <section id="stance" class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="sec-label">Read the room</div>
+        <h2>见势 · 木雁之间</h2>
+      </div>
+      <p>来自 @CaptainLufei999 的庄子「木雁」长文：有用 / 无用、锋利 / 随和，没有永远正确的位置——要看「势」。</p>
+    </div>
+    <div class="grid">
+      <article class="card accent-v">
+        <div class="card-num">01</div>
+        <h3>昨天救你的答案，今天可能杀你</h3>
+        <p>山里「无用」的树活成了参天大树；家里「无用」的鹅却被炖了。同一条经验，睡一觉就被现实抽一巴掌。别把上一项目、上一工具、上一剂成功处方冻成永恒原则。</p>
+      </article>
+      <article class="card accent-c">
+        <div class="card-num">02</div>
+        <h3>见势，不抱死原则</h3>
+        <p>有用没错，无用也没错；卡在中间也未必安全——得看山里有没有斧头、今晚主人饿不饿。写代码做 AI 也一样：模型、流程、汇报语气，都要对照当前约束再选，而不是「我这个人从来不改」。</p>
+      </article>
+      <article class="card accent-t">
+        <div class="card-num">03</div>
+        <h3>一龙一蛇，与时俱化</h3>
+        <p>别把自己活成单一器物：刀只能砍、杯子只能装水。该做龙的地方龙腾一下，草深水浅处蛇缩一点。对还在长的人，同伴比「老师」有用；对已经不想动的人，温柔陪伴也可能变成一起蹲着。</p>
+      </article>
+      <article class="card accent-v">
+        <div class="card-num">行动</div>
+        <h3>写代码的人怎么用</h3>
+        <p>① 每周复盘哪条「铁律」只是上一环境的幸存者偏差；② 对人、对 Agent 换姿势：brief、验收、结对都要看对方处在「还在长」还是「卡住了」；③ 工具栈与工作方式允许龙蛇之变——证据来了就改，比永远正确更稀缺。</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-top:0">
+    <div class="quote">
+      <p>「木和雁之间，没有一个永远正确的位置。」</p>
+      <cite>综合自 @CaptainLufei999《庄子——木雁之间》</cite>
+    </div>
+  </section>
+
+
+  <section id="judgment" class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="sec-label">Judgment · 本版新增</div>
+        <h2>别要求永远清醒</h2>
+      </div>
+      <p>综合 @CaptainLufei999 长文：我们对人的评价会随几个片段剧烈摇摆，却很少怀疑自己的判断力——写代码带 Agent / 协作时一样危险。</p>
+    </div>
+    <div class="grid">
+      <article class="card accent-v">
+        <div class="card-num">01</div>
+        <h3>片段≠整个人</h3>
+        <p>几个视频/几次 PR 就给同事、作者、模型定终身，自信往往过头。</p>
+      </article>
+      <article class="card accent-c">
+        <div class="card-num">02</div>
+        <h3>人有方差</h3>
+        <p>今天讲得很清楚，明天可能糊涂；要求永远理性、永远高水平，是对活人（也对自己）的荒唐合同。</p>
+      </article>
+      <article class="card accent-t">
+        <div class="card-num">03</div>
+        <h3>评价会漂移</h3>
+        <p>新信息进来，评价升升降降——承认漂移，比假装「我早就看透了」更有用。</p>
+      </article>
+      <article class="card accent-v">
+        <div class="card-num">行动</div>
+        <h3>写代码的人怎么用</h3>
+        <p>① 对同事/自己/模型，用「一段时间的样本」而不是单次翻车或单次高光定案；② 重要人事与技术判断，故意延迟再定（别被情绪瞬时定级）；③ Agent 输出有方差是常态，验收流程要容得下起伏；④ 欣赏某品质，不等于要求对方一生都符合该品质。</p>
+      </article>
+    </div>
+    <p style="margin-top:14px">原帖：<a href="https://x.com/CaptainLufei999/status/2113073329590735352" target="_blank" rel="noopener noreferrer">我们凭什么要求一个人永远清醒？</a></p>
+  </section>
+
+  <section class="wrap" style="padding-top:0">
+    <div class="quote">
+      <p>「如果我们连自己都做不到始终清醒，又何必要求别人呢？」</p>
+      <cite>综合自 @CaptainLufei999</cite>
+    </div>
+  </section>
+
+  <section id="enough" class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="sec-label">Enough · 本版新增</div>
+        <h2>未失而能止</h2>
+      </div>
+      <p>综合 @CaptainLufei999 长文：风险不对称时，别拿「还需要的」去赌「不需要的」——写代码追模型、开 side project、押职业方向时同样适用。</p>
+    </div>
+    <div class="grid">
+      <article class="card accent-v">
+        <div class="card-num">01</div>
+        <h3>需要的 vs 不需要的</h3>
+        <p>需要的，是让你还能睡稳、还能学、还能把主业做完的底仓（时间、现金、信誉、注意力）。不需要的，是再多一个亿、再追一个风口、再叠一个「错过就没了」的故事。拿前者去换后者，赢了生活未必更好，输了可能翻盘。</p>
+      </article>
+      <article class="card accent-c">
+        <div class="card-num">02</div>
+        <h3>人选停，还是天选停</h3>
+        <p>「未失而能止者，人选也；既失而后止者，天选也。」还有选择权时主动收手，是人选；等 runway、健康或关系崩了才被迫停，就由不得自己。对 AI 打工者：模型换代、工具崇拜、加班换纸面进度——都要先问一句：停得下来吗？</p>
+      </article>
+      <article class="card accent-t">
+        <div class="card-num">03</div>
+        <h3>放下过去那个成功的自己</h3>
+        <p>曾站过山顶，不代表必须永远考第一。旧 title、旧技术栈、旧「我一直很准」的人设，会绑架下一手选择。允许自己走下山、换跑道、做普通人一段时间，往往比硬撑东山再起更有自由。</p>
+      </article>
+      <article class="card accent-v">
+        <div class="card-num">行动</div>
+        <h3>写代码的人怎么用</h3>
+        <p>① 开新 AI side project / 跳槽押注前，先标出「不能押」的底仓（房租月数、主业交付、睡眠）；② 每周问一次：这件事若失败，我会不会失去还需要的东西？会就砍或降仓；③ 别被旧成功叙事锁死——上一份工作/上一套栈的高光，不是永久合同；④ 急的人赢一时，留半拍想清楚再 merge / 再发（同账号另一帖）。</p>
+      </article>
+    </div>
+    <p style="margin-top:14px">原帖：<a href="https://x.com/CaptainLufei999/status/2115396807132086765" target="_blank" rel="noopener noreferrer">我给百合网创始人转了2000后拉黑了他</a> · <a href="https://x.com/CaptainLufei999/status/2115332470652768420" target="_blank" rel="noopener noreferrer">急的人赢一时，忍的人赢一世</a></p>
+  </section>
+
+  <section class="wrap" style="padding-top:0">
+    <div class="quote">
+      <p>「永远不要用我们需要的钱，去挣我们不需要的钱。」</p>
+      <cite>综合自 @CaptainLufei999</cite>
+    </div>
+  </section>
+
+  <section id="os" class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="sec-label">Life OS · 对谈增量</div>
+        <h2>人生操作系统</h2>
+      </div>
+      <p>来自孙宇晨×邵艾伦对谈精读（@Sunkeke_AI 整理）。与上方小盖主题互补：把「怎么学/怎么做」接到更底层的人生操作系统。</p>
+    </div>
+    <div class="grid">
+      <article class="card accent-t">
+        <div class="card-num">01</div>
+        <h3>先把自己「AI化」</h3>
+        <p>不是偶尔问答，而是把生活/工作流程接入 AI。个人数据可视化、数据化、Markdown 化；文件本地保存，用 API 换模型——个人档案是第一资产。</p>
+      </article>
+      <article class="card accent-v">
+        <div class="card-num">02</div>
+        <h3>别急着要答案，先让 AI 了解你</h3>
+        <p>先积累 2–4 个月真实数据。个人助理的门槛是持续记录，不是提示词技巧。AI 扩信息面，现实负责验收。</p>
+      </article>
+      <article class="card accent-c">
+        <div class="card-num">03</div>
+        <h3>先「探图」再定方向</h3>
+        <p>年轻人问题常是太早定方向。用 AI 降低侦察成本，把信息面铺开再选择——别用十年努力补十天信息不足。</p>
+      </article>
+      <article class="card accent-t">
+        <div class="card-num">04</div>
+        <h3>找「价值断点」，别问最赚钱赛道</h3>
+        <p>盯供需未连、数据未处理、知识未产品化、成本可降十倍、反复无解的问题。问「哪里断了」，比问「哪个赛道最火」更有用。</p>
+      </article>
+      <article class="card accent-v">
+        <div class="card-num">05</div>
+        <h3>内卷往往是计量单位太小</h3>
+        <p>面向全球需求。AI 削弱语言与跨境障碍——把坐标系放大，竞争格局会重写。</p>
+      </article>
+      <article class="card accent-c">
+        <div class="card-num">06</div>
+        <h3>先自由后财富</h3>
+        <p>囤可带走的资产：作品、能力、信任、数据、可迁移收入。勿过早锁死选择权——选项本身就是资产。</p>
+      </article>
+      <article class="card accent-t">
+        <div class="card-num">07</div>
+        <h3>AI 越强，身体越值钱</h3>
+        <p>薄肌 / 主动健康。身体是碳基服务器——算力再强，你也得能扛住长时间创造与判断。</p>
+      </article>
+      <article class="card accent-v">
+        <div class="card-num">08</div>
+        <h3>黄毛思维 + Small Ego</h3>
+        <p>认定就执行，抗噪前行；证据来了就改，持续学新。强执行与可更新信念，比「永远正确」更稀缺。</p>
+      </article>
+      <article class="card accent-c">
+        <div class="card-num">09</div>
+        <h3>不能被机器读取 ≈ 不存在</h3>
+        <p>结构化行业知识、流程、案例；公开可验证成果。经验写不进 Markdown / API，就很难被 Agent 放大。</p>
+      </article>
+      <article class="card accent-t">
+        <div class="card-num">10</div>
+        <h3>体验大于结论</h3>
+        <p>多创造、少消费。亲手跑一遍、做出一个小东西，胜过收藏十条「终极结论」。</p>
+      </article>
+      <article class="card accent-v span-2">
+        <div class="card-num">11</div>
+        <h3>延伸视野：可编程货币与 Agent 结算</h3>
+        <p>Crypto / 可编程货币视角可作延伸：机器如何用钱、Agent 如何结算——不是本页主线，但是 AI Worker 值得扫一眼的下一层基础设施想象。</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-top:0">
+    <div class="quote">
+      <p>「孙学理解机会 + 薄肌维护身体 + 黄毛抗噪 + Small Ego 更新 + AI 接入记录与探图，去找全球价值断点。」</p>
+      <cite>人生 OS 一句话 · 综合自 @Sunkeke_AI 对谈精读整理（非正式合作）</cite>
+    </div>
+  </section>
+
+  <section id="learn" class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="sec-label">How to learn</div>
+        <h2>怎么学</h2>
+      </div>
+      <p>对抗 FOMO 的学习节奏：信源 → 精读 → 上手 → 写下来。</p>
+    </div>
+    <div class="two-col">
+      <div class="panel">
+        <h3><span class="dot dot-v"></span>信源与输入</h3>
+        <ul class="check-list">
+          <li>
+            <span class="mark">1</span>
+            <div><strong>固定一手渠道</strong>：X 上跟进一线研究者 / Builder；YouTube 与播客听长谈；论文与公司 Tech Report 留时间精读。</div>
+          </li>
+          <li>
+            <span class="mark">2</span>
+            <div><strong>少刷二手情绪文</strong>：热帖情绪不等于信息密度。先问「一手出处在哪」，再决定是否投入注意力。</div>
+          </li>
+          <li>
+            <span class="mark">3</span>
+            <div><strong>精读压过刷屏</strong>：每周深读 1–2 篇（访谈 / 论文 / 长帖），比滑过 50 条摘要更有用。</div>
+          </li>
+          <li>
+            <span class="mark">4</span>
+            <div><strong>评测亲自上手</strong>：新模型出来先跑自己的真实任务；体感对齐后再对照 Tech Report。</div>
+          </li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3><span class="dot dot-t"></span>消化与输出</h3>
+        <ul class="check-list">
+          <li>
+            <span class="mark t">A</span>
+            <div><strong>自己写一遍</strong>：笔记、博客、短帖都行——写作强迫你把模糊感受变成可复查的判断。</div>
+          </li>
+          <li>
+            <span class="mark t">B</span>
+            <div><strong>作品证明好奇心</strong>：个人站 / 作品集比简历形容词更硬：链到真实项目与思考过程。</div>
+          </li>
+          <li>
+            <span class="mark t">C</span>
+            <div><strong>小工具当练习</strong>：Skill、插件、脚本、个人站——目标是肌肉记忆，不是 DAU。</div>
+          </li>
+          <li>
+            <span class="mark t">D</span>
+            <div><strong>能力 × 喜欢 × 时机</strong>：在擅长与喜欢的交集里做；用一手动态训练 Timing 直觉。</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="work" class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="sec-label">How to work</div>
+        <h2>怎么做</h2>
+      </div>
+      <p>工程师日常：把 AI 用成 Builder 搭档，而不是聊天玩具。</p>
+    </div>
+    <div class="two-col">
+      <div class="panel">
+        <h3><span class="dot dot-c"></span>派活与验收</h3>
+        <ul class="check-list">
+          <li>
+            <span class="mark c">✓</span>
+            <div><strong>目标先写清</strong>：给 Agent 的 brief 要有完成标准——什么叫「做完了」。</div>
+          </li>
+          <li>
+            <span class="mark c">✓</span>
+            <div><strong>拆任务再派</strong>：大需求拆成可验证的小步；每步可回滚、可检查。</div>
+          </li>
+          <li>
+            <span class="mark c">✓</span>
+            <div><strong>验收是核心技能</strong>：读 diff、跑测试、盯边界情况——价值在判断，不在打字速度。</div>
+          </li>
+          <li>
+            <span class="mark c">✓</span>
+            <div><strong>创造优先于问答</strong>：每周至少一次「从零做出小东西」，而不是只问概念。</div>
+          </li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3><span class="dot dot-v"></span>Context 与工具链</h3>
+        <ul class="check-list">
+          <li>
+            <span class="mark">✓</span>
+            <div><strong>内部工具优先打通</strong>：文档、工单、日志、权限——能安全喂给 Agent 的 Context 越多，杠杆越大。</div>
+          </li>
+          <li>
+            <span class="mark">✓</span>
+            <div><strong>Harness 会趋同</strong>：别把护城河押在某个 IDE 插件上；押在你的数据、流程与判断上。</div>
+          </li>
+          <li>
+            <span class="mark">✓</span>
+            <div><strong>Personal Agent 视角</strong>：想清楚「它需要记住什么、主动盯什么」——比再找一个 coding 插件更有杠杆。</div>
+          </li>
+          <li>
+            <span class="mark">✓</span>
+            <div><strong>持续小构建</strong>：把重复工作收成 Skill / 脚本；让下一次派活更短、更准。</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="reading" class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="sec-label">Further reading</div>
+        <h2>延伸阅读</h2>
+      </div>
+      <p>小盖公开帖子 + 本版对谈精读入口（X 原帖 / 长文）。</p>
+    </div>
+    <div class="links">
+      <a class="link-card" href="https://x.com/xiaogaifun/status/2121431190213407118" target="_blank" rel="noopener noreferrer">
+        <span class="link-idx">NEW</span>
+        <div class="link-body">
+          <h4>找准因素，比加算力更重要（@xiaogaifun）</h4>
+          <p>SPU 科学预测评测：亮点案例不够，找对变量才算本事 · x.com/xiaogaifun/status/2121431190213407118</p>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-card" href="https://x.com/xiaogaifun/status/2116129274491208097" target="_blank" rel="noopener noreferrer">
+        <span class="link-idx">NEW</span>
+        <div class="link-body">
+          <h4>取消 Coding Interview（@xiaogaifun）</h4>
+          <p>品味·同理心·原则思维，周末原型胜过刷题 · x.com/xiaogaifun/status/2116129274491208097</p>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-card" href="https://x.com/CaptainLufei999/status/2115396807132086765" target="_blank" rel="noopener noreferrer">
+        <span class="link-idx">NEW</span>
+        <div class="link-body">
+          <h4>未失而能止 · 需要的钱（@CaptainLufei999）</h4>
+          <p>风险不对称、人选停手与放下旧身份 · x.com/CaptainLufei999/status/2115396807132086765</p>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-card" href="https://x.com/xiaogaifun/status/2113199029781922182" target="_blank" rel="noopener noreferrer">
+        <span class="link-idx">NEW</span>
+        <div class="link-body">
+          <h4>Vibe Coding 山外山（@xiaogaifun）</h4>
+          <p>火车上两天做出动画与诗网页 · x.com/xiaogaifun/status/2113199029781922182</p>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-card" href="https://x.com/CaptainLufei999/status/2113073329590735352" target="_blank" rel="noopener noreferrer">
+        <span class="link-idx">NEW</span>
+        <div class="link-body">
+          <h4>我们凭什么要求一个人永远清醒？（@CaptainLufei999）</h4>
+          <p>评价漂移、方差与判断力 · x.com/CaptainLufei999/status/2113073329590735352</p>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-card" href="https://x.com/xiaogaifun/status/2111667469630984572" target="_blank" rel="noopener noreferrer">
+        <span class="link-idx">NEW</span>
+        <div class="link-body">
+          <h4>Anthropic 就业报告解读（@xiaogaifun）</h4>
+          <p>初级岗位收缩、Autonomy 与 Judgment · x.com/xiaogaifun/status/2111667469630984572</p>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-card" href="https://x.com/xiaogaifun/status/2112749172915102155" target="_blank" rel="noopener noreferrer">
+        <span class="link-idx">NEW</span>
+        <div class="link-body">
+          <h4>飞书×豆包 AI 先锋未来人才大赛：应届生找工作（@xiaogaifun）</h4>
+          <p>作品集、黑客松、公开分享 · x.com/xiaogaifun/status/2112749172915102155</p>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-card" href="https://x.com/xiaogaifun/status/2112107188059816366" target="_blank" rel="noopener noreferrer">
+        <span class="link-idx">NEW</span>
+        <div class="link-body">
+          <h4>AI 硬件创业者闭门交流会（@xiaogaifun）</h4>
+          <p>全球市场、同质化、小而具体 · x.com/xiaogaifun/status/2112107188059816366</p>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-card" href="https://x.com/CaptainLufei999/status/2110523059602067710" target="_blank" rel="noopener noreferrer">
+        <span class="link-idx">NEW</span>
+        <div class="link-body">
+          <h4>庄子——木雁之间（@CaptainLufei999）</h4>
+          <p>见势、一龙一蛇与工作姿势 · x.com/CaptainLufei999/status/2110523059602067710</p>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-card" href="https://x.com/xiaogaifun/status/2109591306033119675" target="_blank" rel="noopener noreferrer">
+        <span class="link-idx">07</span>
+        <div class="link-body">
+          <h4>李录哥大分享：给硅谷 AI 泼冷水（@xiaogaifun）</h4>
+          <p>造神 IPO、Token 成本与利润 · x.com/xiaogaifun/status/2109591306033119675</p>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-card" href="https://x.com/Sunkeke_AI/status/2108490720906793005" target="_blank" rel="noopener noreferrer">
+        <span class="link-idx">NEW</span>
+        <div class="link-body">
+          <h4>孙宇晨×邵艾伦对谈精读（孙可可整理）</h4>
+          <p>年轻人如何抓住 AI 时代的机会 · x.com/Sunkeke_AI/status/2108490720906793005</p>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-card" href="https://x.com/i/status/2106332158503604370" target="_blank" rel="noopener noreferrer">
+        <span class="link-idx">01</span>
+        <div class="link-body">
+          <h4>Personal Agent vs Coding Agent</h4>
+          <p>为什么编程智能体不是终点 · x.com/i/status/2106332158503604370</p>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-card" href="https://x.com/i/status/2103766319518843158" target="_blank" rel="noopener noreferrer">
+        <span class="link-idx">02</span>
+        <div class="link-body">
+          <h4>Meta Muse / Zuck 相关讨论</h4>
+          <p>个人智能体叙事的一手观察 · x.com/i/status/2103766319518843158</p>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-card" href="https://x.com/i/status/2109197578109845609" target="_blank" rel="noopener noreferrer">
+        <span class="link-idx">03</span>
+        <div class="link-body">
+          <h4>3 条值得看的 YouTube</h4>
+          <p>一手长视频输入清单 · x.com/i/status/2109197578109845609</p>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-card" href="https://x.com/i/status/2108810551174549841" target="_blank" rel="noopener noreferrer">
+        <span class="link-idx">04</span>
+        <div class="link-body">
+          <h4>给表妹的 AI 学习建议</h4>
+          <p>怎么学、怎么练习的具体建议 · x.com/i/status/2108810551174549841</p>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-card" href="https://x.com/i/status/2102941277751025743" target="_blank" rel="noopener noreferrer">
+        <span class="link-idx">05</span>
+        <div class="link-body">
+          <h4>Jev 相关讨论</h4>
+          <p>一手动态与判断练习 · x.com/i/status/2102941277751025743</p>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-card" href="https://x.com/i/status/2100922899880403053" target="_blank" rel="noopener noreferrer">
+        <span class="link-idx">06</span>
+        <div class="link-body">
+          <h4>Anthropic paper</h4>
+          <p>精读一手论文 / Tech Report 的示范入口 · x.com/i/status/2100922899880403053</p>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-card" href="https://x.com/xiaogaifun" target="_blank" rel="noopener noreferrer">
+        <span class="link-idx">∞</span>
+        <div class="link-body">
+          <h4>@xiaogaifun 主页</h4>
+          <p>持续更新的一手观察 · x.com/xiaogaifun</p>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+  <footer class="wrap">
+    <a class="back" href="/">← 返回图文摘要首页</a>
+    <p>内容综合自 X <a href="https://x.com/xiaogaifun" target="_blank" rel="noopener noreferrer">@xiaogaifun</a>（小盖）公开推文与公开一手信源笔记，非正式合作；主题经转写为面向写代码 AI 打工人的学习与工作指引，非原帖逐句翻译。</p>
+    <p style="margin-top:10px">新增「人生操作系统」内容综合自 <a href="https://x.com/Sunkeke_AI/status/2108490720906793005" target="_blank" rel="noopener noreferrer">@Sunkeke_AI</a> 公开长文整理（《孙宇晨×邵艾伦爆火对谈》精华版，article id 2108481372549718016），非正式合作；经转写纳入本页，非原帖逐句翻译。</p>
+    <p style="margin-top:10px">新增「见势 · 木雁之间」综合自 <a href="https://x.com/CaptainLufei999/status/2110523059602067710" target="_blank" rel="noopener noreferrer">@CaptainLufei999</a> 公开长文，非正式合作；经转写为面向写代码 AI 打工人的工作姿势指引，非原帖逐句翻译。</p>
+    <p style="margin-top:10px">新增「取消刷题面试」综合自 <a href="https://x.com/xiaogaifun/status/2116129274491208097" target="_blank" rel="noopener noreferrer">@xiaogaifun</a> 公开长文；「Vibe 出手」综合自同账号实践帖；「别要求永远清醒」「未失而能止」综合自 <a href="https://x.com/CaptainLufei999" target="_blank" rel="noopener noreferrer">@CaptainLufei999</a>——均为非正式合作，经转写为面向写代码 AI 打工人的行动指引，非原帖逐句翻译。</p>
+    <p style="margin-top:10px">新增「未失而能止」综合自 <a href="https://x.com/CaptainLufei999/status/2115396807132086765" target="_blank" rel="noopener noreferrer">@CaptainLufei999</a> 公开长文（并参考同日「半拍」短帖），非正式合作；经转写为面向写代码 AI 打工人的风险与停手指引，非原帖逐句翻译。</p>
+    <p style="margin-top:10px">新增「找准因素，比加算力更重要」综合自 <a href="https://x.com/xiaogaifun/status/2121431190213407118" target="_blank" rel="noopener noreferrer">@xiaogaifun</a> 公开长文（UniPat AI / SPU 评测解读），非正式合作；经转写为面向写代码 AI 打工人的评测与派活指引，非原帖逐句翻译。</p>
+    <p style="margin-top:10px">最后更新：2026-11-14（Asia/Singapore）· 托管于 Cloudflare Worker</p>
+  </footer>
+</div>
+</body>
+</html>
